@@ -147,12 +147,15 @@ function forecastCard(product, options={}){
   const issue=product.issue_hint ? `Issue ${product.issue_hint}` : (product.last_modified ? `Source update ${product.last_modified}` : 'Latest available source product');
   const image=live ? `<a class="forecast-image-link" href="${product.source_page}" target="_blank" rel="noopener"><img class="forecast-image" src="${product.image_path}?v=${encodeURIComponent(product.retrieved_at||'')}" alt="${product.name}" loading="lazy"></a>` : `<div class="forecast-unavailable">Forecast graphic unavailable on the latest source check.</div>`;
   const timeline=options.ensoTimeline ? ensoTimeline(product.issue_hint) : '';
+  const isEcmwf=String(product.source_name||product.model||'').includes('ECMWF');
+  const diagnosticNote=product.id==='nao_context_ecmwf_regimes' ? `<div class="diagnostic-note"><b>Diagnostic distinction:</b> Regime probabilities ≠ standardized NAO index.</div>` : '';
   return `<section class="forecast-card ${options.className||''}">
     <div class="forecast-card-head"><div><b>${product.name||'Forecast guidance'}</b><span>${product.model||'Authoritative source'}</span></div><span class="forecast-status ${statusClass}">${statusText}</span></div>
     ${image}${timeline}
     <div class="forecast-meta-row"><span>${product.horizon||'—'}</span><span>${issue}</span></div>
     <div class="forecast-note">${product.note||''}</div>
-    ${product.source_page ? `<a class="source-link" href="${product.source_page}" target="_blank" rel="noopener">${String(product.source_name||'Source').includes('ECMWF')?'ECMWF source':'NOAA/CPC source'} ↗</a>` : ''}
+    ${diagnosticNote}
+    ${product.source_page ? `<a class="source-link ${isEcmwf?'source-link-ecmwf':'source-link-noaa'}" href="${product.source_page}" target="_blank" rel="noopener">${isEcmwf?'ECMWF source':'NOAA/CPC source'} ↗</a>` : ''}
   </section>`;
 }
 
