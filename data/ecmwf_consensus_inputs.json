@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "phase": "2B.3.2",
+  "generated_at": "2026-08-31T20:00:02Z",
+  "science_guardrail": "No chart-pixel interpretation. MJO uses the public S2S RMMS index feed. OpenCharts PNA/NAO products contribute structured metadata only unless their public API exposes numerical evidence.",
+  "mjo": {
+    "status": "parse_or_fetch_error",
+    "evidence_type": "structured_rmm_ensemble",
+    "source_listing": "https://aux.ecmwf.int/ecpds/data/list/RMMS",
+    "retrieved_at": "2026-08-31T20:00:02Z",
+    "consensus_readiness": "not_ready",
+    "error": "ValueError: No ECMF real-time RMMS file discovered in S2S listing"
+  },
+  "pna_context": {
+    "status": "metadata_live",
+    "evidence_type": "pacific_z500_context",
+    "source_name": "ECMWF OpenCharts",
+    "source_url": "https://charts.ecmwf.int/products/extended-anomaly-z500?projection=opencharts_pacific",
+    "retrieved_at": "2026-08-31T20:00:02Z",
+    "product_attributes": {
+      "name": "extended-anomaly-z500",
+      "title": "500 hPa height: Weekly mean anomalies",
+      "description": "Base time: Sun 30 Aug 2026 Valid time: Mon 31 Aug 2026 - Mon 07 Sep 2026 (+192h) Area : Pacific"
+    },
+    "parsed_metadata": {
+      "description": "Base time: Sun 30 Aug 2026 Valid time: Mon 31 Aug 2026 - Mon 07 Sep 2026 (+192h) Area : Pacific",
+      "base_time_text": "Sun 30 Aug 2026",
+      "valid_time_text": "Mon 31 Aug 2026 - Mon 07 Sep 2026 (+192h)",
+      "area_text": "Pacific"
+    },
+    "numerical_evidence_status": "not_exposed_by_public_opencharts_graphical_api",
+    "consensus_readiness": "context_only",
+    "note": "This remains Pacific/North-American circulation context. It is not an ECMWF standardized PNA forecast."
+  },
+  "nao_regimes": {
+    "status": "metadata_live",
+    "evidence_type": "euro_atlantic_regime_probabilities",
+    "source_name": "ECMWF OpenCharts",
+    "source_url": "https://charts.ecmwf.int/products/extended-regime-probabilities",
+    "retrieved_at": "2026-08-31T20:00:02Z",
+    "product_attributes": {
+      "name": "extended-regime-probabilities",
+      "title": "Weather regimes probabilities - Sub-seasonal range forecast",
+      "description": ""
+    },
+    "parsed_metadata": {
+      "description": ""
+    },
+    "regime_categories": [
+      "NAO+",
+      "NAO-",
+      "Scandinavian Blocking",
+      "Atlantic Ridge",
+      "No regime"
+    ],
+    "ensemble_members_documented": 101,
+    "numerical_probability_status": "not_exposed_by_public_opencharts_graphical_api",
+    "consensus_readiness": "metadata_only",
+    "note": "Regime probabilities are not the same as a standardized NAO index. No probability values are inferred from the rendered bars."
+  }
+}
