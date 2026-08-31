@@ -17,6 +17,8 @@ import json
 import math
 import statistics
 import re
+import base64
+import gzip
 from pathlib import Path
 import time
 import urllib.request
@@ -61,6 +63,10 @@ ECMWF_PNA_CONTEXT_API = "https://charts.ecmwf.int/opencharts-api/v1/products/ext
 ECMWF_PNA_CONTEXT_PAGE = "https://charts.ecmwf.int/products/extended-anomaly-z500?projection=opencharts_pacific"
 ECMWF_NAO_REGIME_API = "https://charts.ecmwf.int/opencharts-api/v1/products/extended-regime-probabilities/"
 ECMWF_NAO_REGIME_PAGE = "https://charts.ecmwf.int/products/extended-regime-probabilities"
+ECMWF_STRUCTURED_INPUTS = DATA / "ecmwf_consensus_inputs.json"
+ECMWF_S2S_RMMS_LIST = "https://aux.ecmwf.int/ecpds/data/list/RMMS"
+ECMWF_S2S_USER = "s2sidx"
+ECMWF_S2S_PASSWORD = "s2sidx"
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36"
 
@@ -148,6 +154,338 @@ def fetch_json(url: str, attempts: int = 3, referer: str | None = None) -> tuple
                 time.sleep(4 * attempt)
     assert last_error is not None
     raise last_error
+
+
+
+def fetch_text_basic_auth(
+    url: str,
+    username: str,
+    password: str,
+    attempts: int = 3,
+    referer: str | None = None,
+) -> str:
+    token = base64.b64encode(f"{username}:{password}".encode("utf-8")).decode("ascii")
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Accept": "text/plain,text/html,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": f"Basic {token}",
+        "Cache-Control": "no-cache",
+    }
+    if referer:
+        headers["Referer"] = referer
+    last_error = None
+    for attempt in range(1, attempts + 1):
+        try:
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=45) as response:
+                payload = response.read()
+                encoding = response.headers.get("Content-Encoding", "").lower()
+                if encoding == "gzip" or url.lower().endswith(".gz"):
+                    payload = gzip.decompress(payload)
+                return payload.decode("utf-8", errors="replace")
+        except Exception as exc:
+            last_error = exc
+            if attempt < attempts:
+                time.sleep(4 * attempt)
+    raise last_error
+
+
+def _ecmwf_attributes(api_obj: dict) -> dict:
+    data = api_obj.get("data", {}) if isinstance(api_obj, dict) else {}
+    attrs = data.get("attributes", {}) if isinstance(data, dict) else {}
+    return attrs if isinstance(attrs, dict) else {}
+
+
+def _parse_opencharts_description(description: str) -> dict:
+    """Extract only explicit timing/area text from OpenCharts metadata."""
+    out = {"description": description or ""}
+    s = description or ""
+    m = re.search(r"Base time:\s*(.*?)(?:Valid time:|Area\s*:|$)", s, re.I)
+    if m:
+        out["base_time_text"] = " ".join(m.group(1).split())
+    m = re.search(r"Valid time:\s*(.*?)(?:Area\s*:|$)", s, re.I)
+    if m:
+        out["valid_time_text"] = " ".join(m.group(1).split())
+    m = re.search(r"Area\s*:\s*(.*)$", s, re.I)
+    if m:
+        out["area_text"] = " ".join(m.group(1).split())
+    return out
+
+
+def discover_latest_ecmwf_rmm_file(listing_html: str) -> tuple[str, str]:
+    """Discover the newest ECMF real-time RMMS file from the public S2S index listing."""
+    hrefs = re.findall(r'href=["\\\']([^"\\\']+)["\\\']', listing_html, flags=re.I)
+    candidates = []
+    for href in hrefs:
+        name = urllib.parse.unquote(href.rstrip("/").split("/")[-1])
+        low = name.lower()
+        if not name or "ecmf" not in low:
+            continue
+        if any(tag in low for tag in ("refc", "reforecast", "hindcast")):
+            continue
+        # RMM index files are expected to be text-ish; allow gzipped text too.
+        if not any(low.endswith(ext) for ext in (".txt", ".dat", ".csv", ".asc", ".gz")):
+            continue
+        date_hits = re.findall(r"(20\d{6})(?:\d{2})?", name)
+        sort_date = max(date_hits) if date_hits else "00000000"
+        candidates.append((sort_date, name, href))
+    if not candidates:
+        # Some ECPDS listings expose filenames as plain text rather than anchor names.
+        names = re.findall(r"([A-Za-z0-9_.-]*ECMF[A-Za-z0-9_.-]*(?:\.txt|\.dat|\.csv|\.asc|\.gz))", listing_html, flags=re.I)
+        for name in names:
+            date_hits = re.findall(r"(20\d{6})(?:\d{2})?", name)
+            candidates.append((max(date_hits) if date_hits else "00000000", name, name))
+    if not candidates:
+        raise ValueError("No ECMF real-time RMMS file discovered in S2S listing")
+    _, name, href = sorted(candidates)[-1]
+    if href.startswith("http://") or href.startswith("https://"):
+        return name, href
+    # ECPDS data-list links may be relative; urljoin preserves whatever path the server publishes.
+    return name, urllib.parse.urljoin(ECMWF_S2S_RMMS_LIST + "/", href)
+
+
+def parse_ecmwf_rmm_text(raw: str, source_name: str) -> dict:
+    """Parse an ECMWF/S2S RMM text product using header aliases and conservative heuristics."""
+    clean_lines = [ln.strip() for ln in raw.splitlines() if ln.strip() and not ln.lstrip().startswith(("#", "!", "%"))]
+    if not clean_lines:
+        raise ValueError("ECMWF RMMS file is empty")
+
+    # Try CSV/header-aware parsing first.
+    sniff = clean_lines[0]
+    delimiter = "," if "," in sniff else None
+    if delimiter:
+        reader = csv.DictReader(io.StringIO("\n".join(clean_lines)))
+        if reader.fieldnames:
+            rows = [dict(r) for r in reader]
+            parsed = _parse_ecmwf_rmm_records(rows)
+            if parsed:
+                return _summarize_ecmwf_rmm(parsed, source_name)
+
+    # Whitespace header.
+    first_tokens = re.split(r"\s+", clean_lines[0])
+    if any(re.search(r"[A-Za-z]", tok) for tok in first_tokens):
+        header = [_norm_key(x) for x in first_tokens]
+        rows = []
+        for ln in clean_lines[1:]:
+            toks = re.split(r"\s+", ln)
+            if len(toks) == len(header):
+                rows.append(dict(zip(header, toks)))
+        parsed = _parse_ecmwf_rmm_records(rows)
+        if parsed:
+            return _summarize_ecmwf_rmm(parsed, source_name)
+
+    raise ValueError(
+        "ECMWF RMMS text schema not recognized safely; "
+        f"first line={clean_lines[0][:180]!r}"
+    )
+
+
+def _parse_ecmwf_rmm_records(rows: list[dict]) -> list[dict]:
+    aliases = {
+        "init": ("init", "init_date", "initial_date", "start", "start_date", "s", "date"),
+        "lead": ("lead", "lead_day", "forecast_day", "fcst_day", "l", "step"),
+        "member": ("member", "ensemble_member", "ens", "m", "number", "perturbation"),
+        "rmm1": ("rmm1", "rmm_1"),
+        "rmm2": ("rmm2", "rmm_2"),
+    }
+    out = []
+    for raw in rows:
+        rec = {_norm_key(k): v for k, v in raw.items() if k is not None}
+        init = _parse_date_like(_first_present(rec, aliases["init"]))
+        lead = _float_or_none(_first_present(rec, aliases["lead"]))
+        member = _first_present(rec, aliases["member"])
+        r1 = _float_or_none(_first_present(rec, aliases["rmm1"]))
+        r2 = _float_or_none(_first_present(rec, aliases["rmm2"]))
+        if init is None or lead is None or r1 is None or r2 is None:
+            continue
+        out.append({
+            "init": init,
+            "lead_day": float(lead),
+            "member": str(member) if member is not None else "unknown",
+            "rmm1": r1,
+            "rmm2": r2,
+        })
+    return out
+
+
+def _rmm_phase(r1: float, r2: float) -> int:
+    # Wheeler-Hendon convention used by the dashboard: determine nearest octant
+    # in standard RMM1/RMM2 phase space. This is descriptive geometry only.
+    angle = (math.degrees(math.atan2(r2, r1)) + 360.0) % 360.0
+    # Standard phase-space octants, with Phase 1 centered near +RMM1/-RMM2.
+    return int(((angle + 22.5) // 45 + 7) % 8 + 1)
+
+
+def _summarize_ecmwf_rmm(rows: list[dict], source_name: str) -> dict:
+    cycles = {}
+    for row in rows:
+        key = row["init"].date().isoformat()
+        cycles.setdefault(key, []).append(row)
+    latest_cycle = sorted(cycles)[-1]
+    cycle = cycles[latest_cycle]
+    available = sorted({round(r["lead_day"], 6) for r in cycle})
+    targets = []
+    for target in (5, 10, 15, 20):
+        nearest = min(available, key=lambda x: abs(x - target))
+        pts = [r for r in cycle if abs(r["lead_day"] - nearest) < 1e-6]
+        if not pts:
+            continue
+        mean1 = statistics.fmean(r["rmm1"] for r in pts)
+        mean2 = statistics.fmean(r["rmm2"] for r in pts)
+        amps = [math.hypot(r["rmm1"], r["rmm2"]) for r in pts]
+        phases = [_rmm_phase(r["rmm1"], r["rmm2"]) for r in pts]
+        counts = {p: phases.count(p) for p in range(1, 9)}
+        dominant_phase = max(counts, key=counts.get)
+        targets.append({
+            "target_day": target,
+            "actual_lead_day": round(nearest, 3),
+            "members": len(pts),
+            "mean_rmm1": round(mean1, 3),
+            "mean_rmm2": round(mean2, 3),
+            "mean_amplitude": round(math.hypot(mean1, mean2), 3),
+            "member_mean_amplitude": round(statistics.fmean(amps), 3),
+            "active_member_fraction": round(sum(a >= 1 for a in amps) / len(amps), 3),
+            "ensemble_mean_phase": _rmm_phase(mean1, mean2),
+            "dominant_member_phase": dominant_phase,
+            "dominant_phase_fraction": round(counts[dominant_phase] / len(phases), 3),
+            "phase_counts": {str(k): v for k, v in counts.items()},
+        })
+    if len(targets) < 3:
+        raise ValueError(f"ECMWF RMMS file did not provide enough target leads; available={available[:25]}")
+    return {
+        "status": "live",
+        "source_file": source_name,
+        "latest_cycle": latest_cycle,
+        "unique_members": len({r["member"] for r in cycle}),
+        "target_summaries": targets,
+    }
+
+
+def update_structured_ecmwf_evidence(retrieved_at: str) -> list[str]:
+    """Create explicit structured ECMWF consensus inputs without reading chart pixels."""
+    failures = []
+    evidence = {
+        "schema_version": "1.0",
+        "phase": "2B.3.2",
+        "generated_at": retrieved_at,
+        "science_guardrail": (
+            "No chart-pixel interpretation. MJO uses the public S2S RMMS index feed. "
+            "OpenCharts PNA/NAO products contribute structured metadata only unless "
+            "their public API exposes numerical evidence."
+        ),
+        "mjo": {},
+        "pna_context": {},
+        "nao_regimes": {},
+    }
+
+    # MJO: public ECMWF S2S RMM index feed.
+    try:
+        listing = fetch_text_basic_auth(
+            ECMWF_S2S_RMMS_LIST, ECMWF_S2S_USER, ECMWF_S2S_PASSWORD
+        )
+        filename, file_url = discover_latest_ecmwf_rmm_file(listing)
+        raw = fetch_text_basic_auth(
+            file_url, ECMWF_S2S_USER, ECMWF_S2S_PASSWORD, referer=ECMWF_S2S_RMMS_LIST
+        )
+        mjo = parse_ecmwf_rmm_text(raw, filename)
+        mjo.update({
+            "evidence_type": "structured_rmm_ensemble",
+            "source_name": "ECMWF S2S MJO RMM indices",
+            "source_listing": ECMWF_S2S_RMMS_LIST,
+            "source_url": file_url,
+            "retrieved_at": retrieved_at,
+            "consensus_readiness": "numeric_ready",
+        })
+        evidence["mjo"] = mjo
+        print(
+            f"STRUCTURED ECMWF MJO: cycle {mjo['latest_cycle']} "
+            f"members {mjo['unique_members']} "
+            f"target leads {[x['target_day'] for x in mjo['target_summaries']]}"
+        )
+    except Exception as exc:
+        evidence["mjo"] = {
+            "status": "parse_or_fetch_error",
+            "evidence_type": "structured_rmm_ensemble",
+            "source_listing": ECMWF_S2S_RMMS_LIST,
+            "retrieved_at": retrieved_at,
+            "consensus_readiness": "not_ready",
+            "error": f"{type(exc).__name__}: {exc}",
+        }
+        failures.append(f"Structured ECMWF MJO: {type(exc).__name__}: {exc}")
+        print(f"STRUCTURED ECMWF MJO: ERROR — {type(exc).__name__}: {exc}")
+
+    # PNA context: preserve structured OpenCharts product metadata but do not
+    # pretend the graphical Pacific Z500 anomaly is a numeric PNA index.
+    try:
+        api, _ = fetch_json(ECMWF_PNA_CONTEXT_API, referer=ECMWF_PNA_CONTEXT_PAGE)
+        attrs = _ecmwf_attributes(api)
+        evidence["pna_context"] = {
+            "status": "metadata_live",
+            "evidence_type": "pacific_z500_context",
+            "source_name": "ECMWF OpenCharts",
+            "source_url": ECMWF_PNA_CONTEXT_PAGE,
+            "retrieved_at": retrieved_at,
+            "product_attributes": attrs,
+            "parsed_metadata": _parse_opencharts_description(str(attrs.get("description", ""))),
+            "numerical_evidence_status": "not_exposed_by_public_opencharts_graphical_api",
+            "consensus_readiness": "context_only",
+            "note": (
+                "This remains Pacific/North-American circulation context. "
+                "It is not an ECMWF standardized PNA forecast."
+            ),
+        }
+        print("STRUCTURED ECMWF PNA CONTEXT: metadata live; numeric PNA-equivalent intentionally unavailable")
+    except Exception as exc:
+        evidence["pna_context"] = {
+            "status": "metadata_error",
+            "retrieved_at": retrieved_at,
+            "consensus_readiness": "not_ready",
+            "error": f"{type(exc).__name__}: {exc}",
+        }
+        failures.append(f"Structured ECMWF PNA context: {type(exc).__name__}: {exc}")
+        print(f"STRUCTURED ECMWF PNA CONTEXT: ERROR — {type(exc).__name__}: {exc}")
+
+    # NAO regimes: same guardrail. The public OpenCharts API documents the
+    # graphical product and regime categories, but does not expose the daily
+    # bar probabilities as machine-readable values through this endpoint.
+    try:
+        api, _ = fetch_json(ECMWF_NAO_REGIME_API, referer=ECMWF_NAO_REGIME_PAGE)
+        attrs = _ecmwf_attributes(api)
+        evidence["nao_regimes"] = {
+            "status": "metadata_live",
+            "evidence_type": "euro_atlantic_regime_probabilities",
+            "source_name": "ECMWF OpenCharts",
+            "source_url": ECMWF_NAO_REGIME_PAGE,
+            "retrieved_at": retrieved_at,
+            "product_attributes": attrs,
+            "parsed_metadata": _parse_opencharts_description(str(attrs.get("description", ""))),
+            "regime_categories": [
+                "NAO+", "NAO-", "Scandinavian Blocking", "Atlantic Ridge", "No regime"
+            ],
+            "ensemble_members_documented": 101,
+            "numerical_probability_status": "not_exposed_by_public_opencharts_graphical_api",
+            "consensus_readiness": "metadata_only",
+            "note": (
+                "Regime probabilities are not the same as a standardized NAO index. "
+                "No probability values are inferred from the rendered bars."
+            ),
+        }
+        print("STRUCTURED ECMWF NAO REGIMES: metadata live; daily probabilities remain guarded")
+    except Exception as exc:
+        evidence["nao_regimes"] = {
+            "status": "metadata_error",
+            "retrieved_at": retrieved_at,
+            "consensus_readiness": "not_ready",
+            "error": f"{type(exc).__name__}: {exc}",
+        }
+        failures.append(f"Structured ECMWF NAO regimes: {type(exc).__name__}: {exc}")
+        print(f"STRUCTURED ECMWF NAO REGIMES: ERROR — {type(exc).__name__}: {exc}")
+
+    ECMWF_STRUCTURED_INPUTS.write_text(
+        json.dumps(evidence, indent=2) + "\n", encoding="utf-8"
+    )
+    return failures
 
 
 def month_candidates(now: datetime, count: int = 3) -> list[tuple[int, int]]:
@@ -944,6 +1282,10 @@ def main() -> None:
     if structured_failures:
         print("Structured-GEFS warnings: " + " | ".join(structured_failures))
 
+    ecmwf_structured_failures = update_structured_ecmwf_evidence(retrieved_at)
+    if ecmwf_structured_failures:
+        print("Structured-ECMWF warnings: " + " | ".join(ecmwf_structured_failures))
+
     climate["generated_at"] = retrieved_at
     status["generated_at"] = retrieved_at
     status["overall_status"] = "current" if not failures else "degraded"
@@ -952,7 +1294,7 @@ def main() -> None:
 
     if failures:
         raise SystemExit("\n".join(failures))
-    print("Phase 2B.3.1 structured GEFS teleconnection update complete.")
+    print("Phase 2B.3.2 structured ECMWF evidence update complete.")
 
 
 if __name__ == "__main__":

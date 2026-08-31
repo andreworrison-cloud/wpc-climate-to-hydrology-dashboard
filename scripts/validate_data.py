@@ -15,6 +15,7 @@ REQUIRED = {
     "nao_history.json": ["schema_version", "indicator", "values"],
     "forecast_status.json": ["schema_version", "products", "science_guardrail"],
     "gefs_teleconnections.json": ["schema_version", "drivers", "science_guardrail"],
+    "ecmwf_consensus_inputs.json": ["schema_version", "mjo", "pna_context", "nao_regimes", "science_guardrail"],
 }
 
 
@@ -120,9 +121,30 @@ def main() -> None:
                     if not isinstance(prob, (int, float)) or not (0 <= prob <= 1):
                         errors.append(f"gefs_teleconnections.json: {key.upper()} invalid {probkey}")
 
+
+    ecmwf = loaded.get("ecmwf_consensus_inputs.json", {})
+    mjo_ev = ecmwf.get("mjo", {})
+    if mjo_ev.get("status") == "live":
+        targets = {x.get("target_day") for x in mjo_ev.get("target_summaries", [])}
+        if not {5, 10, 15, 20}.issubset(targets):
+            errors.append("ecmwf_consensus_inputs.json: ECMWF MJO missing target lead summaries")
+        for row in mjo_ev.get("target_summaries", []):
+            for key in ("mean_rmm1", "mean_rmm2", "mean_amplitude", "active_member_fraction"):
+                if not isinstance(row.get(key), (int, float)):
+                    errors.append(f"ecmwf_consensus_inputs.json: ECMWF MJO malformed {key}")
+            frac = row.get("active_member_fraction")
+            if isinstance(frac, (int, float)) and not 0 <= frac <= 1:
+                errors.append("ecmwf_consensus_inputs.json: invalid MJO active-member fraction")
+
+    for key in ("pna_context", "nao_regimes"):
+        rec = ecmwf.get(key, {})
+        # These are allowed to be metadata-only by design; never require fake numeric values.
+        if rec.get("status") == "metadata_live" and "consensus_readiness" not in rec:
+            errors.append(f"ecmwf_consensus_inputs.json: {key} missing consensus readiness")
+
     if errors:
         raise SystemExit("\n".join(errors))
-    print("Phase 2B.3.1 validated: source graphics and structured GEFS PNA/NAO consensus inputs are available.")
+    print("Phase 2B.3.2 validated: structured GEFS inputs plus ECMWF MJO numeric evidence / guarded ECMWF context metadata are available.")
 
 
 if __name__ == "__main__":
