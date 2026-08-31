@@ -19,6 +19,7 @@ import statistics
 import re
 import base64
 import gzip
+import ftplib
 from pathlib import Path
 import time
 import urllib.request
@@ -67,6 +68,8 @@ ECMWF_STRUCTURED_INPUTS = DATA / "ecmwf_consensus_inputs.json"
 ECMWF_S2S_RMMS_LIST = "https://aux.ecmwf.int/ecpds/data/list/RMMS"
 ECMWF_S2S_USER = "s2sidx"
 ECMWF_S2S_PASSWORD = "s2sidx"
+ECMWF_S2S_FTP_HOST = "aux.ecmwf.int"
+ECMWF_S2S_FTP_DIR = "RMMS"
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36"
 
@@ -211,6 +214,99 @@ def _parse_opencharts_description(description: str) -> dict:
     if m:
         out["area_text"] = " ".join(m.group(1).split())
     return out
+
+
+
+def _ftp_collect_files(ftp: ftplib.FTP, path: str, depth: int = 0, max_depth: int = 2) -> list[str]:
+    """Collect files recursively from the public S2S FTP area, conservatively."""
+    results = []
+    try:
+        names = ftp.nlst(path)
+    except Exception:
+        return results
+    for item in names:
+        name = item.rstrip("/")
+        if not name or name in (".", ".."):
+            continue
+        # Test whether this is a directory by attempting cwd and restoring location.
+        is_dir = False
+        if depth < max_depth:
+            try:
+                current = ftp.pwd()
+                ftp.cwd(name)
+                is_dir = True
+                ftp.cwd(current)
+            except Exception:
+                try:
+                    ftp.cwd(current)
+                except Exception:
+                    pass
+        if is_dir:
+            results.extend(_ftp_collect_files(ftp, name, depth + 1, max_depth))
+        else:
+            results.append(name)
+    return results
+
+
+def discover_latest_ecmwf_rmm_ftp() -> tuple[str, str]:
+    """Use ECMWF's documented authenticated FTP RMMS directory."""
+    ftp = ftplib.FTP(ECMWF_S2S_FTP_HOST, timeout=45)
+    try:
+        ftp.login(ECMWF_S2S_USER, ECMWF_S2S_PASSWORD)
+        files = _ftp_collect_files(ftp, ECMWF_S2S_FTP_DIR, max_depth=2)
+        if not files:
+            raise ValueError("RMMS FTP listing returned no files")
+
+        # ECMWF origin may appear as ECMF in filenames or a parent path.
+        candidates = []
+        for full in files:
+            name = full.split("/")[-1]
+            low = full.lower()
+            if "ecmf" not in low and "ecmwf" not in low:
+                continue
+            if any(tag in low for tag in ("refc", "reforecast", "hindcast", "hcst")):
+                continue
+            date_hits = re.findall(r"(20\d{6})(?:\d{2})?", full)
+            candidates.append((max(date_hits) if date_hits else "00000000", full))
+
+        if not candidates:
+            sample = [x.split("/")[-1] for x in files[-30:]]
+            raise ValueError(
+                "RMMS FTP listing contained files but none matched ECMWF/ECMF; "
+                f"sample={sample}"
+            )
+
+        _, full = sorted(candidates)[-1]
+        return full.split("/")[-1], full
+    finally:
+        try:
+            ftp.quit()
+        except Exception:
+            try:
+                ftp.close()
+            except Exception:
+                pass
+
+
+def fetch_ecmwf_rmm_ftp(remote_path: str) -> str:
+    """Retrieve one RMMS index file through the documented FTP service."""
+    ftp = ftplib.FTP(ECMWF_S2S_FTP_HOST, timeout=45)
+    chunks = []
+    try:
+        ftp.login(ECMWF_S2S_USER, ECMWF_S2S_PASSWORD)
+        ftp.retrbinary(f"RETR {remote_path}", chunks.append)
+    finally:
+        try:
+            ftp.quit()
+        except Exception:
+            try:
+                ftp.close()
+            except Exception:
+                pass
+    payload = b"".join(chunks)
+    if remote_path.lower().endswith(".gz"):
+        payload = gzip.decompress(payload)
+    return payload.decode("utf-8", errors="replace")
 
 
 def discover_latest_ecmwf_rmm_file(listing_html: str) -> tuple[str, str]:
@@ -381,19 +477,32 @@ def update_structured_ecmwf_evidence(retrieved_at: str) -> list[str]:
 
     # MJO: public ECMWF S2S RMM index feed.
     try:
-        listing = fetch_text_basic_auth(
-            ECMWF_S2S_RMMS_LIST, ECMWF_S2S_USER, ECMWF_S2S_PASSWORD
-        )
-        filename, file_url = discover_latest_ecmwf_rmm_file(listing)
-        raw = fetch_text_basic_auth(
-            file_url, ECMWF_S2S_USER, ECMWF_S2S_PASSWORD, referer=ECMWF_S2S_RMMS_LIST
-        )
+        discovery_method = None
+        source_ref = None
+        try:
+            filename, remote_path = discover_latest_ecmwf_rmm_ftp()
+            raw = fetch_ecmwf_rmm_ftp(remote_path)
+            discovery_method = "documented_authenticated_ftp"
+            source_ref = f"ftp://{ECMWF_S2S_FTP_HOST}/{remote_path}"
+        except Exception as ftp_exc:
+            print(f"STRUCTURED ECMWF MJO: FTP discovery fallback — {type(ftp_exc).__name__}: {ftp_exc}")
+            listing = fetch_text_basic_auth(
+                ECMWF_S2S_RMMS_LIST, ECMWF_S2S_USER, ECMWF_S2S_PASSWORD
+            )
+            filename, file_url = discover_latest_ecmwf_rmm_file(listing)
+            raw = fetch_text_basic_auth(
+                file_url, ECMWF_S2S_USER, ECMWF_S2S_PASSWORD, referer=ECMWF_S2S_RMMS_LIST
+            )
+            discovery_method = "authenticated_web_listing"
+            source_ref = file_url
+
         mjo = parse_ecmwf_rmm_text(raw, filename)
         mjo.update({
             "evidence_type": "structured_rmm_ensemble",
             "source_name": "ECMWF S2S MJO RMM indices",
             "source_listing": ECMWF_S2S_RMMS_LIST,
-            "source_url": file_url,
+            "source_url": source_ref,
+            "discovery_method": discovery_method,
             "retrieved_at": retrieved_at,
             "consensus_readiness": "numeric_ready",
         })

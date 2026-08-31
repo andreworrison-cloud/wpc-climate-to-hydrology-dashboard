@@ -1,36 +1,23 @@
-# Phase 2B.3.2 — Structured ECMWF Evidence Extraction
+# Phase 2B.3.2 — ECMWF MJO RMMS discovery hotfix
 
-This phase preserves the science guardrail: no forecast chart pixels are interpreted.
+The first 2B.3.2 run confirmed:
+- structured GEFS PNA/NAO: live
+- ECMWF Pacific/PNA-context metadata: live
+- ECMWF Euro-Atlantic regime metadata: live
+- ECMWF RMMS MJO: discovery failure only
 
-## ECMWF MJO
-Uses ECMWF's public S2S MJO RMM index feed (`RMMS`) with the documented public `s2sidx` credentials.
-If the latest ECMF file is safely parsed, the script derives numerical ensemble summaries for Days 5, 10, 15, and 20:
-- ensemble-mean RMM1/RMM2
-- ensemble-mean amplitude
-- member-mean amplitude
-- active-member fraction (amplitude >= 1)
-- ensemble-mean phase
-- dominant member phase and fraction
-- member counts by phase
+Cause:
+The newer OpenECPDS authenticated web listing did not expose ECMF filenames in the HTML shape assumed by the first parser.
 
-## ECMWF Pacific / PNA context
-The public OpenCharts API is a graphical-product API. The script stores its structured metadata and explicitly marks numerical PNA-equivalent evidence as unavailable rather than inventing an ECMWF standardized PNA index.
+Fix:
+- Use ECMWF's documented authenticated FTP `RMMS` directory first.
+- Recursively inspect up to two directory levels.
+- Select the newest real-time ECMF/ECMWF RMM file.
+- Retrieve the source file directly over FTP.
+- Retain authenticated web listing as fallback.
+- If no ECMF file is found, diagnostics now include a sample of actual listed filenames.
 
-## ECMWF NAO regimes
-The script stores structured product metadata, documented regime categories, and ensemble-size provenance. The OpenCharts graphical endpoint does not expose the daily bar probabilities as machine-readable values, so those probabilities remain guarded and are not inferred from pixels.
-
-New output:
-- `data/ecmwf_consensus_inputs.json`
-
-Replace:
+Replace only:
 - `scripts/update_climate_data.py`
-- `scripts/validate_data.py`
 
-Then run the `Update climate data` workflow once.
-
-Expected useful log lines:
-- `STRUCTURED ECMWF MJO: ...`
-- `STRUCTURED ECMWF PNA CONTEXT: metadata live...`
-- `STRUCTURED ECMWF NAO REGIMES: metadata live...`
-
-High/Moderate/Low consensus is still not activated in this phase.
+Then rerun `Actions -> Update climate data`.
