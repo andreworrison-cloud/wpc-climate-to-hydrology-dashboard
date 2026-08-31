@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "phase": "2B",
-  "generated_at": "2026-08-31T17:30:57Z",
+  "phase": "2B.1",
+  "generated_at": "2026-08-31T17:50:39Z",
   "overall_status": "current",
   "science_guardrail": "Authoritative climate-driver forecasts only; no precipitation or flash-flood inference is enabled.",
   "products": [
@@ -16,7 +16,7 @@
       "image_path": "data/forecasts/enso_probabilities.png",
       "image_source": "https://www.cpc.ncep.noaa.gov/archives/enso/roni/images/2026/enso-probs-082026.png",
       "issue_hint": "2026-08",
-      "retrieved_at": "2026-08-31T17:30:57Z",
+      "retrieved_at": "2026-08-31T17:50:39Z",
       "last_modified": "Thu, 13 Aug 2026 13:00:03 GMT",
       "note": "Official CPC ENSO probabilities based on ERSSTv6 RONI thresholds."
     },
@@ -30,7 +30,7 @@
       "source_page": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/MJO/foregfs.shtml",
       "image_path": "data/forecasts/mjo_gefs.png",
       "image_source": "https://www.cpc.ncep.noaa.gov/products/precip/mjo/img/GEFS_BC.png",
-      "retrieved_at": "2026-08-31T17:30:57Z",
+      "retrieved_at": "2026-08-31T17:50:39Z",
       "last_modified": "Mon, 31 Aug 2026 12:23:24 GMT",
       "note": "CPC Wheeler-Hendon RMM ensemble forecast."
     },
@@ -44,7 +44,7 @@
       "source_page": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna_index_ensm.shtml",
       "image_path": "data/forecasts/pna_gefs.png",
       "image_source": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna.gefs.sprd2.png",
-      "retrieved_at": "2026-08-31T17:30:57Z",
+      "retrieved_at": "2026-08-31T17:50:39Z",
       "last_modified": "Mon, 31 Aug 2026 14:06:42 GMT",
       "note": "CPC standardized PNA ensemble outlook with 3-day running mean."
     },
@@ -58,9 +58,24 @@
       "source_page": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao_index_ensm.shtml",
       "image_path": "data/forecasts/nao_gefs.png",
       "image_source": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.gefs.sprd2.png",
-      "retrieved_at": "2026-08-31T17:30:57Z",
+      "retrieved_at": "2026-08-31T17:50:39Z",
       "last_modified": "Mon, 31 Aug 2026 14:06:42 GMT",
       "note": "CPC standardized NAO ensemble outlook with 3-day running mean."
+    },
+    {
+      "id": "mjo_ecmwf_ifs_subseasonal_ens",
+      "name": "MJO / RMM ECMWF ensemble forecast",
+      "status": "live",
+      "horizon": "Sub-seasonal; ensemble mean shown through Day 46",
+      "model": "ECMWF IFS Sub-seasonal Ensemble \u2014 100 perturbed + 1 control",
+      "source_name": "ECMWF OpenCharts",
+      "source_page": "https://charts.ecmwf.int/products/mofc_multi_mjo_family_index",
+      "image_path": "data/forecasts/mjo_ecmwf_ifs_subseasonal_ens.png",
+      "image_source": "https://charts.ecmwf.int/content/20260830200838-2b97a6df2311e3ae6109e70d450cfdf239618fcc.png",
+      "retrieved_at": "2026-08-31T17:50:39Z",
+      "last_modified": "Sun, 30 Aug 2026 20:08:38 GMT",
+      "issue_hint": null,
+      "note": "ECMWF Wheeler\u2013Hendon MJO guidance from the IFS sub-seasonal ensemble. This is probabilistic ensemble guidance, not the standalone IFS Control Forecast."
     }
   ]
 }
