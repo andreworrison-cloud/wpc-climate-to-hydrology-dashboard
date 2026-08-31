@@ -1,10 +1,20 @@
-# Phase 1B MJO Fetch Hotfix
+# Phase 1C — Live PNA ingestion
 
-This hotfix addresses HTTP 403 responses from the Bureau of Meteorology graphics endpoint when accessed from GitHub Actions.
+Replace the matching files in the existing `wpc-climate-to-hydrology-dashboard` repository.
 
-Changes:
-- Prefer BoM's direct climate-data endpoint: `https://www.bom.gov.au/clim_data/IDCKGEM000/rmm.74toRealtime.txt`
-- Retain the original graphics endpoint as a fallback.
-- Send browser-compatible request headers and a BoM referer.
+## Files in this patch
 
-Only `scripts/update_climate_data.py` needs to replace the current repository version.
+- `.github/workflows/update-climate-data.yml`
+- `scripts/update_climate_data.py`
+- `scripts/validate_data.py`
+
+## What Phase 1C adds
+
+- NOAA/CPC daily Pacific-North American (PNA) index ingestion.
+- Primary source: CPC's current CDAS 500-hPa CSV feed.
+- Fallback source: CPC's legacy daily PNA ASCII feed.
+- Automatic `data/pna_history.json` creation.
+- Live PNA value, sign/state, valid date, provenance, and data-health status.
+- No hydroclimate or flash-flood prediction is inferred from PNA in this phase.
+
+After committing, manually run **Actions → Update climate data → Run workflow** once. A successful run should update RONI, MJO/RMM, and PNA, create `data/pna_history.json`, commit the refreshed data, and automatically trigger GitHub Pages deployment.
