@@ -1,0 +1,13 @@
+{
+  "schema_version":"1.0",
+  "generated_at":"Phase 1 scaffold",
+  "overall_status":"current",
+  "datasets":[
+    {"name":"RONI / ENSO","status":"interface_ready"},
+    {"name":"MJO / RMM","status":"interface_ready"},
+    {"name":"PNA","status":"interface_ready"},
+    {"name":"NAO","status":"interface_ready"},
+    {"name":"Precipitation prediction","status":"research_disabled"},
+    {"name":"Flash-flood prediction","status":"research_disabled"}
+  ]
+}

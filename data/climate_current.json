@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "generated_at": null,
+  "indicators": [
+    {"id":"roni","display_name":"ENSO / RONI","value":null,"units":"°C","state":"Awaiting real-time ingestion","valid_time":null,"source_name":"NOAA/CPC interface placeholder","source_url":null,"retrieved_at":null,"freshness_hours":null},
+    {"id":"mjo_rmm","display_name":"MJO / RMM","value":null,"units":null,"state":"Awaiting phase/amplitude ingestion","valid_time":null,"source_name":"Authoritative MJO interface placeholder","source_url":null,"retrieved_at":null,"freshness_hours":null},
+    {"id":"pna","display_name":"PNA","value":null,"units":"σ","state":"Awaiting real-time ingestion","valid_time":null,"source_name":"NOAA/CPC interface placeholder","source_url":null,"retrieved_at":null,"freshness_hours":null},
+    {"id":"nao","display_name":"NAO","value":null,"units":"σ","state":"Awaiting real-time ingestion","valid_time":null,"source_name":"NOAA/CPC interface placeholder","source_url":null,"retrieved_at":null,"freshness_hours":null}
+  ]
+}

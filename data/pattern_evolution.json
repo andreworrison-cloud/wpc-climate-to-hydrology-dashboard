@@ -1,0 +1,9 @@
+{
+  "schema_version":"1.0",
+  "windows":[
+    {"window":"Current","description":"Observed climate-indicator state and recent trajectory."},
+    {"window":"Days 1–7","description":"Interface reserved for authoritative indicator forecasts and validated pattern-evolution diagnostics."},
+    {"window":"Days 8–14","description":"Climate-state evolution interface only; no hydroclimate prediction enabled."},
+    {"window":"Weeks 3–4","description":"Reserved for validated subseasonal signals and ensemble/analog context."}
+  ]
+}

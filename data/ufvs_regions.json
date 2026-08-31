@@ -1,0 +1,12 @@
+{
+  "schema_version":"1.0",
+  "regions":[
+    {"id":"west_coast","name":"West Coast"},
+    {"id":"southwest","name":"Southwest"},
+    {"id":"interior_mountain_west","name":"Interior Mountain West"},
+    {"id":"northern_plains","name":"Northern Plains"},
+    {"id":"southern_plains","name":"Southern Plains"},
+    {"id":"southeast","name":"Southeast"},
+    {"id":"northeast","name":"Northeast"}
+  ]
+}
