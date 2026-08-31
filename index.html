@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WPC Climate-to-Hydrology Prediction Dashboard</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">WPC • EXPERIMENTAL RESEARCH CONCEPT</div>
+        <h1>Climate-to-Hydrology Prediction Dashboard</h1>
+        <p>Real-time climate drivers • Pattern evolution • Hydroclimate context • UFVS regional perspectives</p>
+      </div>
+      <div class="status-block">
+        <span id="liveBadge" class="badge neutral">INITIALIZING</span>
+        <div id="lastUpdated">Last updated: —</div>
+      </div>
+    </header>
+
+    <nav class="stagebar" aria-label="Dashboard stages">
+      <div class="stage active"><span>1</span><b>Current Climate State</b><small>Observed indicators</small></div>
+      <div class="stage"><span>2</span><b>Pattern Evolution</b><small>Observed/available forecasts</small></div>
+      <div class="stage locked"><span>3</span><b>Precipitation Outlook</b><small>Research placeholder</small></div>
+      <div class="stage locked"><span>4</span><b>Flash-Flood Outlook</b><small>Research placeholder</small></div>
+    </nav>
+
+    <main class="dashboard-grid">
+      <aside class="panel climate-panel">
+        <div class="panel-title">Global Climate Drivers</div>
+        <div id="driverCards" class="driver-stack"></div>
+        <div class="science-note">
+          <b>Science guardrail</b>
+          <p>Current-state monitoring is active. Predictive relationships remain disabled until validated by historical research.</p>
+        </div>
+      </aside>
+
+      <section class="center-column">
+        <div class="map-grid">
+          <article class="panel map-panel">
+            <div class="panel-title-row">
+              <div>
+                <div class="panel-title">Precipitation Outlook</div>
+                <div class="panel-subtitle">Forward-looking product interface</div>
+              </div>
+              <span class="badge research">RESEARCH PLACEHOLDER</span>
+            </div>
+            <div class="placeholder-map">
+              <div class="map-watermark">CONUS</div>
+              <div class="map-message">
+                <b>Prediction layer not active</b>
+                <span>Reserved for validated Days 1–7, Days 8–14, and Weeks 3–4 precipitation signals.</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel map-panel">
+            <div class="panel-title-row">
+              <div>
+                <div class="panel-title">Flash-Flood Outlook</div>
+                <div class="panel-subtitle">Climate-conditioned flash-flood potential</div>
+              </div>
+              <span class="badge research">RESEARCH PLACEHOLDER</span>
+            </div>
+            <div class="placeholder-map flood">
+              <div class="map-watermark">FF</div>
+              <div class="map-message">
+                <b>Prediction layer not active</b>
+                <span>Future output will be grounded in validated MPD/FFW/FFE relationships and regional hydroclimate predictors.</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="lower-grid">
+          <article class="panel">
+            <div class="panel-title">Pattern Evolution</div>
+            <div class="panel-subtitle">Interface reserved for time series and authoritative indicator forecasts</div>
+            <div id="patternSummary" class="timeline"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-title">Historical Analogs</div>
+            <div class="panel-subtitle">Engine interface created; analog ranking intentionally inactive</div>
+            <div class="empty-state">Awaiting validated multivariate similarity framework.</div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-title">Data Health</div>
+            <div id="dataHealth" class="health-list"></div>
+          </article>
+        </div>
+      </section>
+
+      <aside class="panel regional-panel">
+        <div class="panel-title">UFVS Regional Perspectives</div>
+        <div class="panel-subtitle">Regional framework active; prediction fields inactive</div>
+        <div id="regionCards" class="region-stack"></div>
+      </aside>
+    </main>
+
+    <footer>
+      Experimental research dashboard foundation. Not an official NWS/WPC forecast product. Phase 1 contains monitoring interfaces and disabled prediction placeholders only.
+    </footer>
+  </div>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
