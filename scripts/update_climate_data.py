@@ -10,11 +10,13 @@ No precipitation or flash-flood prediction is inferred here.
 """
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import csv
 import io
 import json
 import math
+import statistics
+import re
 from pathlib import Path
 import time
 import urllib.request
@@ -50,6 +52,9 @@ PNA_FORECAST_URL = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna
 PNA_FORECAST_PAGE = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna_index_ensm.shtml"
 NAO_FORECAST_URL = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.gefs.sprd2.png"
 NAO_FORECAST_PAGE = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao_index_ensm.shtml"
+GEFS_PNA_STRUCTURED_URL = "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.pna.gefs.z500.120days.csv"
+GEFS_NAO_STRUCTURED_URL = "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.nao.gefs.z500.120days.csv"
+GEFS_TELECONNECTIONS = DATA / "gefs_teleconnections.json"
 ECMWF_MJO_API = "https://charts.ecmwf.int/opencharts-api/v1/products/mofc_multi_mjo_family_index/"
 ECMWF_MJO_PAGE = "https://charts.ecmwf.int/products/mofc_multi_mjo_family_index"
 ECMWF_PNA_CONTEXT_API = "https://charts.ecmwf.int/opencharts-api/v1/products/extended-anomaly-z500/?projection=opencharts_pacific"
@@ -346,6 +351,205 @@ def update_forward_guidance(retrieved_at: str) -> list[str]:
     for p in products:
         print(f'FORECAST {p["id"]}: {p["status"]}')
     return failures
+
+
+def _norm_key(key: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", str(key).strip().lower()).strip("_")
+
+
+def _parse_date_like(value: object) -> datetime | None:
+    if value in (None, ""):
+        return None
+    s = str(value).strip()
+    digits = "".join(ch for ch in s if ch.isdigit())
+    if len(digits) >= 8:
+        try:
+            return datetime(int(digits[:4]), int(digits[4:6]), int(digits[6:8]), tzinfo=timezone.utc)
+        except ValueError:
+            pass
+    try:
+        dt = datetime.fromisoformat(s.replace("Z", "+00:00"))
+        return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+    except Exception:
+        return None
+
+
+def _float_or_none(value: object) -> float | None:
+    try:
+        x = float(str(value).strip())
+        return x if math.isfinite(x) else None
+    except Exception:
+        return None
+
+
+def _first_present(rec: dict, names: tuple[str, ...]) -> object | None:
+    for name in names:
+        if name in rec and rec[name] not in (None, ""):
+            return rec[name]
+    return None
+
+
+def parse_gefs_teleconnection_csv(text: str, driver: str) -> dict:
+    """Parse CPC's rotating GEFS teleconnection CSV into the latest ensemble cycle."""
+    reader = csv.DictReader(io.StringIO(text))
+    if not reader.fieldnames:
+        raise ValueError("GEFS teleconnection CSV has no header")
+    original_fields = [f for f in reader.fieldnames if f]
+    field_map = {orig: _norm_key(orig) for orig in original_fields}
+    fields = list(field_map.values())
+
+    raw_rows = []
+    for raw in reader:
+        rec = {field_map[k]: (v.strip() if isinstance(v, str) else v) for k, v in raw.items() if k in field_map}
+        raw_rows.append(rec)
+    if not raw_rows:
+        raise ValueError("GEFS teleconnection CSV contains no rows")
+
+    drv = driver.lower()
+    value_candidates = (
+        drv, f"{drv}_index", f"normalized_{drv}", f"norm_{drv}",
+        "index", "value", "normalized_index", "teleconnection_index"
+    )
+    member_candidates = ("member", "ensemble_member", "ens_member", "ensemble", "ens", "perturbation", "mem")
+    lead_candidates = ("lead", "lead_day", "forecast_day", "fcst_day", "day_ahead",
+                       "forecast_hour", "fcst_hour", "fhour", "fhr", "tau")
+    init_candidates = ("init", "init_date", "initial_date", "initial_time", "base_date",
+                       "base_time", "cycle", "run_date", "forecast_initial_time")
+    valid_candidates = ("valid", "valid_date", "valid_time", "verification_date", "target_date")
+    wide_member_keys = [k for k in fields if re.search(r"(?:^|_)(?:ens|member|mem|pert|ge|p)\d{1,3}$", k)]
+
+    parsed = []
+    for rec in raw_rows:
+        y = _float_or_none(_first_present(rec, ("year", "yyyy", "yr")))
+        m = _float_or_none(_first_present(rec, ("month", "mm", "mon")))
+        d = _float_or_none(_first_present(rec, ("day", "dd")))
+        component_date = None
+        if y and m and d:
+            try:
+                component_date = datetime(int(y), int(m), int(d), tzinfo=timezone.utc)
+            except ValueError:
+                pass
+
+        init_dt = _parse_date_like(_first_present(rec, init_candidates))
+        valid_dt = _parse_date_like(_first_present(rec, valid_candidates))
+        generic_date = _parse_date_like(_first_present(rec, ("date", "time", "datetime")))
+        lead_raw = _float_or_none(_first_present(rec, lead_candidates))
+        if init_dt is None and lead_raw is not None:
+            init_dt = component_date or generic_date
+        if valid_dt is None and lead_raw is None:
+            valid_dt = component_date or generic_date
+
+        value = None
+        for key in value_candidates:
+            value = _float_or_none(rec.get(key))
+            if value is not None:
+                break
+        member = _first_present(rec, member_candidates)
+
+        if value is not None:
+            parsed.append({"init": init_dt, "valid": valid_dt, "lead_raw": lead_raw,
+                           "member": str(member) if member is not None else "unknown", "value": value})
+            continue
+
+        for key in wide_member_keys:
+            v = _float_or_none(rec.get(key))
+            if v is not None:
+                parsed.append({"init": init_dt, "valid": valid_dt, "lead_raw": lead_raw,
+                               "member": key, "value": v})
+
+    if not parsed:
+        raise ValueError(f"Could not identify {driver.upper()} values; fields={original_fields}")
+
+    lead_vals = [p["lead_raw"] for p in parsed if p["lead_raw"] is not None]
+    lead_is_hours = bool(lead_vals and max(abs(v) for v in lead_vals) > 60)
+    for p in parsed:
+        if p["lead_raw"] is not None:
+            p["lead_day"] = p["lead_raw"] / 24.0 if lead_is_hours else p["lead_raw"]
+            if p["valid"] is None and p["init"] is not None:
+                p["valid"] = p["init"] + timedelta(days=p["lead_day"])
+        elif p["init"] is not None and p["valid"] is not None:
+            p["lead_day"] = (p["valid"] - p["init"]).total_seconds() / 86400.0
+        else:
+            p["lead_day"] = None
+
+    cycles = {}
+    for p in parsed:
+        if p["init"] is None or p["lead_day"] is None:
+            continue
+        key = p["init"].date().isoformat()
+        cycles.setdefault(key, []).append(p)
+    if not cycles:
+        raise ValueError(f"Could not identify forecast initialization/lead fields; fields={original_fields}")
+
+    latest_cycle = sorted(cycles)[-1]
+    cycle_rows = cycles[latest_cycle]
+    if len(cycle_rows) < 8:
+        raise ValueError(f"Latest GEFS cycle unexpectedly sparse ({len(cycle_rows)} rows)")
+
+    summaries = []
+    available_leads = sorted({round(float(r["lead_day"]), 6) for r in cycle_rows})
+    for target in (5, 7, 10, 14):
+        nearest = min(available_leads, key=lambda x: abs(x-target))
+        vals = [r["value"] for r in cycle_rows if abs(float(r["lead_day"])-nearest) < 1e-6]
+        if not vals:
+            continue
+        summaries.append({
+            "target_day": target, "actual_lead_day": round(nearest, 3),
+            "valid_date": (datetime.fromisoformat(latest_cycle).replace(tzinfo=timezone.utc) + timedelta(days=nearest)).date().isoformat(),
+            "members": len(vals), "mean": round(statistics.fmean(vals), 3),
+            "median": round(statistics.median(vals), 3),
+            "stdev": round(statistics.pstdev(vals) if len(vals) > 1 else 0.0, 3),
+            "min": round(min(vals), 3), "max": round(max(vals), 3),
+            "prob_positive": round(sum(v > 0 for v in vals)/len(vals), 3),
+            "prob_negative": round(sum(v < 0 for v in vals)/len(vals), 3),
+            "prob_abs_ge_1": round(sum(abs(v) >= 1 for v in vals)/len(vals), 3),
+        })
+
+    if len(summaries) < 3:
+        raise ValueError(f"Too few matched GEFS lead summaries; available leads sample={available_leads[:20]}")
+
+    return {
+        "driver": driver.lower(), "status": "live", "latest_cycle": latest_cycle,
+        "lead_unit_detected": "hours" if lead_is_hours else "days",
+        "source_fields": original_fields, "parsed_rows_latest_cycle": len(cycle_rows),
+        "unique_members_latest_cycle": len({r["member"] for r in cycle_rows}),
+        "lead_summaries": summaries,
+    }
+
+
+def update_structured_gefs_teleconnections(retrieved_at: str) -> list[str]:
+    outputs = {}
+    failures = []
+    for driver, url, page in (
+        ("pna", GEFS_PNA_STRUCTURED_URL, PNA_FORECAST_PAGE),
+        ("nao", GEFS_NAO_STRUCTURED_URL, NAO_FORECAST_PAGE),
+    ):
+        try:
+            src = fetch_text(url, referer=page)
+            parsed = parse_gefs_teleconnection_csv(src, driver)
+            parsed.update({
+                "source_name": "NOAA Climate Prediction Center / NCEP GEFS",
+                "source_url": url, "retrieved_at": retrieved_at,
+                "science_role": "Structured GEFS ensemble teleconnection input for Phase 2B.3 consensus; no precipitation or flash-flood inference."
+            })
+            outputs[driver] = parsed
+            print(f"STRUCTURED GEFS {driver.upper()}: cycle {parsed['latest_cycle']} "
+                  f"members {parsed['unique_members_latest_cycle']} "
+                  f"target leads {[x['target_day'] for x in parsed['lead_summaries']]}")
+        except Exception as exc:
+            outputs[driver] = {"driver": driver, "status": "parse_or_fetch_error",
+                               "source_url": url, "retrieved_at": retrieved_at,
+                               "error": f"{type(exc).__name__}: {exc}"}
+            failures.append(f"Structured GEFS {driver.upper()}: {type(exc).__name__}: {exc}")
+            print(f"STRUCTURED GEFS {driver.upper()}: ERROR — {type(exc).__name__}: {exc}")
+
+    GEFS_TELECONNECTIONS.write_text(json.dumps({
+        "schema_version": "1.0", "phase": "2B.3.1", "generated_at": retrieved_at,
+        "science_guardrail": "Machine-readable GEFS teleconnection forecasts only. Consensus score remains guarded until ECMWF structured evidence is added.",
+        "drivers": outputs,
+    }, indent=2) + "\n", encoding="utf-8")
+    return failures
+
 
 def parse_roni(text: str) -> list[dict]:
     rows: list[dict] = []
@@ -736,6 +940,10 @@ def main() -> None:
     if forecast_failures:
         print("Forward-guidance warnings: " + " | ".join(forecast_failures))
 
+    structured_failures = update_structured_gefs_teleconnections(retrieved_at)
+    if structured_failures:
+        print("Structured-GEFS warnings: " + " | ".join(structured_failures))
+
     climate["generated_at"] = retrieved_at
     status["generated_at"] = retrieved_at
     status["overall_status"] = "current" if not failures else "degraded"
@@ -744,7 +952,7 @@ def main() -> None:
 
     if failures:
         raise SystemExit("\n".join(failures))
-    print("Phase 2B.2 multi-model forward climate guidance update complete.")
+    print("Phase 2B.3.1 structured GEFS teleconnection update complete.")
 
 
 if __name__ == "__main__":

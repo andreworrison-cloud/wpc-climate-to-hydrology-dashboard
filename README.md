@@ -1,13 +1,21 @@
-# Phase 2B.3 RONI semantic-color hotfix
+# Phase 2B.3.1 — Structured GEFS PNA/NAO Teleconnection Ingestion
 
-Surgical correction only.
+This increment moves the consensus layer away from chart-image interpretation.
 
-The live climate JSON identifies ENSO/RONI with `id: "roni"`.
-The Phase 2B.3 semantic-color helper mistakenly checked for `roni_enso`,
-so the top-left live RONI value retained the default cyan styling even
-though the observed RONI history line correctly used the warm-positive palette.
+Official CPC rotating 120-day GEFS machine-readable inputs:
+- `norm.daily.pna.gefs.z500.120days.csv`
+- `norm.daily.nao.gefs.z500.120days.csv`
 
-Replace only:
-- `assets/js/app.js`
+New output:
+- `data/gefs_teleconnections.json`
 
-No climate workflow rerun is needed. A normal GitHub Pages redeploy is sufficient.
+For the latest identifiable GEFS cycle, the script summarizes Days 5, 7, 10, and 14:
+ensemble mean/median, spread, range, sign probabilities, |index|>=1 probability, and member count.
+
+High/Moderate/Low consensus remains disabled. This structures the GEFS side only; ECMWF structured evidence comes next.
+
+Replace:
+- `scripts/update_climate_data.py`
+- `scripts/validate_data.py`
+
+Then run the `Update climate data` workflow once.

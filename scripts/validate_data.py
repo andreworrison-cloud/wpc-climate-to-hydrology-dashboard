@@ -14,6 +14,7 @@ REQUIRED = {
     "pna_history.json": ["schema_version", "indicator", "values"],
     "nao_history.json": ["schema_version", "indicator", "values"],
     "forecast_status.json": ["schema_version", "products", "science_guardrail"],
+    "gefs_teleconnections.json": ["schema_version", "drivers", "science_guardrail"],
 }
 
 
@@ -98,9 +99,30 @@ def main() -> None:
             if not image_path or not (ROOT / image_path).exists():
                 errors.append(f"forecast_status.json: live product {product.get('id')} has no cached image")
 
+
+    structured = loaded.get("gefs_teleconnections.json", {})
+    structured_drivers = structured.get("drivers", {})
+    for key in ("pna", "nao"):
+        if key not in structured_drivers:
+            errors.append(f"gefs_teleconnections.json: missing {key.upper()} structured driver")
+            continue
+        rec = structured_drivers[key]
+        if rec.get("status") == "live":
+            summaries = rec.get("lead_summaries", [])
+            targets = {x.get("target_day") for x in summaries}
+            if not {5, 7, 10, 14}.issubset(targets):
+                errors.append(f"gefs_teleconnections.json: {key.upper()} missing target lead summaries")
+            for row in summaries:
+                if not isinstance(row.get("mean"), (int, float)) or not isinstance(row.get("stdev"), (int, float)):
+                    errors.append(f"gefs_teleconnections.json: {key.upper()} malformed mean/spread")
+                for probkey in ("prob_positive", "prob_negative", "prob_abs_ge_1"):
+                    prob = row.get(probkey)
+                    if not isinstance(prob, (int, float)) or not (0 <= prob <= 1):
+                        errors.append(f"gefs_teleconnections.json: {key.upper()} invalid {probkey}")
+
     if errors:
         raise SystemExit("\n".join(errors))
-    print("Phase 2B.2 interfaces validated successfully; GEFS/ECMWF MJO, PNA-context, and NAO-regime guidance interfaces are active.")
+    print("Phase 2B.3.1 validated: source graphics and structured GEFS PNA/NAO consensus inputs are available.")
 
 
 if __name__ == "__main__":
