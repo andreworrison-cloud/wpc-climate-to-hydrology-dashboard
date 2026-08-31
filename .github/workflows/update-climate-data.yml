@@ -3,7 +3,7 @@ name: Update climate data
 on:
   workflow_dispatch:
   schedule:
-    # Daily source check. RONI is monthly; MJO/RMM and PNA are normally updated daily.
+    # Daily source check. RONI is monthly; MJO/RMM, PNA, and NAO are normally updated daily.
     - cron: '17 12 * * *'
 
 permissions:
@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Fetch live RONI, MJO/RMM, and PNA
+      - name: Fetch live RONI, MJO/RMM, PNA, and NAO
         run: python scripts/update_climate_data.py
       - name: Validate dashboard interfaces
         run: python scripts/validate_data.py
