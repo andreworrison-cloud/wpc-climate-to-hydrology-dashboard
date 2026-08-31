@@ -14,3 +14,26 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.13;ba
 footer{margin-top:12px;padding:8px 4px;color:#6f93ad;font-size:.72rem}
 @media(max-width:1200px){.dashboard-grid{grid-template-columns:220px 1fr}.regional-panel{grid-column:1/-1}.region-stack{display:grid;grid-template-columns:repeat(3,1fr)}}
 @media(max-width:850px){.dashboard-grid,.map-grid,.lower-grid{grid-template-columns:1fr}.stagebar{grid-template-columns:1fr 1fr}.climate-panel,.regional-panel{grid-column:auto}.region-stack{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.status-block{text-align:left}.placeholder-map{height:300px}}
+
+/* Phase 2A — Observed Pattern Evolution */
+.stage.complete{border-color:rgba(104,216,155,.48)}
+.stage.complete span{background:rgba(104,216,155,.14);color:var(--green)}
+.pattern-observed-panel{padding:16px}
+.pattern-header{align-items:center}
+.pattern-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.badge.observed{color:#9be7ff;border-color:#267b9d;background:#092638}
+.window-control{display:flex;padding:3px;border:1px solid #214967;border-radius:9px;background:#071522}
+.window-btn{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:.7rem;font-weight:800;letter-spacing:.04em;padding:6px 9px;border-radius:6px;cursor:pointer}
+.window-btn:hover{color:var(--text);background:#0f2a40}.window-btn.active{color:#06121d;background:var(--cyan)}
+.pattern-chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.chart-card{min-width:0;background:linear-gradient(180deg,#081827,#06131f);border:1px solid #1e405e;border-radius:12px;padding:12px}
+.chart-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
+.chart-title-row b{display:block;color:#dff5ff;font-size:.82rem;letter-spacing:.04em}.chart-title-row span{display:block;color:var(--muted);font-size:.68rem;margin-top:3px}
+.chart-title-row strong{color:var(--cyan);font-size:1.05rem;white-space:nowrap}
+.chart-host{height:210px;min-height:210px;position:relative;border:1px solid #153954;border-radius:9px;background:linear-gradient(180deg,rgba(11,34,50,.68),rgba(4,16,27,.78));overflow:hidden}
+.phase-host{height:310px;min-height:310px}
+.chart-svg{display:block;width:100%;height:100%}.chart-grid-line{stroke:#17374e;stroke-width:1}.chart-zero{stroke:#5e7890;stroke-width:1;stroke-dasharray:4 4}.chart-axis-label{fill:#7295ae;font-size:10px}.chart-line{fill:none;stroke:var(--cyan);stroke-width:2.25;stroke-linejoin:round;stroke-linecap:round}.chart-area{fill:rgba(56,199,232,.07)}.chart-dot{fill:#c8f6ff;stroke:#06101c;stroke-width:2}.chart-latest-ring{fill:none;stroke:var(--green);stroke-width:2}.phase-boundary{stroke:#2a4b63;stroke-width:1}.phase-axis{stroke:#42657c;stroke-width:1}.phase-circle{fill:rgba(143,177,202,.035);stroke:#7893a5;stroke-width:1.2;stroke-dasharray:4 4}.phase-trail{fill:none;stroke:var(--cyan);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.phase-point{fill:#6baec4}.phase-point.latest{fill:var(--green);stroke:#dffff0;stroke-width:1.4}.phase-label{fill:#afcee1;font-size:11px;font-weight:800}.phase-region{fill:#5f839c;font-size:9px;font-weight:700;letter-spacing:.05em}.weak-label{fill:#7694a9;font-size:9px}.chart-stats{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.stat-chip{padding:5px 7px;border:1px solid #183b57;border-radius:7px;background:#071625;color:var(--muted);font-size:.67rem}.stat-chip b{color:#d9efff;font-weight:800}
+.pattern-footnote{margin-top:10px;color:#668ba5;font-size:.68rem;line-height:1.4}
+.phase2-lower{grid-template-columns:1.5fr 1fr}
+@media(max-width:1100px){.pattern-chart-grid{grid-template-columns:1fr}.phase2-lower{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.pattern-actions{justify-content:flex-start}.phase2-lower{grid-template-columns:1fr}.chart-host{height:190px}.phase-host{height:280px}}
