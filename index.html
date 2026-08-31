@@ -21,8 +21,8 @@
     </header>
 
     <nav class="stagebar" aria-label="Dashboard stages">
-      <div class="stage active"><span>1</span><b>Current Climate State</b><small>Observed indicators</small></div>
-      <div class="stage"><span>2</span><b>Pattern Evolution</b><small>Observed/available forecasts</small></div>
+      <div class="stage complete"><span>✓</span><b>Current Climate State</b><small>Live ingestion complete</small></div>
+      <div class="stage active"><span>2</span><b>Pattern Evolution</b><small>Observed trajectories active</small></div>
       <div class="stage locked"><span>3</span><b>Precipitation Outlook</b><small>Research placeholder</small></div>
       <div class="stage locked"><span>4</span><b>Flash-Flood Outlook</b><small>Research placeholder</small></div>
     </nav>
@@ -74,13 +74,47 @@
           </article>
         </div>
 
-        <div class="lower-grid">
-          <article class="panel">
-            <div class="panel-title">Pattern Evolution</div>
-            <div class="panel-subtitle">Interface reserved for time series and authoritative indicator forecasts</div>
-            <div id="patternSummary" class="timeline"></div>
-          </article>
+        <article class="panel pattern-observed-panel">
+          <div class="panel-title-row pattern-header">
+            <div>
+              <div class="panel-title">Observed Pattern Evolution</div>
+              <div class="panel-subtitle">Recent climate-driver trajectories only — no hydroclimate prediction or impact inference</div>
+            </div>
+            <div class="pattern-actions">
+              <span class="badge observed">OBSERVED ONLY</span>
+              <div class="window-control" aria-label="Daily teleconnection display window">
+                <button class="window-btn" data-days="30">30D</button>
+                <button class="window-btn active" data-days="60">60D</button>
+                <button class="window-btn" data-days="90">90D</button>
+              </div>
+            </div>
+          </div>
+          <div class="pattern-chart-grid">
+            <section class="chart-card">
+              <div class="chart-title-row"><div><b>RONI / ENSO</b><span>Latest 24 overlapping seasons</span></div><strong id="roniLatest">—</strong></div>
+              <div id="roniChart" class="chart-host"></div>
+              <div id="roniStats" class="chart-stats"></div>
+            </section>
+            <section class="chart-card mjo-card">
+              <div class="chart-title-row"><div><b>MJO / RMM Phase Space</b><span>Recent 30-day observed trajectory</span></div><strong id="mjoLatest">—</strong></div>
+              <div id="mjoChart" class="chart-host phase-host"></div>
+              <div id="mjoStats" class="chart-stats"></div>
+            </section>
+            <section class="chart-card">
+              <div class="chart-title-row"><div><b>PNA</b><span id="pnaWindowLabel">Recent 60 days</span></div><strong id="pnaLatest">—</strong></div>
+              <div id="pnaChart" class="chart-host"></div>
+              <div id="pnaStats" class="chart-stats"></div>
+            </section>
+            <section class="chart-card">
+              <div class="chart-title-row"><div><b>NAO</b><span id="naoWindowLabel">Recent 60 days</span></div><strong id="naoLatest">—</strong></div>
+              <div id="naoChart" class="chart-host"></div>
+              <div id="naoStats" class="chart-stats"></div>
+            </section>
+          </div>
+          <div class="pattern-footnote">Observed trajectories are derived directly from the live historical archives already maintained by the dashboard. The MJO unit circle denotes RMM amplitude = 1.</div>
+        </article>
 
+        <div class="lower-grid phase2-lower">
           <article class="panel">
             <div class="panel-title">Historical Analogs</div>
             <div class="panel-subtitle">Engine interface created; analog ranking intentionally inactive</div>
@@ -102,7 +136,7 @@
     </main>
 
     <footer>
-      Experimental research dashboard foundation. Not an official NWS/WPC forecast product. Phase 1 contains monitoring interfaces and disabled prediction placeholders only.
+      Experimental research dashboard. Not an official NWS/WPC forecast product. Phase 2A adds observed climate-pattern trajectories; precipitation and flash-flood prediction layers remain disabled.
     </footer>
   </div>
   <script src="assets/js/app.js"></script>
