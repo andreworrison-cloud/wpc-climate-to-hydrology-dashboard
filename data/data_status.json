@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-31T14:38:02Z",
+  "generated_at": "2026-08-31T14:40:15Z",
   "overall_status": "current",
   "datasets": [
     {
       "name": "RONI / ENSO",
       "status": "live",
-      "checked_at": "2026-08-31T14:38:02Z",
+      "checked_at": "2026-08-31T14:40:15Z",
       "message": "Live \u2014 latest MJJ 2026: +0.98 \u00b0C",
       "source": "NOAA/CPC RONI (ERSSTv6)"
     },
