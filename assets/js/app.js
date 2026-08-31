@@ -20,7 +20,7 @@ const mjoPhaseColors={1:'#5ec8ff',2:'#54e0d0',3:'#6ee7a8',4:'#b9e769',5:'#f1d35d
 function mjoStateColor(phase, amplitude=1){ return Number(amplitude)>=1 ? (mjoPhaseColors[Number(phase)]||'#78dfff') : '#91a7b7'; }
 function semanticColorForDriver(d){
   if(d.id==='mjo_rmm') return mjoStateColor(d.phase,d.amplitude);
-  if(['roni_enso','pna','nao'].includes(d.id)) return signedStateColor(d.value,d.id==='roni_enso'?1.2:1.5);
+  if(['roni','pna','nao'].includes(d.id)) return signedStateColor(d.value,d.id==='roni'?1.2:1.5);
   return '#78dfff';
 }
 
