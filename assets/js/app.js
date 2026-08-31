@@ -77,7 +77,7 @@ function phaseSpaceSVG(rows){
     <text x="${W-9}" y="${cy+3}" text-anchor="end" class="phase-region">MARITIME CONTINENT</text>
     <text x="${cx}" y="${H-9}" text-anchor="middle" class="phase-region">INDIAN OCEAN</text>
     <text x="9" y="${cy-5}" class="phase-region">W. HEM.</text><text x="9" y="${cy+7}" class="phase-region">& AFRICA</text>
-    <text x="${W-18}" y="${cy-6}" text-anchor="end" class="chart-axis-label">+RMM1</text><text x="${cx+5}" y="18" class="chart-axis-label">+RMM2</text>
+    <text x="${W-18}" y="${cy-6}" text-anchor="end" class="chart-axis-label">+RMM1</text><text x="${cx+7}" y="${cy-edgeR-7}" class="chart-axis-label">+RMM2</text>
     <polyline points="${pts}" class="phase-trail"/>${points}
   </svg>`;
 }
