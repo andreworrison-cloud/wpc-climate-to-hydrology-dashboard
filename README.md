@@ -54,3 +54,9 @@ All forward-looking precipitation and flash-flood panels are intentionally marke
 Source: NOAA Climate Prediction Center ERSSTv6 Relative Oceanic Niño Index (RONI).
 
 The update workflow checks the source daily and writes the latest value to `data/climate_current.json` plus the full parsed record to `data/roni_history.json`. The dashboard treats the newest RONI as observational/provisional only; it does **not** convert RONI into precipitation or flash-flood guidance. NOAA/CPC notes that recent RONI values can be revised for up to two months.
+
+## Phase 1B — Live MJO/RMM
+
+Phase 1B adds daily observed Wheeler-Hendon RMM ingestion from the Australian Bureau of Meteorology. The dashboard stores RMM1, RMM2, phase, amplitude, phase-region metadata, and a historical archive in `data/mjo_history.json`. This is observational climate-state monitoring only; no hydroclimate outcome is inferred from the MJO state.
+
+The Pages workflow also listens for successful completion of `Update climate data`, so climate-data refreshes automatically redeploy the latest `main` branch to GitHub Pages.

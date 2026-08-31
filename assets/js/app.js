@@ -6,6 +6,21 @@ const loadJSON = async (path) => {
 
 const fmt = (value, suffix='') => value === null || value === undefined ? '—' : `${typeof value === 'number' && value > 0 ? '+' : ''}${value}${suffix}`;
 
+function driverMarkup(d){
+  if (d.id === 'mjo_rmm' && d.phase && d.amplitude !== null && d.amplitude !== undefined) {
+    return `<div class="driver-top"><span class="driver-name">${d.display_name}</span><span class="status-dot"></span></div>
+      <div class="driver-value">Phase ${d.phase} <span style="font-size:.58em;font-weight:700">• Amp ${Number(d.amplitude).toFixed(2)}</span></div>
+      <div class="driver-meta">${d.signal_strength || 'RMM signal'} • ${d.phase_region || ''}</div>
+      <div class="driver-meta">RMM1 ${Number(d.rmm1).toFixed(2)} • RMM2 ${Number(d.rmm2).toFixed(2)} • valid ${d.valid_time || '—'}</div>
+      <div class="driver-meta">Source: ${d.source_name}</div>`;
+  }
+  return `<div class="driver-top"><span class="driver-name">${d.display_name}</span><span class="status-dot"></span></div>
+    <div class="driver-value">${fmt(d.value, d.units ? ` ${d.units}` : '')}</div>
+    <div class="driver-meta">${d.state || 'Awaiting ingestion'} • valid ${d.valid_time || '—'}</div>
+    <div class="driver-meta">Source: ${d.source_name}</div>
+    ${d.provisional ? '<div class="driver-meta">Latest value is provisional / subject to CPC revision</div>' : ''}`;
+}
+
 async function boot(){
   const badge = document.getElementById('liveBadge');
   try {
@@ -24,11 +39,7 @@ async function boot(){
     climate.indicators.forEach(d => {
       const el = document.createElement('div');
       el.className = 'driver-card';
-      el.innerHTML = `<div class="driver-top"><span class="driver-name">${d.display_name}</span><span class="status-dot"></span></div>
-        <div class="driver-value">${fmt(d.value, d.units ? ` ${d.units}` : '')}</div>
-        <div class="driver-meta">${d.state || 'Awaiting ingestion'} • valid ${d.valid_time || '—'}</div>
-        <div class="driver-meta">Source: ${d.source_name}</div>
-        ${d.provisional ? '<div class="driver-meta">Latest value is provisional / subject to CPC revision</div>' : ''}`;
+      el.innerHTML = driverMarkup(d);
       driverCards.appendChild(el);
     });
 
