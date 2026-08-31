@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0",
+  "phase": "2B.3.1",
+  "generated_at": "2026-08-31T19:38:22Z",
+  "science_guardrail": "Machine-readable GEFS teleconnection forecasts only. Consensus score remains guarded until ECMWF structured evidence is added.",
+  "drivers": {
+    "pna": {
+      "driver": "pna",
+      "status": "live",
+      "latest_cycle": "2026-08-31",
+      "lead_unit_detected": "days",
+      "source_fields": [
+        "lead",
+        "member",
+        "time",
+        "pna_index",
+        "valid_time"
+      ],
+      "parsed_rows_latest_cycle": 496,
+      "unique_members_latest_cycle": 31,
+      "lead_summaries": [
+        {
+          "target_day": 5,
+          "actual_lead_day": 5.0,
+          "valid_date": "2026-09-05",
+          "members": 31,
+          "mean": 0.284,
+          "median": 0.281,
+          "stdev": 0.284,
+          "min": -0.338,
+          "max": 1.048,
+          "prob_positive": 0.871,
+          "prob_negative": 0.129,
+          "prob_abs_ge_1": 0.032
+        },
+        {
+          "target_day": 7,
+          "actual_lead_day": 7.0,
+          "valid_date": "2026-09-07",
+          "members": 31,
+          "mean": -0.077,
+          "median": -0.031,
+          "stdev": 0.436,
+          "min": -1.048,
+          "max": 0.762,
+          "prob_positive": 0.452,
+          "prob_negative": 0.548,
+          "prob_abs_ge_1": 0.032
+        },
+        {
+          "target_day": 10,
+          "actual_lead_day": 10.0,
+          "valid_date": "2026-09-10",
+          "members": 31,
+          "mean": 0.061,
+          "median": -0.1,
+          "stdev": 0.632,
+          "min": -1.066,
+          "max": 1.134,
+          "prob_positive": 0.452,
+          "prob_negative": 0.548,
+          "prob_abs_ge_1": 0.065
+        },
+        {
+          "target_day": 14,
+          "actual_lead_day": 14.0,
+          "valid_date": "2026-09-14",
+          "members": 31,
+          "mean": -0.277,
+          "median": -0.167,
+          "stdev": 0.8,
+          "min": -1.732,
+          "max": 1.035,
+          "prob_positive": 0.419,
+          "prob_negative": 0.581,
+          "prob_abs_ge_1": 0.258
+        }
+      ],
+      "source_name": "NOAA Climate Prediction Center / NCEP GEFS",
+      "source_url": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.pna.gefs.z500.120days.csv",
+      "retrieved_at": "2026-08-31T19:38:22Z",
+      "science_role": "Structured GEFS ensemble teleconnection input for Phase 2B.3 consensus; no precipitation or flash-flood inference."
+    },
+    "nao": {
+      "driver": "nao",
+      "status": "live",
+      "latest_cycle": "2026-08-31",
+      "lead_unit_detected": "days",
+      "source_fields": [
+        "lead",
+        "member",
+        "time",
+        "nao_index",
+        "valid_time"
+      ],
+      "parsed_rows_latest_cycle": 496,
+      "unique_members_latest_cycle": 31,
+      "lead_summaries": [
+        {
+          "target_day": 5,
+          "actual_lead_day": 5.0,
+          "valid_date": "2026-09-05",
+          "members": 31,
+          "mean": -0.522,
+          "median": -0.58,
+          "stdev": 0.357,
+          "min": -1.263,
+          "max": 0.239,
+          "prob_positive": 0.065,
+          "prob_negative": 0.935,
+          "prob_abs_ge_1": 0.097
+        },
+        {
+          "target_day": 7,
+          "actual_lead_day": 7.0,
+          "valid_date": "2026-09-07",
+          "members": 31,
+          "mean": -0.342,
+          "median": -0.252,
+          "stdev": 0.509,
+          "min": -1.624,
+          "max": 0.772,
+          "prob_positive": 0.194,
+          "prob_negative": 0.806,
+          "prob_abs_ge_1": 0.097
+        },
+        {
+          "target_day": 10,
+          "actual_lead_day": 10.0,
+          "valid_date": "2026-09-10",
+          "members": 31,
+          "mean": -0.286,
+          "median": -0.286,
+          "stdev": 0.637,
+          "min": -1.554,
+          "max": 1.279,
+          "prob_positive": 0.323,
+          "prob_negative": 0.677,
+          "prob_abs_ge_1": 0.161
+        },
+        {
+          "target_day": 14,
+          "actual_lead_day": 14.0,
+          "valid_date": "2026-09-14",
+          "members": 31,
+          "mean": -0.391,
+          "median": -0.382,
+          "stdev": 0.597,
+          "min": -1.451,
+          "max": 0.84,
+          "prob_positive": 0.29,
+          "prob_negative": 0.71,
+          "prob_abs_ge_1": 0.161
+        }
+      ],
+      "source_name": "NOAA Climate Prediction Center / NCEP GEFS",
+      "source_url": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.nao.gefs.z500.120days.csv",
+      "retrieved_at": "2026-08-31T19:38:22Z",
+      "science_role": "Structured GEFS ensemble teleconnection input for Phase 2B.3 consensus; no precipitation or flash-flood inference."
+    }
+  }
+}
