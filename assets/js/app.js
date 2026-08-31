@@ -117,16 +117,42 @@ function renderObservedPatterns(histories, days=60){
   }
 }
 
+
+function forecastCard(product){
+  const live=product?.status==='live' && product.image_path;
+  const statusClass=live?'ok':'warn';
+  const statusText=live?'LIVE GUIDANCE':'UNAVAILABLE';
+  const issue=product.issue_hint ? `Issue ${product.issue_hint}` : (product.last_modified ? `Source update ${product.last_modified}` : 'Latest available source product');
+  const image=live ? `<a class="forecast-image-link" href="${product.source_page}" target="_blank" rel="noopener"><img class="forecast-image" src="${product.image_path}?v=${encodeURIComponent(product.retrieved_at||'')}" alt="${product.name}" loading="lazy"></a>` : `<div class="forecast-unavailable">Forecast graphic unavailable on the latest source check.</div>`;
+  return `<section class="forecast-card">
+    <div class="forecast-card-head"><div><b>${product.name||'Forecast guidance'}</b><span>${product.model||'Authoritative source'}</span></div><span class="forecast-status ${statusClass}">${statusText}</span></div>
+    ${image}
+    <div class="forecast-meta-row"><span>${product.horizon||'—'}</span><span>${issue}</span></div>
+    <div class="forecast-note">${product.note||''}</div>
+    ${product.source_page ? `<a class="source-link" href="${product.source_page}" target="_blank" rel="noopener">NOAA/CPC source ↗</a>` : ''}
+  </section>`;
+}
+
+function renderForwardGuidance(forecast){
+  const grid=document.getElementById('forecastGrid');
+  if(!grid) return;
+  const order=['enso_probabilities','mjo_gefs','pna_gefs','nao_gefs'];
+  const products=forecast?.products||[];
+  const byId=Object.fromEntries(products.map(p=>[p.id,p]));
+  grid.innerHTML=order.map(id=>forecastCard(byId[id]||{id,name:id,status:'missing'})).join('');
+}
+
 async function boot(){
   const badge = document.getElementById('liveBadge');
   try {
-    const [climate, status, regions, histories] = await Promise.all([
+    const [climate, status, regions, histories, forecast] = await Promise.all([
       loadJSON('data/climate_current.json'),
       loadJSON('data/data_status.json'),
       loadJSON('data/ufvs_regions.json'),
       Promise.all([
         loadJSON('data/roni_history.json'), loadJSON('data/mjo_history.json'), loadJSON('data/pna_history.json'), loadJSON('data/nao_history.json')
-      ]).then(([roni,mjo,pna,nao])=>({roni,mjo,pna,nao}))
+      ]).then(([roni,mjo,pna,nao])=>({roni,mjo,pna,nao})),
+      loadJSON('data/forecast_status.json').catch(()=>({products:[],overall_status:'pending'}))
     ]);
 
     document.getElementById('lastUpdated').textContent = `Last updated: ${status.generated_at || '—'}`;
@@ -152,6 +178,7 @@ async function boot(){
     });
 
     renderObservedPatterns(histories,60);
+    renderForwardGuidance(forecast);
     document.querySelectorAll('.window-btn').forEach(btn=>btn.addEventListener('click',()=>{
       document.querySelectorAll('.window-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderObservedPatterns(histories,Number(btn.dataset.days));
     }));

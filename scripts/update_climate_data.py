@@ -18,6 +18,7 @@ import math
 from pathlib import Path
 import time
 import urllib.request
+import urllib.error
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -27,6 +28,8 @@ RONI_HISTORY = DATA / "roni_history.json"
 MJO_HISTORY = DATA / "mjo_history.json"
 PNA_HISTORY = DATA / "pna_history.json"
 NAO_HISTORY = DATA / "nao_history.json"
+FORECAST_DIR = DATA / "forecasts"
+FORECAST_STATUS = DATA / "forecast_status.json"
 
 RONI_URL = "https://www.cpc.ncep.noaa.gov/data/indices/RONI.ascii.txt"
 RONI_PAGE = "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/"
@@ -39,6 +42,14 @@ PNA_PAGE = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna.shtml"
 NAO_URL = "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.nao.cdas.z500.19500101_current.csv"
 NAO_FALLBACK_URL = "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.nao.index.b500101.current.ascii"
 NAO_PAGE = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.shtml"
+ENSO_FORECAST_PAGE = "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml"
+MJO_FORECAST_URL = "https://www.cpc.ncep.noaa.gov/products/precip/mjo/img/GEFS_BC.png"
+MJO_FORECAST_PAGE = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/MJO/foregfs.shtml"
+PNA_FORECAST_URL = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna.gefs.sprd2.png"
+PNA_FORECAST_PAGE = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna_index_ensm.shtml"
+NAO_FORECAST_URL = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.gefs.sprd2.png"
+NAO_FORECAST_PAGE = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao_index_ensm.shtml"
+
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36"
 
 
@@ -68,6 +79,113 @@ def fetch_text(url: str, attempts: int = 3, referer: str | None = None) -> str:
     assert last_error is not None
     raise last_error
 
+
+
+def fetch_binary(url: str, attempts: int = 3, referer: str | None = None) -> tuple[bytes, dict]:
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Cache-Control": "no-cache",
+    }
+    if referer:
+        headers["Referer"] = referer
+    last_error: Exception | None = None
+    for attempt in range(1, attempts + 1):
+        try:
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=45) as response:
+                payload = response.read()
+                meta = {k.lower(): v for k, v in response.headers.items()}
+            if len(payload) < 5000:
+                raise ValueError(f"Image response unexpectedly small ({len(payload)} bytes)")
+            if not (payload.startswith(b"\x89PNG") or payload.startswith(b"GIF8") or payload.startswith(b"\xff\xd8")):
+                raise ValueError("Response is not a recognized PNG/GIF/JPEG image")
+            return payload, meta
+        except Exception as exc:
+            last_error = exc
+            if attempt < attempts:
+                time.sleep(4 * attempt)
+    assert last_error is not None
+    raise last_error
+
+
+def month_candidates(now: datetime, count: int = 3) -> list[tuple[int, int]]:
+    out = []
+    y, m = now.year, now.month
+    for _ in range(count):
+        out.append((y, m))
+        m -= 1
+        if m == 0:
+            m, y = 12, y - 1
+    return out
+
+
+def update_forward_guidance(retrieved_at: str) -> list[str]:
+    """Cache authoritative climate-driver forecast graphics for Phase 2B.
+
+    These are source guidance products only. The dashboard does not translate
+    them into precipitation or flash-flood impacts in Phase 2B.
+    """
+    FORECAST_DIR.mkdir(parents=True, exist_ok=True)
+    now = datetime.now(timezone.utc)
+    products: list[dict] = []
+    failures: list[str] = []
+
+    # Official NOAA/CPC RONI-based ENSO probability graphic. CPC archives these
+    # by issue month; try the current month, then recent months so the workflow
+    # remains healthy before a new monthly outlook is posted.
+    enso_ok = False
+    for year, month in month_candidates(now, 3):
+        url = f"https://www.cpc.ncep.noaa.gov/archives/enso/roni/images/{year}/enso-probs-{month:02d}{year}.png"
+        try:
+            payload, meta = fetch_binary(url, referer=ENSO_FORECAST_PAGE)
+            (FORECAST_DIR / "enso_probabilities.png").write_bytes(payload)
+            products.append({
+                "id": "enso_probabilities", "name": "ENSO / RONI probabilities",
+                "status": "live", "horizon": "Seasonal", "model": "Official NOAA/CPC consensus",
+                "source_name": "NOAA Climate Prediction Center", "source_page": ENSO_FORECAST_PAGE,
+                "image_path": "data/forecasts/enso_probabilities.png", "image_source": url,
+                "issue_hint": f"{year}-{month:02d}", "retrieved_at": retrieved_at,
+                "last_modified": meta.get("last-modified"),
+                "note": "Official CPC ENSO probabilities based on ERSSTv6 RONI thresholds."
+            })
+            enso_ok = True
+            break
+        except Exception as exc:
+            last_enso_exc = exc
+    if not enso_ok:
+        failures.append(f"ENSO forecast: {type(last_enso_exc).__name__}: {last_enso_exc}")
+        products.append({"id":"enso_probabilities","name":"ENSO / RONI probabilities","status":"fetch_error","retrieved_at":retrieved_at})
+
+    fixed = [
+        ("mjo_gefs", "MJO / RMM GEFS forecast", "15 days", "NOAA/NCEP GEFSv12 (bias corrected)", MJO_FORECAST_URL, MJO_FORECAST_PAGE, "mjo_gefs.png", "CPC Wheeler-Hendon RMM ensemble forecast."),
+        ("pna_gefs", "PNA GEFS outlook", "7 / 10 / 14 days", "NOAA/NCEP GEFS", PNA_FORECAST_URL, PNA_FORECAST_PAGE, "pna_gefs.png", "CPC standardized PNA ensemble outlook with 3-day running mean."),
+        ("nao_gefs", "NAO GEFS outlook", "7 / 10 / 14 days", "NOAA/NCEP GEFS", NAO_FORECAST_URL, NAO_FORECAST_PAGE, "nao_gefs.png", "CPC standardized NAO ensemble outlook with 3-day running mean."),
+    ]
+    for pid, name, horizon, model, url, page, filename, note in fixed:
+        try:
+            payload, meta = fetch_binary(url, referer=page)
+            (FORECAST_DIR / filename).write_bytes(payload)
+            products.append({
+                "id": pid, "name": name, "status": "live", "horizon": horizon, "model": model,
+                "source_name": "NOAA Climate Prediction Center", "source_page": page,
+                "image_path": f"data/forecasts/{filename}", "image_source": url,
+                "retrieved_at": retrieved_at, "last_modified": meta.get("last-modified"), "note": note,
+            })
+        except Exception as exc:
+            failures.append(f"{name}: {type(exc).__name__}: {exc}")
+            products.append({"id":pid,"name":name,"status":"fetch_error","retrieved_at":retrieved_at})
+
+    FORECAST_STATUS.write_text(json.dumps({
+        "schema_version": "1.0", "phase": "2B", "generated_at": retrieved_at,
+        "overall_status": "current" if not failures else "degraded",
+        "science_guardrail": "Authoritative climate-driver forecasts only; no precipitation or flash-flood inference is enabled.",
+        "products": products,
+    }, indent=2) + "\n", encoding="utf-8")
+    for p in products:
+        print(f'FORECAST {p["id"]}: {p["status"]}')
+    return failures
 
 def parse_roni(text: str) -> list[dict]:
     rows: list[dict] = []
@@ -452,6 +570,12 @@ def main() -> None:
             record_error(status, name, retrieved_at, exc)
             failures.append(f"{name}: {type(exc).__name__}: {exc}")
 
+    # Phase 2B: cache authoritative forward climate-driver guidance. Forecast
+    # retrieval failures degrade the forecast panel but do not erase observed data.
+    forecast_failures = update_forward_guidance(retrieved_at)
+    if forecast_failures:
+        print("Forward-guidance warnings: " + " | ".join(forecast_failures))
+
     climate["generated_at"] = retrieved_at
     status["generated_at"] = retrieved_at
     status["overall_status"] = "current" if not failures else "degraded"
@@ -460,7 +584,7 @@ def main() -> None:
 
     if failures:
         raise SystemExit("\n".join(failures))
-    print("Phase 1D live climate ingestion complete.")
+    print("Phase 2B observed + authoritative forward climate guidance update complete.")
 
 
 if __name__ == "__main__":

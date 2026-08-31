@@ -13,6 +13,7 @@ REQUIRED = {
     "mjo_history.json": ["schema_version", "indicator", "values"],
     "pna_history.json": ["schema_version", "indicator", "values"],
     "nao_history.json": ["schema_version", "indicator", "values"],
+    "forecast_status.json": ["schema_version", "products", "science_guardrail"],
 }
 
 
@@ -84,9 +85,22 @@ def main() -> None:
     elif not all(k in nao_values[-1] for k in ("date", "value")):
         errors.append("nao_history.json: latest row malformed")
 
+
+    forecast = loaded.get("forecast_status.json", {})
+    products = forecast.get("products", [])
+    expected = {"enso_probabilities", "mjo_gefs", "pna_gefs", "nao_gefs"}
+    found = {x.get("id") for x in products}
+    if not expected.issubset(found):
+        errors.append(f"forecast_status.json: missing forecast products {sorted(expected-found)}")
+    for product in products:
+        if product.get("status") == "live":
+            image_path = product.get("image_path")
+            if not image_path or not (ROOT / image_path).exists():
+                errors.append(f"forecast_status.json: live product {product.get('id')} has no cached image")
+
     if errors:
         raise SystemExit("\n".join(errors))
-    print("Phase 1D data interfaces validated successfully; live RONI, MJO/RMM, PNA, and NAO are active.")
+    print("Phase 2B interfaces validated successfully; observed drivers and authoritative forward guidance are active.")
 
 
 if __name__ == "__main__":

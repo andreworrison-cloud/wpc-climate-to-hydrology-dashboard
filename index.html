@@ -22,7 +22,7 @@
 
     <nav class="stagebar" aria-label="Dashboard stages">
       <div class="stage complete"><span>✓</span><b>Current Climate State</b><small>Live ingestion complete</small></div>
-      <div class="stage active"><span>2</span><b>Pattern Evolution</b><small>Observed trajectories active</small></div>
+      <div class="stage active"><span>2</span><b>Pattern Evolution</b><small>Observed + authoritative forecasts active</small></div>
       <div class="stage locked"><span>3</span><b>Precipitation Outlook</b><small>Research placeholder</small></div>
       <div class="stage locked"><span>4</span><b>Flash-Flood Outlook</b><small>Research placeholder</small></div>
     </nav>
@@ -114,6 +114,24 @@
           <div class="pattern-footnote">Observed trajectories are derived directly from the live historical archives already maintained by the dashboard. The MJO unit circle denotes RMM amplitude = 1.</div>
         </article>
 
+
+
+        <article class="panel pattern-forward-panel">
+          <div class="panel-title-row pattern-header">
+            <div>
+              <div class="panel-title">Forward Pattern Evolution</div>
+              <div class="panel-subtitle">Authoritative source guidance for the climate drivers themselves — no precipitation or flash-flood impact inference</div>
+            </div>
+            <div class="pattern-actions">
+              <span class="badge forecast">SOURCE GUIDANCE</span>
+            </div>
+          </div>
+          <div id="forecastGrid" class="forecast-grid">
+            <div class="empty-state">Awaiting cached authoritative forecast guidance from the next climate-data workflow.</div>
+          </div>
+          <div class="pattern-footnote">Forecast graphics are cached from NOAA/CPC so the dashboard preserves provenance and avoids browser-side cross-origin dependencies. These products describe expected climate-driver evolution only.</div>
+        </article>
+
         <div class="lower-grid phase2-lower">
           <article class="panel">
             <div class="panel-title">Historical Analogs</div>
@@ -136,7 +154,7 @@
     </main>
 
     <footer>
-      Experimental research dashboard. Not an official NWS/WPC forecast product. Phase 2A adds observed climate-pattern trajectories; precipitation and flash-flood prediction layers remain disabled.
+      Experimental research dashboard. Not an official NWS/WPC forecast product. Phase 2B adds authoritative forward climate-driver guidance; precipitation and flash-flood prediction layers remain disabled.
     </footer>
   </div>
   <script src="assets/js/app.js"></script>
