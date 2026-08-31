@@ -129,14 +129,14 @@ function forecastCard(product){
     ${image}
     <div class="forecast-meta-row"><span>${product.horizon||'—'}</span><span>${issue}</span></div>
     <div class="forecast-note">${product.note||''}</div>
-    ${product.source_page ? `<a class="source-link" href="${product.source_page}" target="_blank" rel="noopener">NOAA/CPC source ↗</a>` : ''}
+    ${product.source_page ? `<a class="source-link" href="${product.source_page}" target="_blank" rel="noopener">${String(product.source_name||'Source').includes('ECMWF')?'ECMWF source':'NOAA/CPC source'} ↗</a>` : ''}
   </section>`;
 }
 
 function renderForwardGuidance(forecast){
   const grid=document.getElementById('forecastGrid');
   if(!grid) return;
-  const order=['enso_probabilities','mjo_gefs','pna_gefs','nao_gefs'];
+  const order=['enso_probabilities','mjo_gefs','mjo_ecmwf_ifs_subseasonal_ens','pna_gefs','nao_gefs'];
   const products=forecast?.products||[];
   const byId=Object.fromEntries(products.map(p=>[p.id,p]));
   grid.innerHTML=order.map(id=>forecastCard(byId[id]||{id,name:id,status:'missing'})).join('');

@@ -120,16 +120,16 @@
           <div class="panel-title-row pattern-header">
             <div>
               <div class="panel-title">Forward Pattern Evolution</div>
-              <div class="panel-subtitle">Authoritative source guidance for the climate drivers themselves — no precipitation or flash-flood impact inference</div>
+              <div class="panel-subtitle">Multi-model source guidance for climate-driver evolution — no precipitation or flash-flood impact inference</div>
             </div>
             <div class="pattern-actions">
-              <span class="badge forecast">SOURCE GUIDANCE</span>
+              <span class="badge forecast">GEFS + ECMWF GUIDANCE</span>
             </div>
           </div>
           <div id="forecastGrid" class="forecast-grid">
             <div class="empty-state">Awaiting cached authoritative forecast guidance from the next climate-data workflow.</div>
           </div>
-          <div class="pattern-footnote">Forecast graphics are cached from NOAA/CPC so the dashboard preserves provenance and avoids browser-side cross-origin dependencies. These products describe expected climate-driver evolution only.</div>
+          <div class="pattern-footnote">Forecast graphics are cached from NOAA/CPC and ECMWF OpenCharts so the dashboard preserves provenance and avoids browser-side cross-origin dependencies. ECMWF MJO guidance is explicitly the IFS Sub-seasonal Ensemble (100 perturbed members + 1 control), not the standalone IFS Control Forecast. These products describe expected climate-driver evolution only.</div>
         </article>
 
         <div class="lower-grid phase2-lower">
@@ -154,7 +154,7 @@
     </main>
 
     <footer>
-      Experimental research dashboard. Not an official NWS/WPC forecast product. Phase 2B adds authoritative forward climate-driver guidance; precipitation and flash-flood prediction layers remain disabled.
+      Experimental research dashboard. Not an official NWS/WPC forecast product. Phase 2B.1 adds ECMWF IFS Sub-seasonal Ensemble MJO guidance alongside GEFS; precipitation and flash-flood prediction layers remain disabled.
     </footer>
   </div>
   <script src="assets/js/app.js"></script>

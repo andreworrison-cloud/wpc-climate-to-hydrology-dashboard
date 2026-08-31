@@ -1,42 +1,31 @@
-# Phase 2B — Forward Pattern Evolution
+# Phase 2B.1 — ECMWF MJO Integration
 
-This patch adds **authoritative forward climate-driver guidance** to the WPC Climate-to-Hydrology Prediction Dashboard while preserving all Phase 1 and Phase 2A functionality.
+This incremental patch adds ECMWF MJO guidance alongside the existing NOAA/NCEP GEFS guidance.
 
-## Replace these files
+## Scientific/model labeling
+
+The ECMWF MJO product is explicitly labeled:
+
+**ECMWF IFS Sub-seasonal Ensemble — 100 perturbed members + 1 control**
+
+It is **not** presented as the standalone IFS Control Forecast (ex-HRES / IFS-CF). The cached product is ECMWF's Wheeler–Hendon MJO phase-space guidance derived from the IFS sub-seasonal ensemble.
+
+## Files to replace
 
 - `index.html`
-- `assets/css/styles.css`
 - `assets/js/app.js`
 - `scripts/update_climate_data.py`
 - `scripts/validate_data.py`
-- `.github/workflows/update-climate-data.yml`
 
-## What Phase 2B adds
+## New runtime output
 
-The daily climate-data workflow now caches four authoritative forecast graphics under `data/forecasts/` and creates `data/forecast_status.json`:
+After a successful climate-data workflow, the repository should contain:
 
-1. **ENSO / RONI probabilities** — official NOAA/CPC RONI-based seasonal ENSO probability graphic.
-2. **MJO / RMM** — NOAA/CPC bias-corrected GEFSv12 Wheeler-Hendon RMM phase-space forecast (15 days).
-3. **PNA** — NOAA/CPC GEFS standardized PNA outlook (7-, 10-, and 14-day panels).
-4. **NAO** — NOAA/CPC GEFS standardized NAO outlook (7-, 10-, and 14-day panels).
+- `data/forecasts/mjo_ecmwf_ifs_subseasonal_ens.png`
+- an `mjo_ecmwf_ifs_subseasonal_ens` entry in `data/forecast_status.json`
 
-The frontend adds a new **Forward Pattern Evolution** section below Observed Pattern Evolution. Forecast graphics are cached into the repository rather than loaded directly from upstream websites.
+The ECMWF image is resolved via the official OpenCharts API rather than scraping the human-facing charts page.
 
-## Science guardrail
+## Guardrail
 
-These products describe forecast evolution of the climate drivers themselves. Phase 2B does **not** translate the guidance into precipitation, flash-flood, MPD, FFW, FFE, or UFVS impact signals. Those layers remain disabled.
-
-## Installation / first run
-
-1. Upload the six replacement files to the matching paths in the existing repository and commit them.
-2. Suggested commit message: `Add Phase 2B forward pattern evolution guidance`
-3. Go to **Actions → Update climate data → Run workflow**.
-4. A successful run should create:
-   - `data/forecast_status.json`
-   - `data/forecasts/enso_probabilities.png`
-   - `data/forecasts/mjo_gefs.png`
-   - `data/forecasts/pna_gefs.png`
-   - `data/forecasts/nao_gefs.png`
-5. The existing Pages handoff should redeploy the dashboard automatically.
-
-A transient forecast-image fetch failure is recorded as degraded forecast guidance but does not intentionally destroy the live observed climate-driver layer.
+This phase compares climate-driver source guidance only. It does not infer precipitation, MPD, FFW, FFE, or flash-flood impacts, and no model-consensus score is calculated yet. Consensus is reserved for Phase 2B.3.

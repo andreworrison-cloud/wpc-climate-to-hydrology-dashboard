@@ -88,7 +88,7 @@ def main() -> None:
 
     forecast = loaded.get("forecast_status.json", {})
     products = forecast.get("products", [])
-    expected = {"enso_probabilities", "mjo_gefs", "pna_gefs", "nao_gefs"}
+    expected = {"enso_probabilities", "mjo_gefs", "mjo_ecmwf_ifs_subseasonal_ens", "pna_gefs", "nao_gefs"}
     found = {x.get("id") for x in products}
     if not expected.issubset(found):
         errors.append(f"forecast_status.json: missing forecast products {sorted(expected-found)}")
@@ -100,7 +100,7 @@ def main() -> None:
 
     if errors:
         raise SystemExit("\n".join(errors))
-    print("Phase 2B interfaces validated successfully; observed drivers and authoritative forward guidance are active.")
+    print("Phase 2B.1 interfaces validated successfully; GEFS and ECMWF MJO source guidance interfaces are active.")
 
 
 if __name__ == "__main__":

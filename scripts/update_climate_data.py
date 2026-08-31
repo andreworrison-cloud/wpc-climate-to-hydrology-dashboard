@@ -49,6 +49,8 @@ PNA_FORECAST_URL = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna
 PNA_FORECAST_PAGE = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna_index_ensm.shtml"
 NAO_FORECAST_URL = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.gefs.sprd2.png"
 NAO_FORECAST_PAGE = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao_index_ensm.shtml"
+ECMWF_MJO_API = "https://charts.ecmwf.int/opencharts-api/v1/products/mofc_multi_mjo_family_index/"
+ECMWF_MJO_PAGE = "https://charts.ecmwf.int/products/mofc_multi_mjo_family_index"
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36"
 
@@ -102,6 +104,34 @@ def fetch_binary(url: str, attempts: int = 3, referer: str | None = None) -> tup
             if not (payload.startswith(b"\x89PNG") or payload.startswith(b"GIF8") or payload.startswith(b"\xff\xd8")):
                 raise ValueError("Response is not a recognized PNG/GIF/JPEG image")
             return payload, meta
+        except Exception as exc:
+            last_error = exc
+            if attempt < attempts:
+                time.sleep(4 * attempt)
+    assert last_error is not None
+    raise last_error
+
+
+def fetch_json(url: str, attempts: int = 3, referer: str | None = None) -> tuple[dict, dict]:
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Accept": "application/json,text/plain;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Cache-Control": "no-cache",
+    }
+    if referer:
+        headers["Referer"] = referer
+    last_error: Exception | None = None
+    for attempt in range(1, attempts + 1):
+        try:
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=45) as response:
+                payload = response.read().decode("utf-8", errors="replace")
+                meta = {k.lower(): v for k, v in response.headers.items()}
+            obj = json.loads(payload)
+            if not isinstance(obj, dict):
+                raise ValueError("JSON response is not an object")
+            return obj, meta
         except Exception as exc:
             last_error = exc
             if attempt < attempts:
@@ -177,8 +207,51 @@ def update_forward_guidance(retrieved_at: str) -> list[str]:
             failures.append(f"{name}: {type(exc).__name__}: {exc}")
             products.append({"id":pid,"name":name,"status":"fetch_error","retrieved_at":retrieved_at})
 
+    # Phase 2B.1: ECMWF IFS sub-seasonal ensemble MJO guidance.
+    # ECMWF OpenCharts exposes a JSON API whose data.link.href points to the
+    # latest rendered MJO phase-space PNG.  This is ensemble guidance: 100
+    # perturbed members plus one unperturbed control member.  It is not the
+    # standalone IFS Control Forecast (ex-HRES).
+    try:
+        api_data, api_meta = fetch_json(ECMWF_MJO_API, referer=ECMWF_MJO_PAGE)
+        data_obj = api_data.get("data", {})
+        image_url = data_obj.get("link", {}).get("href")
+        attrs = data_obj.get("attributes", {})
+        if not image_url or not str(image_url).startswith("https://"):
+            raise ValueError("ECMWF OpenCharts API did not return an image link")
+        payload, img_meta = fetch_binary(str(image_url), referer=ECMWF_MJO_PAGE)
+        (FORECAST_DIR / "mjo_ecmwf_ifs_subseasonal_ens.png").write_bytes(payload)
+        description = str(attrs.get("description") or "").strip()
+        products.append({
+            "id": "mjo_ecmwf_ifs_subseasonal_ens",
+            "name": "MJO / RMM ECMWF ensemble forecast",
+            "status": "live",
+            "horizon": "Sub-seasonal; ensemble mean shown through Day 46",
+            "model": "ECMWF IFS Sub-seasonal Ensemble — 100 perturbed + 1 control",
+            "source_name": "ECMWF OpenCharts",
+            "source_page": ECMWF_MJO_PAGE,
+            "image_path": "data/forecasts/mjo_ecmwf_ifs_subseasonal_ens.png",
+            "image_source": str(image_url),
+            "retrieved_at": retrieved_at,
+            "last_modified": img_meta.get("last-modified") or api_meta.get("last-modified"),
+            "issue_hint": description if description else None,
+            "note": "ECMWF Wheeler–Hendon MJO guidance from the IFS sub-seasonal ensemble. This is probabilistic ensemble guidance, not the standalone IFS Control Forecast.",
+        })
+    except Exception as exc:
+        failures.append(f"ECMWF MJO ensemble forecast: {type(exc).__name__}: {exc}")
+        products.append({
+            "id": "mjo_ecmwf_ifs_subseasonal_ens",
+            "name": "MJO / RMM ECMWF ensemble forecast",
+            "status": "fetch_error",
+            "model": "ECMWF IFS Sub-seasonal Ensemble — 100 perturbed + 1 control",
+            "source_name": "ECMWF OpenCharts",
+            "source_page": ECMWF_MJO_PAGE,
+            "retrieved_at": retrieved_at,
+            "note": "Latest ECMWF ensemble MJO graphic could not be cached; observed climate ingestion remains active.",
+        })
+
     FORECAST_STATUS.write_text(json.dumps({
-        "schema_version": "1.0", "phase": "2B", "generated_at": retrieved_at,
+        "schema_version": "1.0", "phase": "2B.1", "generated_at": retrieved_at,
         "overall_status": "current" if not failures else "degraded",
         "science_guardrail": "Authoritative climate-driver forecasts only; no precipitation or flash-flood inference is enabled.",
         "products": products,
@@ -584,7 +657,7 @@ def main() -> None:
 
     if failures:
         raise SystemExit("\n".join(failures))
-    print("Phase 2B observed + authoritative forward climate guidance update complete.")
+    print("Phase 2B.1 observed + GEFS/ECMWF forward climate guidance update complete.")
 
 
 if __name__ == "__main__":
