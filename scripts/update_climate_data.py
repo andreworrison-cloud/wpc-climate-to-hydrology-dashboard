@@ -1,11 +1,12 @@
 """Live climate-data ingestion for the WPC Climate-to-Hydrology Dashboard.
 
-Phase 1C activates three observed climate indicators:
+Phase 1D activates four observed climate indicators:
   * NOAA/CPC ERSSTv6 Relative Oceanic Nino Index (RONI)
   * Bureau of Meteorology Wheeler-Hendon Realtime Multivariate MJO (RMM)
   * NOAA/CPC daily Pacific-North American (PNA) teleconnection index
+  * NOAA/CPC daily North Atlantic Oscillation (NAO) teleconnection index
 
-NAO remains an interface placeholder until its source adapter is validated. No precipitation or flash-flood prediction is inferred here.
+No precipitation or flash-flood prediction is inferred here.
 """
 from __future__ import annotations
 
@@ -25,6 +26,7 @@ STATUS = DATA / "data_status.json"
 RONI_HISTORY = DATA / "roni_history.json"
 MJO_HISTORY = DATA / "mjo_history.json"
 PNA_HISTORY = DATA / "pna_history.json"
+NAO_HISTORY = DATA / "nao_history.json"
 
 RONI_URL = "https://www.cpc.ncep.noaa.gov/data/indices/RONI.ascii.txt"
 RONI_PAGE = "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/"
@@ -34,6 +36,9 @@ MJO_PAGE = "https://www.bom.gov.au/climate/mjo/"
 PNA_URL = "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.pna.cdas.z500.19500101_current.csv"
 PNA_FALLBACK_URL = "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.pna.index.b500101.current.ascii"
 PNA_PAGE = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna.shtml"
+NAO_URL = "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.nao.cdas.z500.19500101_current.csv"
+NAO_FALLBACK_URL = "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.nao.index.b500101.current.ascii"
+NAO_PAGE = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.shtml"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36"
 
 
@@ -201,6 +206,14 @@ def pna_state(value: float) -> str:
     if value < -0.10:
         return "Negative PNA index"
     return "Near-zero PNA index"
+
+
+def nao_state(value: float) -> str:
+    if value > 0.10:
+        return "Positive NAO index"
+    if value < -0.10:
+        return "Negative NAO index"
+    return "Near-zero NAO index"
 
 
 def roni_state(value: float) -> str:
@@ -375,6 +388,49 @@ def update_pna(climate: dict, status: dict, retrieved_at: str) -> None:
     print(f'PNA: {latest["date"]} {value:+.3f} σ')
 
 
+def update_nao(climate: dict, status: dict, retrieved_at: str) -> None:
+    source_url = NAO_URL
+    try:
+        text = fetch_text(NAO_URL, referer=NAO_PAGE)
+    except Exception as primary_exc:
+        print(f"NAO primary endpoint failed ({type(primary_exc).__name__}: {primary_exc}); trying legacy fallback...")
+        source_url = NAO_FALLBACK_URL
+        text = fetch_text(NAO_FALLBACK_URL, referer=NAO_PAGE)
+
+    # CPC's NAO and PNA daily files use the same current/legacy layout.
+    rows = parse_pna(text)
+    latest = rows[-1]
+    value = latest["value"]
+    indicator(climate, "nao").update({
+        "value": round(value, 3),
+        "units": "σ",
+        "state": nao_state(value),
+        "valid_time": latest["date"],
+        "source_name": "NOAA Climate Prediction Center — Daily NAO Index (CDAS 500-hPa)",
+        "source_url": NAO_PAGE,
+        "data_url": source_url,
+        "retrieved_at": retrieved_at,
+        "freshness_hours": 72,
+        "provisional": False,
+        "note": "Observed standardized daily NAO index only; no precipitation or flash-flood implication is inferred."
+    })
+    NAO_HISTORY.write_text(json.dumps({
+        "schema_version": "1.0",
+        "indicator": "nao",
+        "source_name": "NOAA Climate Prediction Center — Daily NAO Index (CDAS 500-hPa)",
+        "source_url": NAO_PAGE,
+        "data_url": source_url,
+        "retrieved_at": retrieved_at,
+        "values": rows,
+    }, indent=2) + "\n", encoding="utf-8")
+    dataset(status, "NAO").update({
+        "status": "live", "checked_at": retrieved_at,
+        "message": f'Live — {latest["date"]}: {value:+.3f} σ',
+        "source": "NOAA/CPC daily NAO index"
+    })
+    print(f'NAO: {latest["date"]} {value:+.3f} σ')
+
+
 def record_error(status: dict, dataset_name: str, retrieved_at: str, exc: Exception) -> None:
     dataset(status, dataset_name).update({
         "status": "fetch_error",
@@ -389,7 +445,7 @@ def main() -> None:
     status = json.loads(STATUS.read_text(encoding="utf-8"))
     failures: list[str] = []
 
-    for name, fn in (("RONI / ENSO", update_roni), ("MJO / RMM", update_mjo), ("PNA", update_pna)):
+    for name, fn in (("RONI / ENSO", update_roni), ("MJO / RMM", update_mjo), ("PNA", update_pna), ("NAO", update_nao)):
         try:
             fn(climate, status, retrieved_at)
         except Exception as exc:
@@ -404,7 +460,7 @@ def main() -> None:
 
     if failures:
         raise SystemExit("\n".join(failures))
-    print("Phase 1C live climate ingestion complete.")
+    print("Phase 1D live climate ingestion complete.")
 
 
 if __name__ == "__main__":

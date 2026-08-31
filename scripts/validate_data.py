@@ -12,6 +12,7 @@ REQUIRED = {
     "roni_history.json": ["schema_version", "indicator", "values"],
     "mjo_history.json": ["schema_version", "indicator", "values"],
     "pna_history.json": ["schema_version", "indicator", "values"],
+    "nao_history.json": ["schema_version", "indicator", "values"],
 }
 
 
@@ -34,6 +35,7 @@ def main() -> None:
     roni = next((x for x in climate.get("indicators", []) if x.get("id") == "roni"), None)
     mjo = next((x for x in climate.get("indicators", []) if x.get("id") == "mjo_rmm"), None)
     pna = next((x for x in climate.get("indicators", []) if x.get("id") == "pna"), None)
+    nao = next((x for x in climate.get("indicators", []) if x.get("id") == "nao"), None)
 
     if not roni or not isinstance(roni.get("value"), (int, float)):
         errors.append("climate_current.json: live RONI value missing/non-numeric")
@@ -55,6 +57,11 @@ def main() -> None:
     elif "NOAA Climate Prediction Center" not in pna.get("source_name", ""):
         errors.append("climate_current.json: PNA source provenance missing")
 
+    if not nao or not isinstance(nao.get("value"), (int, float)):
+        errors.append("climate_current.json: live NAO value missing/non-numeric")
+    elif "NOAA Climate Prediction Center" not in nao.get("source_name", ""):
+        errors.append("climate_current.json: NAO source provenance missing")
+
     roni_values = loaded.get("roni_history.json", {}).get("values", [])
     if len(roni_values) < 100:
         errors.append("roni_history.json: unexpectedly short historical record")
@@ -71,9 +78,15 @@ def main() -> None:
     elif not all(k in pna_values[-1] for k in ("date", "value")):
         errors.append("pna_history.json: latest row malformed")
 
+    nao_values = loaded.get("nao_history.json", {}).get("values", [])
+    if len(nao_values) < 1000:
+        errors.append("nao_history.json: unexpectedly short historical record")
+    elif not all(k in nao_values[-1] for k in ("date", "value")):
+        errors.append("nao_history.json: latest row malformed")
+
     if errors:
         raise SystemExit("\n".join(errors))
-    print("Phase 1C data interfaces validated successfully; live RONI, MJO/RMM, and PNA are active.")
+    print("Phase 1D data interfaces validated successfully; live RONI, MJO/RMM, PNA, and NAO are active.")
 
 
 if __name__ == "__main__":

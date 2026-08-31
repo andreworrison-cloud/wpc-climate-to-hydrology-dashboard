@@ -1,20 +1,20 @@
-# Phase 1C — Live PNA ingestion
+# Phase 1D — Live NAO Ingestion
 
-Replace the matching files in the existing `wpc-climate-to-hydrology-dashboard` repository.
+This patch activates the NOAA Climate Prediction Center daily North Atlantic Oscillation (NAO) index while preserving the working Phase 1A–1C RONI, MJO/RMM, and PNA adapters.
 
-## Files in this patch
+## Replace these files
 
 - `.github/workflows/update-climate-data.yml`
 - `scripts/update_climate_data.py`
 - `scripts/validate_data.py`
 
-## What Phase 1C adds
+## New generated file
 
-- NOAA/CPC daily Pacific-North American (PNA) index ingestion.
-- Primary source: CPC's current CDAS 500-hPa CSV feed.
-- Fallback source: CPC's legacy daily PNA ASCII feed.
-- Automatic `data/pna_history.json` creation.
-- Live PNA value, sign/state, valid date, provenance, and data-health status.
-- No hydroclimate or flash-flood prediction is inferred from PNA in this phase.
+A successful workflow run will create `data/nao_history.json` and update `data/climate_current.json` plus `data/data_status.json`.
 
-After committing, manually run **Actions → Update climate data → Run workflow** once. A successful run should update RONI, MJO/RMM, and PNA, create `data/pna_history.json`, commit the refreshed data, and automatically trigger GitHub Pages deployment.
+## Source
+
+Primary: NOAA/CPC CDAS daily NAO CSV (`norm.daily.nao.cdas.z500.19500101_current.csv`).
+Fallback: legacy CPC daily NAO ASCII feed.
+
+The dashboard presents the observed standardized daily NAO index only. No precipitation or flash-flood implication is inferred by this Phase 1D adapter.
