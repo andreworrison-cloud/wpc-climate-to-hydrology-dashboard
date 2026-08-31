@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "phase": "2B.3.1",
-  "generated_at": "2026-08-31T20:00:02Z",
+  "generated_at": "2026-08-31T20:04:42Z",
   "science_guardrail": "Machine-readable GEFS teleconnection forecasts only. Consensus score remains guarded until ECMWF structured evidence is added.",
   "drivers": {
     "pna": {
@@ -78,7 +78,7 @@
       ],
       "source_name": "NOAA Climate Prediction Center / NCEP GEFS",
       "source_url": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.pna.gefs.z500.120days.csv",
-      "retrieved_at": "2026-08-31T20:00:02Z",
+      "retrieved_at": "2026-08-31T20:04:42Z",
       "science_role": "Structured GEFS ensemble teleconnection input for Phase 2B.3 consensus; no precipitation or flash-flood inference."
     },
     "nao": {
@@ -155,7 +155,7 @@
       ],
       "source_name": "NOAA Climate Prediction Center / NCEP GEFS",
       "source_url": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.nao.gefs.z500.120days.csv",
-      "retrieved_at": "2026-08-31T20:00:02Z",
+      "retrieved_at": "2026-08-31T20:04:42Z",
       "science_role": "Structured GEFS ensemble teleconnection input for Phase 2B.3 consensus; no precipitation or flash-flood inference."
     }
   }
