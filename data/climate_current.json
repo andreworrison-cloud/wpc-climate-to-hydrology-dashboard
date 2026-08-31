@@ -1,10 +1,57 @@
 {
   "schema_version": "1.0",
-  "generated_at": null,
+  "generated_at": "2026-08-31T14:38:02Z",
   "indicators": [
-    {"id":"roni","display_name":"ENSO / RONI","value":null,"units":"°C","state":"Awaiting real-time ingestion","valid_time":null,"source_name":"NOAA/CPC interface placeholder","source_url":null,"retrieved_at":null,"freshness_hours":null},
-    {"id":"mjo_rmm","display_name":"MJO / RMM","value":null,"units":null,"state":"Awaiting phase/amplitude ingestion","valid_time":null,"source_name":"Authoritative MJO interface placeholder","source_url":null,"retrieved_at":null,"freshness_hours":null},
-    {"id":"pna","display_name":"PNA","value":null,"units":"σ","state":"Awaiting real-time ingestion","valid_time":null,"source_name":"NOAA/CPC interface placeholder","source_url":null,"retrieved_at":null,"freshness_hours":null},
-    {"id":"nao","display_name":"NAO","value":null,"units":"σ","state":"Awaiting real-time ingestion","valid_time":null,"source_name":"NOAA/CPC interface placeholder","source_url":null,"retrieved_at":null,"freshness_hours":null}
+    {
+      "id": "roni",
+      "display_name": "ENSO / RONI",
+      "value": 0.98,
+      "units": "\u00b0C",
+      "state": "Positive RONI anomaly",
+      "valid_time": "MJJ 2026",
+      "source_name": "NOAA Climate Prediction Center \u2014 RONI (ERSSTv6)",
+      "source_url": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/",
+      "retrieved_at": "2026-08-31T14:38:02Z",
+      "freshness_hours": null,
+      "data_url": "https://www.cpc.ncep.noaa.gov/data/indices/RONI.ascii.txt",
+      "provisional": true,
+      "note": "Latest RONI values are estimates and may be revised by NOAA/CPC for up to two months."
+    },
+    {
+      "id": "mjo_rmm",
+      "display_name": "MJO / RMM",
+      "value": null,
+      "units": null,
+      "state": "Awaiting phase/amplitude ingestion",
+      "valid_time": null,
+      "source_name": "Authoritative MJO interface placeholder",
+      "source_url": null,
+      "retrieved_at": null,
+      "freshness_hours": null
+    },
+    {
+      "id": "pna",
+      "display_name": "PNA",
+      "value": null,
+      "units": "\u03c3",
+      "state": "Awaiting real-time ingestion",
+      "valid_time": null,
+      "source_name": "NOAA/CPC interface placeholder",
+      "source_url": null,
+      "retrieved_at": null,
+      "freshness_hours": null
+    },
+    {
+      "id": "nao",
+      "display_name": "NAO",
+      "value": null,
+      "units": "\u03c3",
+      "state": "Awaiting real-time ingestion",
+      "valid_time": null,
+      "source_name": "NOAA/CPC interface placeholder",
+      "source_url": null,
+      "retrieved_at": null,
+      "freshness_hours": null
+    }
   ]
 }
