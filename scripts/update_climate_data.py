@@ -19,6 +19,7 @@ from pathlib import Path
 import time
 import urllib.request
 import urllib.error
+import urllib.parse
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -51,6 +52,10 @@ NAO_FORECAST_URL = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao
 NAO_FORECAST_PAGE = "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao_index_ensm.shtml"
 ECMWF_MJO_API = "https://charts.ecmwf.int/opencharts-api/v1/products/mofc_multi_mjo_family_index/"
 ECMWF_MJO_PAGE = "https://charts.ecmwf.int/products/mofc_multi_mjo_family_index"
+ECMWF_PNA_CONTEXT_API = "https://charts.ecmwf.int/opencharts-api/v1/products/extended-anomaly-z500/?projection=opencharts_pacific"
+ECMWF_PNA_CONTEXT_PAGE = "https://charts.ecmwf.int/products/extended-anomaly-z500?projection=opencharts_pacific"
+ECMWF_NAO_REGIME_API = "https://charts.ecmwf.int/opencharts-api/v1/products/extended-regime-probabilities/"
+ECMWF_NAO_REGIME_PAGE = "https://charts.ecmwf.int/products/extended-regime-probabilities"
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36"
 
@@ -250,8 +255,90 @@ def update_forward_guidance(retrieved_at: str) -> list[str]:
             "note": "Latest ECMWF ensemble MJO graphic could not be cached; observed climate ingestion remains active.",
         })
 
+    # Phase 2B.2: ECMWF circulation context for the Pacific-North American sector.
+    # This is deliberately NOT labeled as an ECMWF PNA index forecast. It is a
+    # weekly-mean 500-hPa height-anomaly chart from the 101-member IFS
+    # sub-seasonal ensemble over the Pacific sector, used as physically relevant
+    # circulation context for the GEFS standardized PNA-index outlook.
+    try:
+        api_data, api_meta = fetch_json(ECMWF_PNA_CONTEXT_API, referer=ECMWF_PNA_CONTEXT_PAGE)
+        data_obj = api_data.get("data", {})
+        image_url = data_obj.get("link", {}).get("href")
+        attrs = data_obj.get("attributes", {})
+        if not image_url or not str(image_url).startswith("https://"):
+            raise ValueError("ECMWF OpenCharts API did not return a Pacific Z500 image link")
+        payload, img_meta = fetch_binary(str(image_url), referer=ECMWF_PNA_CONTEXT_PAGE)
+        (FORECAST_DIR / "pna_context_ecmwf_z500_pacific.png").write_bytes(payload)
+        products.append({
+            "id": "pna_context_ecmwf_z500_pacific",
+            "name": "Pacific–North American circulation context",
+            "status": "live",
+            "horizon": "Weekly mean; sub-seasonal",
+            "model": "ECMWF IFS Sub-seasonal Ensemble — 100 perturbed + 1 control",
+            "source_name": "ECMWF OpenCharts",
+            "source_page": ECMWF_PNA_CONTEXT_PAGE,
+            "image_path": "data/forecasts/pna_context_ecmwf_z500_pacific.png",
+            "image_source": str(image_url),
+            "retrieved_at": retrieved_at,
+            "last_modified": img_meta.get("last-modified") or api_meta.get("last-modified"),
+            "issue_hint": str(attrs.get("description") or "").strip() or None,
+            "note": "ECMWF weekly-mean 500-hPa height anomalies over the Pacific sector. This provides circulation context for PNA evolution; it is not a standardized ECMWF PNA-index forecast.",
+        })
+    except Exception as exc:
+        failures.append(f"ECMWF Pacific circulation context: {type(exc).__name__}: {exc}")
+        products.append({
+            "id": "pna_context_ecmwf_z500_pacific",
+            "name": "Pacific–North American circulation context",
+            "status": "fetch_error",
+            "model": "ECMWF IFS Sub-seasonal Ensemble — 100 perturbed + 1 control",
+            "source_name": "ECMWF OpenCharts",
+            "source_page": ECMWF_PNA_CONTEXT_PAGE,
+            "retrieved_at": retrieved_at,
+            "note": "Latest ECMWF Pacific 500-hPa anomaly graphic could not be cached. This is a context product, not an ECMWF PNA index.",
+        })
+
+    # Phase 2B.2: ECMWF Euro-Atlantic weather-regime probabilities. These are
+    # derived from the 101-member IFS sub-seasonal ensemble and provide an
+    # independent probabilistic view of NAO+/NAO- and related regimes.
+    try:
+        api_data, api_meta = fetch_json(ECMWF_NAO_REGIME_API, referer=ECMWF_NAO_REGIME_PAGE)
+        data_obj = api_data.get("data", {})
+        image_url = data_obj.get("link", {}).get("href")
+        attrs = data_obj.get("attributes", {})
+        if not image_url or not str(image_url).startswith("https://"):
+            raise ValueError("ECMWF OpenCharts API did not return a regime-probability image link")
+        payload, img_meta = fetch_binary(str(image_url), referer=ECMWF_NAO_REGIME_PAGE)
+        (FORECAST_DIR / "nao_context_ecmwf_regime_probabilities.png").write_bytes(payload)
+        products.append({
+            "id": "nao_context_ecmwf_regimes",
+            "name": "Euro-Atlantic regime probabilities",
+            "status": "live",
+            "horizon": "Approximately 6 weeks",
+            "model": "ECMWF IFS Sub-seasonal Ensemble — 100 perturbed + 1 control",
+            "source_name": "ECMWF OpenCharts",
+            "source_page": ECMWF_NAO_REGIME_PAGE,
+            "image_path": "data/forecasts/nao_context_ecmwf_regime_probabilities.png",
+            "image_source": str(image_url),
+            "retrieved_at": retrieved_at,
+            "last_modified": img_meta.get("last-modified") or api_meta.get("last-modified"),
+            "issue_hint": str(attrs.get("description") or "").strip() or None,
+            "note": "ECMWF ensemble probabilities for NAO+, NAO−, Scandinavian Blocking, Atlantic Ridge, and no clear regime. This is regime guidance, not a standardized ECMWF NAO-index forecast.",
+        })
+    except Exception as exc:
+        failures.append(f"ECMWF Euro-Atlantic regimes: {type(exc).__name__}: {exc}")
+        products.append({
+            "id": "nao_context_ecmwf_regimes",
+            "name": "Euro-Atlantic regime probabilities",
+            "status": "fetch_error",
+            "model": "ECMWF IFS Sub-seasonal Ensemble — 100 perturbed + 1 control",
+            "source_name": "ECMWF OpenCharts",
+            "source_page": ECMWF_NAO_REGIME_PAGE,
+            "retrieved_at": retrieved_at,
+            "note": "Latest ECMWF regime-probability graphic could not be cached; the GEFS NAO outlook remains available.",
+        })
+
     FORECAST_STATUS.write_text(json.dumps({
-        "schema_version": "1.0", "phase": "2B.1", "generated_at": retrieved_at,
+        "schema_version": "1.0", "phase": "2B.2", "generated_at": retrieved_at,
         "overall_status": "current" if not failures else "degraded",
         "science_guardrail": "Authoritative climate-driver forecasts only; no precipitation or flash-flood inference is enabled.",
         "products": products,
@@ -657,7 +744,7 @@ def main() -> None:
 
     if failures:
         raise SystemExit("\n".join(failures))
-    print("Phase 2B.1 observed + GEFS/ECMWF forward climate guidance update complete.")
+    print("Phase 2B.2 multi-model forward climate guidance update complete.")
 
 
 if __name__ == "__main__":

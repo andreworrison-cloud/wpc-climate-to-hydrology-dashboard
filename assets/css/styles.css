@@ -52,3 +52,20 @@ footer{margin-top:12px;padding:8px 4px;color:#6f93ad;font-size:.72rem}
 .source-link{align-self:flex-start;color:#79dfff;text-decoration:none;font-size:.68rem;font-weight:700}.source-link:hover{text-decoration:underline}
 .forecast-unavailable{height:315px;border:1px dashed #31506a;border-radius:9px;display:grid;place-items:center;text-align:center;color:var(--muted);padding:20px}
 @media(max-width:1050px){.forecast-grid{grid-template-columns:1fr}.forecast-image{height:auto;max-height:500px}}
+
+/* Phase 2B.2: model-organized forward pattern evolution */
+.forecast-seasonal-block{margin-top:14px}
+.forecast-seasonal-block .forecast-card{max-width:none}
+.forecast-card-seasonal .forecast-image{height:auto;max-height:390px}
+.model-column-heads{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 8px}
+.model-column-heads>div{border:1px solid #24506b;background:#071725;border-radius:10px;padding:10px 12px;display:grid;grid-template-columns:auto 1fr;column-gap:9px;align-items:center}
+.model-column-heads b{font-size:.79rem;color:#dff5ff}.model-column-heads small{grid-column:2;color:#87abc3;font-size:.66rem;margin-top:2px}
+.model-kicker{grid-row:1/3;border-radius:999px;padding:4px 7px;font-size:.55rem;font-weight:900;letter-spacing:.07em;border:1px solid #2c6985;color:#9fe7ff}.model-kicker.ecmwf{border-color:#7657a5;color:#d4bdff}
+.forecast-comparison-stack{display:flex;flex-direction:column;gap:14px}
+.forecast-comparison-row{border-top:1px solid #17384f;padding-top:12px}
+.forecast-row-heading{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;padding:0 2px}.forecast-row-heading b{font-size:.82rem;color:#dff5ff}.forecast-row-heading span{font-size:.66rem;color:#84a8c0}
+.forecast-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.enso-timeline{border:1px solid #234b66;border-radius:9px;background:#071824;padding:9px 10px}
+.enso-timeline-title{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;font-size:.67rem;color:#83a9c1}.enso-timeline-title b{color:#d8f4ff;font-size:.7rem}
+.enso-season-strip{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:4px;margin-top:7px}.enso-season-strip span{text-align:center;padding:4px 2px;border-radius:5px;background:#0b2233;border:1px solid #1d4058;color:#9bc4db;font-size:.55rem;white-space:nowrap}
+@media(max-width:1050px){.model-column-heads{display:none}.forecast-pair{grid-template-columns:1fr}.forecast-row-heading{display:block}.forecast-row-heading span{display:block;margin-top:3px}.enso-season-strip{grid-template-columns:repeat(3,1fr)}}

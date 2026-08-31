@@ -118,28 +118,63 @@ function renderObservedPatterns(histories, days=60){
 }
 
 
-function forecastCard(product){
+function ensoTimeline(issueHint){
+  const match=String(issueHint||'').match(/^(\d{4})-(\d{2})$/);
+  if(!match) return '';
+  const issueYear=Number(match[1]), issueMonth=Number(match[2]);
+  const monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const initials=['J','F','M','A','M','J','J','A','S','O','N','D'];
+  const seasons=[];
+  const rangeLabel=(centerOffset)=>{
+    const center=new Date(Date.UTC(issueYear,issueMonth-1+centerOffset,1));
+    const a=new Date(Date.UTC(center.getUTCFullYear(),center.getUTCMonth()-1,1));
+    const b=new Date(Date.UTC(center.getUTCFullYear(),center.getUTCMonth()+1,1));
+    const season=`${initials[a.getUTCMonth()]}${initials[center.getUTCMonth()]}${initials[b.getUTCMonth()]}`;
+    const yr=(a.getUTCFullYear()===b.getUTCFullYear()) ? `${a.getUTCFullYear()}` : `${a.getUTCFullYear()}–${String(b.getUTCFullYear()).slice(-2)}`;
+    seasons.push(`${season} ${yr}`);
+    return {a,b};
+  };
+  let first,last;
+  for(let i=0;i<9;i++){ const r=rangeLabel(i); if(i===0)first=r.a; if(i===8)last=r.b; }
+  const full=`${monthNames[first.getUTCMonth()]}–${monthNames[(first.getUTCMonth()+2)%12]} ${first.getUTCFullYear()} → ${monthNames[(last.getUTCMonth()+10)%12]}–${monthNames[last.getUTCMonth()]} ${last.getUTCFullYear()}`;
+  return `<div class="enso-timeline"><div class="enso-timeline-title"><span>Forecast calendar</span><b>${full}</b></div><div class="enso-season-strip">${seasons.map(x=>`<span>${x}</span>`).join('')}</div></div>`;
+}
+
+function forecastCard(product, options={}){
   const live=product?.status==='live' && product.image_path;
   const statusClass=live?'ok':'warn';
   const statusText=live?'LIVE GUIDANCE':'UNAVAILABLE';
   const issue=product.issue_hint ? `Issue ${product.issue_hint}` : (product.last_modified ? `Source update ${product.last_modified}` : 'Latest available source product');
   const image=live ? `<a class="forecast-image-link" href="${product.source_page}" target="_blank" rel="noopener"><img class="forecast-image" src="${product.image_path}?v=${encodeURIComponent(product.retrieved_at||'')}" alt="${product.name}" loading="lazy"></a>` : `<div class="forecast-unavailable">Forecast graphic unavailable on the latest source check.</div>`;
-  return `<section class="forecast-card">
+  const timeline=options.ensoTimeline ? ensoTimeline(product.issue_hint) : '';
+  return `<section class="forecast-card ${options.className||''}">
     <div class="forecast-card-head"><div><b>${product.name||'Forecast guidance'}</b><span>${product.model||'Authoritative source'}</span></div><span class="forecast-status ${statusClass}">${statusText}</span></div>
-    ${image}
+    ${image}${timeline}
     <div class="forecast-meta-row"><span>${product.horizon||'—'}</span><span>${issue}</span></div>
     <div class="forecast-note">${product.note||''}</div>
     ${product.source_page ? `<a class="source-link" href="${product.source_page}" target="_blank" rel="noopener">${String(product.source_name||'Source').includes('ECMWF')?'ECMWF source':'NOAA/CPC source'} ↗</a>` : ''}
   </section>`;
 }
 
+function comparisonRow(label, sublabel, leftProduct, rightProduct){
+  return `<section class="forecast-comparison-row">
+    <div class="forecast-row-heading"><b>${label}</b><span>${sublabel}</span></div>
+    <div class="forecast-pair">${forecastCard(leftProduct||{name:'GEFS guidance',status:'missing'})}${forecastCard(rightProduct||{name:'ECMWF guidance',status:'missing'})}</div>
+  </section>`;
+}
+
 function renderForwardGuidance(forecast){
-  const grid=document.getElementById('forecastGrid');
-  if(!grid) return;
-  const order=['enso_probabilities','mjo_gefs','mjo_ecmwf_ifs_subseasonal_ens','pna_gefs','nao_gefs'];
+  const enso=document.getElementById('ensoForecastBlock');
+  const compare=document.getElementById('forecastComparison');
+  if(!enso || !compare) return;
   const products=forecast?.products||[];
   const byId=Object.fromEntries(products.map(p=>[p.id,p]));
-  grid.innerHTML=order.map(id=>forecastCard(byId[id]||{id,name:id,status:'missing'})).join('');
+  enso.innerHTML=forecastCard(byId.enso_probabilities||{name:'ENSO / RONI probabilities',status:'missing'},{ensoTimeline:true,className:'forecast-card-seasonal'});
+  compare.innerHTML=[
+    comparisonRow('MJO / RMM','Direct ensemble comparison of Wheeler–Hendon phase-space evolution.',byId.mjo_gefs,byId.mjo_ecmwf_ifs_subseasonal_ens),
+    comparisonRow('PNA / Pacific–North American circulation','GEFS standardized PNA index versus ECMWF Pacific-sector 500-hPa circulation context.',byId.pna_gefs,byId.pna_context_ecmwf_z500_pacific),
+    comparisonRow('NAO / Euro-Atlantic regimes','GEFS standardized NAO index versus ECMWF probabilistic Euro-Atlantic weather regimes.',byId.nao_gefs,byId.nao_context_ecmwf_regimes)
+  ].join('');
 }
 
 async function boot(){

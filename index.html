@@ -126,10 +126,18 @@
               <span class="badge forecast">GEFS + ECMWF GUIDANCE</span>
             </div>
           </div>
-          <div id="forecastGrid" class="forecast-grid">
-            <div class="empty-state">Awaiting cached authoritative forecast guidance from the next climate-data workflow.</div>
+          <div id="ensoForecastBlock" class="forecast-seasonal-block">
+            <div class="empty-state">Awaiting cached CPC seasonal ENSO/RONI guidance.</div>
           </div>
-          <div class="pattern-footnote">Forecast graphics are cached from NOAA/CPC and ECMWF OpenCharts so the dashboard preserves provenance and avoids browser-side cross-origin dependencies. ECMWF MJO guidance is explicitly the IFS Sub-seasonal Ensemble (100 perturbed members + 1 control), not the standalone IFS Control Forecast. These products describe expected climate-driver evolution only.</div>
+
+          <div class="model-column-heads" aria-hidden="true">
+            <div><span class="model-kicker gefs">LEFT COLUMN</span><b>NOAA/NCEP GEFS</b><small>Standardized index / RMM ensemble guidance</small></div>
+            <div><span class="model-kicker ecmwf">RIGHT COLUMN</span><b>ECMWF IFS Sub-seasonal Ensemble</b><small>100 perturbed members + 1 control</small></div>
+          </div>
+          <div id="forecastComparison" class="forecast-comparison-stack">
+            <div class="empty-state">Awaiting paired GEFS + ECMWF guidance from the next climate-data workflow.</div>
+          </div>
+          <div class="pattern-footnote">CPC ENSO/RONI probabilities are shown separately as the seasonal background. Below, GEFS remains consistently on the left and the ECMWF IFS Sub-seasonal Ensemble on the right. The ECMWF Pacific 500-hPa anomaly product is circulation context rather than a standardized PNA-index forecast; the ECMWF Euro-Atlantic product is weather-regime probability guidance rather than a standardized NAO-index forecast. No precipitation or flash-flood inference is enabled.</div>
         </article>
 
         <div class="lower-grid phase2-lower">
@@ -154,7 +162,7 @@
     </main>
 
     <footer>
-      Experimental research dashboard. Not an official NWS/WPC forecast product. Phase 2B.1 adds ECMWF IFS Sub-seasonal Ensemble MJO guidance alongside GEFS; precipitation and flash-flood prediction layers remain disabled.
+      Experimental research dashboard. Not an official NWS/WPC forecast product. Phase 2B.2 organizes GEFS-left / ECMWF-right multi-model pattern guidance and adds ECMWF Pacific circulation and Euro-Atlantic regime context; precipitation and flash-flood prediction layers remain disabled.
     </footer>
   </div>
   <script src="assets/js/app.js"></script>
