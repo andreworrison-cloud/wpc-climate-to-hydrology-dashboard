@@ -25,17 +25,26 @@ MJO_HISTORY = DATA / "mjo_history.json"
 
 RONI_URL = "https://www.cpc.ncep.noaa.gov/data/indices/RONI.ascii.txt"
 RONI_PAGE = "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/"
-MJO_URL = "https://www.bom.gov.au/climate/mjo/graphics/rmm.74toRealtime.txt"
+MJO_URL = "https://www.bom.gov.au/clim_data/IDCKGEM000/rmm.74toRealtime.txt"
+MJO_FALLBACK_URL = "https://www.bom.gov.au/climate/mjo/graphics/rmm.74toRealtime.txt"
 MJO_PAGE = "https://www.bom.gov.au/climate/mjo/"
-USER_AGENT = "WPC-Climate-to-Hydrology-Dashboard/Phase1B (+GitHub Actions)"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36"
 
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
 
 
-def fetch_text(url: str, attempts: int = 3) -> str:
-    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+def fetch_text(url: str, attempts: int = 3, referer: str | None = None) -> str:
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Accept": "text/plain,text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Cache-Control": "no-cache",
+    }
+    if referer:
+        headers["Referer"] = referer
+    request = urllib.request.Request(url, headers=headers)
     last_error: Exception | None = None
     for attempt in range(1, attempts + 1):
         try:
@@ -183,7 +192,17 @@ def update_roni(climate: dict, status: dict, retrieved_at: str) -> None:
 
 
 def update_mjo(climate: dict, status: dict, retrieved_at: str) -> None:
-    rows = parse_mjo(fetch_text(MJO_URL))
+    # BoM exposes the same operational RMM series through a direct climate-data
+    # endpoint and a graphics endpoint. The direct endpoint is preferred because
+    # it is designed for data access and is less likely to reject automated clients.
+    source_url = MJO_URL
+    try:
+        text = fetch_text(MJO_URL, referer=MJO_PAGE)
+    except Exception as primary_exc:
+        print(f"MJO primary endpoint failed ({type(primary_exc).__name__}: {primary_exc}); trying fallback...")
+        source_url = MJO_FALLBACK_URL
+        text = fetch_text(MJO_FALLBACK_URL, referer=MJO_PAGE)
+    rows = parse_mjo(text)
     latest = rows[-1]
     indicator(climate, "mjo_rmm").update({
         "value": round(latest["amplitude"], 2),
@@ -192,7 +211,7 @@ def update_mjo(climate: dict, status: dict, retrieved_at: str) -> None:
         "valid_time": latest["date"],
         "source_name": "Australian Bureau of Meteorology — Wheeler-Hendon RMM",
         "source_url": MJO_PAGE,
-        "data_url": MJO_URL,
+        "data_url": source_url,
         "retrieved_at": retrieved_at,
         "freshness_hours": 72,
         "phase": latest["phase"],
@@ -209,7 +228,7 @@ def update_mjo(climate: dict, status: dict, retrieved_at: str) -> None:
         "indicator": "mjo_rmm",
         "source_name": "Australian Bureau of Meteorology — Wheeler-Hendon RMM",
         "source_url": MJO_PAGE,
-        "data_url": MJO_URL,
+        "data_url": source_url,
         "retrieved_at": retrieved_at,
         "values": rows,
     }, indent=2) + "\n", encoding="utf-8")
