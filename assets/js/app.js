@@ -8,46 +8,52 @@ const fmt = (value, suffix='') => value === null || value === undefined ? '—' 
 const num = (v, digits=2) => Number.isFinite(Number(v)) ? Number(v).toFixed(digits) : '—';
 const signed = (v, digits=2) => Number.isFinite(Number(v)) ? `${Number(v) > 0 ? '+' : ''}${Number(v).toFixed(digits)}` : '—';
 
+const clamp01 = v => Math.max(0, Math.min(1, v));
+function signedStateColor(value, scale=1.5){
+  const v=Number(value);
+  if(!Number.isFinite(v)) return '#9bb8cc';
+  const t=clamp01(Math.abs(v)/scale);
+  if(Math.abs(v)<0.08) return '#c7d3dc';
+  return v>0 ? `hsl(${18-8*t} 88% ${68-14*t}%)` : `hsl(${207+10*t} 92% ${70-15*t}%)`;
+}
+const mjoPhaseColors={1:'#5ec8ff',2:'#54e0d0',3:'#6ee7a8',4:'#b9e769',5:'#f1d35d',6:'#ffad5c',7:'#ff7a68',8:'#c98cff'};
+function mjoStateColor(phase, amplitude=1){ return Number(amplitude)>=1 ? (mjoPhaseColors[Number(phase)]||'#78dfff') : '#91a7b7'; }
+function semanticColorForDriver(d){
+  if(d.id==='mjo_rmm') return mjoStateColor(d.phase,d.amplitude);
+  if(['roni_enso','pna','nao'].includes(d.id)) return signedStateColor(d.value,d.id==='roni_enso'?1.2:1.5);
+  return '#78dfff';
+}
+
 function driverMarkup(d){
+  const stateColor=semanticColorForDriver(d);
   if (d.id === 'mjo_rmm' && d.phase && d.amplitude !== null && d.amplitude !== undefined) {
     return `<div class="driver-top"><span class="driver-name">${d.display_name}</span><span class="status-dot"></span></div>
-      <div class="driver-value">Phase ${d.phase} <span style="font-size:.58em;font-weight:700">• Amp ${Number(d.amplitude).toFixed(2)}</span></div>
-      <div class="driver-meta">${d.signal_strength || 'RMM signal'} • ${d.phase_region || ''}</div>
+      <div class="driver-value semantic-value" style="--state-color:${stateColor}">Phase ${d.phase} <span style="font-size:.58em;font-weight:700">• Amp ${Number(d.amplitude).toFixed(2)}</span></div>
+      <div class="driver-state-key"><span class="state-swatch" style="background:${stateColor}"></span><span>${d.signal_strength || 'RMM signal'} • ${d.phase_region || ''}</span></div>
       <div class="driver-meta">RMM1 ${Number(d.rmm1).toFixed(2)} • RMM2 ${Number(d.rmm2).toFixed(2)} • valid ${d.valid_time || '—'}</div>
       <div class="driver-meta">Source: ${d.source_name}</div>`;
   }
   return `<div class="driver-top"><span class="driver-name">${d.display_name}</span><span class="status-dot"></span></div>
-    <div class="driver-value">${fmt(d.value, d.units ? ` ${d.units}` : '')}</div>
-    <div class="driver-meta">${d.state || 'Awaiting ingestion'} • valid ${d.valid_time || '—'}</div>
+    <div class="driver-value semantic-value" style="--state-color:${stateColor}">${fmt(d.value, d.units ? ` ${d.units}` : '')}</div>
+    <div class="driver-state-key"><span class="state-swatch" style="background:${stateColor}"></span><span>${d.state || 'Awaiting ingestion'}</span></div>
+    <div class="driver-meta">valid ${d.valid_time || '—'}</div>
     <div class="driver-meta">Source: ${d.source_name}</div>
     ${d.provisional ? '<div class="driver-meta">Latest value is provisional / subject to CPC revision</div>' : ''}`;
 }
 
-function lineChartSVG(rows, valueKey='value'){
+function lineChartSVG(rows, valueKey='value', palette='signed'){
   if (!rows || rows.length < 2) return '<div class="empty-state">Insufficient history.</div>';
-  const W=640, H=210, m={l:38,r:14,t:14,b:28};
-  const vals=rows.map(r=>Number(r[valueKey])).filter(Number.isFinite);
-  if (!vals.length) return '<div class="empty-state">No numeric history.</div>';
-  let min=Math.min(...vals), max=Math.max(...vals);
-  const abs=Math.max(Math.abs(min),Math.abs(max),0.5);
-  min=-abs*1.12; max=abs*1.12;
-  const x=i=>m.l+i*(W-m.l-m.r)/(rows.length-1);
-  const y=v=>m.t+(max-v)*(H-m.t-m.b)/(max-min);
-  const pts=rows.map((r,i)=>`${x(i).toFixed(1)},${y(Number(r[valueKey])).toFixed(1)}`).join(' ');
-  const zeroY=y(0);
+  const W=640,H=210,m={l:38,r:14,t:14,b:28},vals=rows.map(r=>Number(r[valueKey])).filter(Number.isFinite);
+  if(!vals.length) return '<div class="empty-state">No numeric history.</div>';
+  let min=Math.min(...vals),max=Math.max(...vals); const abs=Math.max(Math.abs(min),Math.abs(max),.5); min=-abs*1.12;max=abs*1.12;
+  const x=i=>m.l+i*(W-m.l-m.r)/(rows.length-1),y=v=>m.t+(max-v)*(H-m.t-m.b)/(max-min),zeroY=y(0);
   const grid=[-1,-.5,0,.5,1].map(f=>min+(max-min)*(f+1)/2).filter(v=>v>=min&&v<=max);
   const gridLines=grid.map(v=>`<line x1="${m.l}" y1="${y(v)}" x2="${W-m.r}" y2="${y(v)}" class="chart-grid-line"/><text x="${m.l-6}" y="${y(v)+3}" text-anchor="end" class="chart-axis-label">${v.toFixed(1)}</text>`).join('');
-  const last=rows.length-1;
-  const firstLabel=rows[0].date || `${rows[0].season || ''} ${rows[0].year || ''}`;
-  const lastLabel=rows[last].date || `${rows[last].season || ''} ${rows[last].year || ''}`;
-  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img">
-    ${gridLines}<line x1="${m.l}" y1="${zeroY}" x2="${W-m.r}" y2="${zeroY}" class="chart-zero"/>
-    <polyline points="${pts}" class="chart-line"/>
-    <circle cx="${x(last)}" cy="${y(Number(rows[last][valueKey]))}" r="4.5" class="chart-dot"/>
-    <circle cx="${x(last)}" cy="${y(Number(rows[last][valueKey]))}" r="8" class="chart-latest-ring"/>
-    <text x="${m.l}" y="${H-8}" class="chart-axis-label">${firstLabel}</text>
-    <text x="${W-m.r}" y="${H-8}" text-anchor="end" class="chart-axis-label">${lastLabel}</text>
-  </svg>`;
+  const scale=palette==='roni'?1.2:1.5;
+  const segments=rows.slice(1).map((r,i)=>{const av=Number(rows[i][valueKey]),bv=Number(r[valueKey]),c=signedStateColor((av+bv)/2,scale);return `<line x1="${x(i)}" y1="${y(av)}" x2="${x(i+1)}" y2="${y(bv)}" class="chart-semantic-segment" stroke="${c}"/>`;}).join('');
+  const last=rows.length-1,lastVal=Number(rows[last][valueKey]),lastColor=signedStateColor(lastVal,scale);
+  const firstLabel=rows[0].date||`${rows[0].season||''} ${rows[0].year||''}`,lastLabel=rows[last].date||`${rows[last].season||''} ${rows[last].year||''}`;
+  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img">${gridLines}<line x1="${m.l}" y1="${zeroY}" x2="${W-m.r}" y2="${zeroY}" class="chart-zero"/>${segments}<circle cx="${x(last)}" cy="${y(lastVal)}" r="4.5" fill="${lastColor}" class="chart-dot-semantic"/><circle cx="${x(last)}" cy="${y(lastVal)}" r="8" class="chart-latest-ring" style="stroke:${lastColor}"/><text x="${m.l}" y="${H-8}" class="chart-axis-label">${firstLabel}</text><text x="${W-m.r}" y="${H-8}" text-anchor="end" class="chart-axis-label">${lastLabel}</text></svg>`;
 }
 
 function phaseSpaceSVG(rows){
@@ -66,8 +72,8 @@ function phaseSpaceSVG(rows){
     const a=deg*Math.PI/180,r=103;
     return `<text x="${cx+Math.cos(a)*r}" y="${cy-Math.sin(a)*r+4}" text-anchor="middle" class="phase-label">${i+1}</text>`;
   }).join('');
-  const pts=rows.map(r=>`${sx(r.rmm1)},${sy(r.rmm2)}`).join(' ');
-  const points=rows.map((r,i)=>`<circle cx="${sx(r.rmm1)}" cy="${sy(r.rmm2)}" r="${i===rows.length-1?4.5:2.2}" class="phase-point ${i===rows.length-1?'latest':''}" opacity="${(0.25+0.75*(i+1)/rows.length).toFixed(2)}"/>`).join('');
+  const trailSegments=rows.slice(1).map((r,i)=>{const prev=rows[i],c=mjoStateColor(r.phase,r.amplitude);return `<line x1="${sx(prev.rmm1)}" y1="${sy(prev.rmm2)}" x2="${sx(r.rmm1)}" y2="${sy(r.rmm2)}" class="phase-semantic-segment" stroke="${c}" opacity="${(0.35+0.65*(i+2)/rows.length).toFixed(2)}"/>`;}).join('');
+  const points=rows.map((r,i)=>{const c=mjoStateColor(r.phase,r.amplitude);return `<circle cx="${sx(r.rmm1)}" cy="${sy(r.rmm2)}" r="${i===rows.length-1?4.5:2.2}" fill="${c}" class="phase-point-semantic" opacity="${(0.25+0.75*(i+1)/rows.length).toFixed(2)}"${i===rows.length-1?' stroke="#eafff5" stroke-width="1.4"':''}/>`;}).join('');
   return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Wheeler-Hendon RMM phase-space diagram">
     <line x1="${cx-edgeR}" y1="${cy}" x2="${cx+edgeR}" y2="${cy}" class="phase-axis"/><line x1="${cx}" y1="${cy-edgeR}" x2="${cx}" y2="${cy+edgeR}" class="phase-axis"/>
     ${radial}<circle cx="${cx}" cy="${cy}" r="${scale}" class="phase-circle"/>
@@ -78,7 +84,7 @@ function phaseSpaceSVG(rows){
     <text x="${cx}" y="${H-9}" text-anchor="middle" class="phase-region">INDIAN OCEAN</text>
     <text x="9" y="${cy-5}" class="phase-region">W. HEM.</text><text x="9" y="${cy+7}" class="phase-region">& AFRICA</text>
     <text x="${W-18}" y="${cy-6}" text-anchor="end" class="chart-axis-label">+RMM1</text><text x="${cx+7}" y="${cy-edgeR-7}" class="chart-axis-label">+RMM2</text>
-    <polyline points="${pts}" class="phase-trail"/>${points}
+    ${trailSegments}${points}
   </svg>`;
 }
 
@@ -91,7 +97,7 @@ function renderObservedPatterns(histories, days=60){
   const naoRows=sliceDaily(histories.nao?.values || [],days);
   const mjoRows=sliceDaily(histories.mjo?.values || [],30);
 
-  document.getElementById('roniChart').innerHTML=lineChartSVG(roniRows);
+  document.getElementById('roniChart').innerHTML=lineChartSVG(roniRows,'value','roni');
   document.getElementById('pnaChart').innerHTML=lineChartSVG(pnaRows);
   document.getElementById('naoChart').innerHTML=lineChartSVG(naoRows);
   document.getElementById('mjoChart').innerHTML=phaseSpaceSVG(mjoRows);
@@ -100,19 +106,19 @@ function renderObservedPatterns(histories, days=60){
 
   if(roniRows.length){
     const a=roniRows.at(-1), prev=roniRows.at(-2);
-    document.getElementById('roniLatest').textContent=`${signed(a.value,2)} °C`;
+    document.getElementById('roniLatest').textContent=`${signed(a.value,2)} °C`; document.getElementById('roniLatest').style.color=signedStateColor(a.value,1.2);
     document.getElementById('roniStats').innerHTML=statChip('Valid',`${a.season} ${a.year}`)+statChip('1-season Δ',signed(a.value-prev.value,2)+' °C')+statChip('24-season range',`${num(Math.min(...roniRows.map(r=>r.value)),2)} to ${signed(Math.max(...roniRows.map(r=>r.value)),2)} °C`);
   }
   const renderDailyStats=(rows,prefix,units='σ')=>{
     if(!rows.length)return;
     const a=rows.at(-1), back=rows[Math.max(0,rows.length-8)];
-    document.getElementById(`${prefix}Latest`).textContent=`${signed(a.value,3)} ${units}`;
+    document.getElementById(`${prefix}Latest`).textContent=`${signed(a.value,3)} ${units}`; document.getElementById(`${prefix}Latest`).style.color=signedStateColor(a.value,1.5);
     document.getElementById(`${prefix}Stats`).innerHTML=statChip('Valid',a.date)+statChip('7-day Δ',`${signed(a.value-back.value,3)} ${units}`)+statChip(`${days}D range`,`${num(Math.min(...rows.map(r=>r.value)),2)} to ${signed(Math.max(...rows.map(r=>r.value)),2)} ${units}`);
   };
   renderDailyStats(pnaRows,'pna'); renderDailyStats(naoRows,'nao');
   if(mjoRows.length){
     const a=mjoRows.at(-1), maxAmp=Math.max(...mjoRows.map(r=>Number(r.amplitude)));
-    document.getElementById('mjoLatest').textContent=`P${a.phase} • ${num(a.amplitude,2)}`;
+    document.getElementById('mjoLatest').textContent=`P${a.phase} • ${num(a.amplitude,2)}`; document.getElementById('mjoLatest').style.color=mjoStateColor(a.phase,a.amplitude);
     document.getElementById('mjoStats').innerHTML=statChip('Valid',a.date)+statChip('RMM1',signed(a.rmm1,2))+statChip('RMM2',signed(a.rmm2,2))+statChip('30D max amp',num(maxAmp,2));
   }
 }
@@ -159,11 +165,13 @@ function forecastCard(product, options={}){
   </section>`;
 }
 
-function comparisonRow(label, sublabel, leftProduct, rightProduct){
-  return `<section class="forecast-comparison-row">
-    <div class="forecast-row-heading"><b>${label}</b><span>${sublabel}</span></div>
-    <div class="forecast-pair">${forecastCard(leftProduct||{name:'GEFS guidance',status:'missing'})}${forecastCard(rightProduct||{name:'ECMWF guidance',status:'missing'})}</div>
-  </section>`;
+function consensusStrip(kind,leftProduct,rightProduct){
+  const ready=leftProduct?.status==='live' && rightProduct?.status==='live';
+  const criteria={mjo:'Phase • amplitude • propagation • ensemble spread',pna:'GEFS PNA tendency • ECMWF Pacific 500-hPa pattern consistency',nao:'GEFS NAO tendency • ECMWF Euro-Atlantic regime probabilities'}[kind]||'Matched model evidence';
+  return `<div class="consensus-strip ${ready?'ready':'waiting'}"><div><span class="consensus-kicker">MULTI-MODEL CONSENSUS</span><b>${ready?'EVIDENCE AVAILABLE — SCORE GUARDED':'AWAITING BOTH SOURCES'}</b></div><p>${criteria}</p><span class="consensus-guardrail">${ready?'High / Moderate / Low is intentionally withheld until structured forecast values—not chart pixels—are ingested and validated.':'Consensus scoring remains disabled.'}</span></div>`;
+}
+function comparisonRow(label, sublabel, leftProduct, rightProduct, kind){
+  return `<section class="forecast-comparison-row"><div class="forecast-row-heading"><b>${label}</b><span>${sublabel}</span></div><div class="forecast-pair">${forecastCard(leftProduct||{name:'GEFS guidance',status:'missing'})}${forecastCard(rightProduct||{name:'ECMWF guidance',status:'missing'})}</div>${consensusStrip(kind,leftProduct,rightProduct)}</section>`;
 }
 
 function renderForwardGuidance(forecast){
@@ -174,9 +182,9 @@ function renderForwardGuidance(forecast){
   const byId=Object.fromEntries(products.map(p=>[p.id,p]));
   enso.innerHTML=forecastCard(byId.enso_probabilities||{name:'ENSO / RONI probabilities',status:'missing'},{ensoTimeline:true,className:'forecast-card-seasonal'});
   compare.innerHTML=[
-    comparisonRow('MJO / RMM','Direct ensemble comparison of Wheeler–Hendon phase-space evolution.',byId.mjo_gefs,byId.mjo_ecmwf_ifs_subseasonal_ens),
-    comparisonRow('PNA / Pacific–North American circulation','GEFS standardized PNA index versus ECMWF Pacific-sector 500-hPa circulation context.',byId.pna_gefs,byId.pna_context_ecmwf_z500_pacific),
-    comparisonRow('NAO / Euro-Atlantic regimes','GEFS standardized NAO index versus ECMWF probabilistic Euro-Atlantic weather regimes.',byId.nao_gefs,byId.nao_context_ecmwf_regimes)
+    comparisonRow('MJO / RMM','Direct ensemble comparison of Wheeler–Hendon phase-space evolution.',byId.mjo_gefs,byId.mjo_ecmwf_ifs_subseasonal_ens,'mjo'),
+    comparisonRow('PNA / Pacific–North American circulation','GEFS standardized PNA index versus ECMWF Pacific-sector 500-hPa circulation context.',byId.pna_gefs,byId.pna_context_ecmwf_z500_pacific,'pna'),
+    comparisonRow('NAO / Euro-Atlantic regimes','GEFS standardized NAO index versus ECMWF probabilistic Euro-Atlantic weather regimes.',byId.nao_gefs,byId.nao_context_ecmwf_regimes,'nao')
   ].join('');
 }
 
