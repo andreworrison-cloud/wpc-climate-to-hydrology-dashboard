@@ -4,7 +4,7 @@ const loadJSON = async (path) => {
   return response.json();
 };
 
-const fmt = (value, suffix='') => value === null || value === undefined ? '—' : `${value}${suffix}`;
+const fmt = (value, suffix='') => value === null || value === undefined ? '—' : `${typeof value === 'number' && value > 0 ? '+' : ''}${value}${suffix}`;
 
 async function boot(){
   const badge = document.getElementById('liveBadge');
@@ -27,7 +27,8 @@ async function boot(){
       el.innerHTML = `<div class="driver-top"><span class="driver-name">${d.display_name}</span><span class="status-dot"></span></div>
         <div class="driver-value">${fmt(d.value, d.units ? ` ${d.units}` : '')}</div>
         <div class="driver-meta">${d.state || 'Awaiting ingestion'} • valid ${d.valid_time || '—'}</div>
-        <div class="driver-meta">Source interface: ${d.source_name}</div>`;
+        <div class="driver-meta">Source: ${d.source_name}</div>
+        ${d.provisional ? '<div class="driver-meta">Latest value is provisional / subject to CPC revision</div>' : ''}`;
       driverCards.appendChild(el);
     });
 
@@ -45,7 +46,8 @@ async function boot(){
     status.datasets.forEach(d => {
       const el = document.createElement('div');
       el.className = 'health-item';
-      el.innerHTML = `<span>${d.name}</span><b class="${d.status === 'interface_ready' ? 'ok' : 'warn'}">${d.status.replaceAll('_',' ')}</b>`;
+      const healthy = ['interface_ready','live'].includes(d.status);
+      el.innerHTML = `<span>${d.name}</span><b class="${healthy ? 'ok' : 'warn'}">${d.status.replaceAll('_',' ')}</b>`;
       health.appendChild(el);
     });
 

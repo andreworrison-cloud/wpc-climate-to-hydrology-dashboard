@@ -2,6 +2,8 @@
 
 Phase 1 foundation for a real-time climate-to-hydrology situational awareness dashboard.
 
+**Phase 1A:** NOAA/CPC ERSSTv6 Relative Oceanic Niño Index (RONI) live ingestion is active. MJO/RMM, PNA, and NAO remain staged interfaces pending individual validation.
+
 ## Phase 1 scope
 
 This repository intentionally includes **no unvalidated predictive science**. It provides:
@@ -11,6 +13,7 @@ This repository intentionally includes **no unvalidated predictive science**. It
 - Explicit placeholder panels for future precipitation and flash-flood prediction products.
 - A Python validation layer for JSON interfaces.
 - GitHub Actions scaffolding for scheduled climate-data updates and GitHub Pages deployment.
+- Live NOAA/CPC RONI ingestion with source provenance, retrieval time, historical archive, and provisional-value labeling.
 
 ## Architecture
 
@@ -45,3 +48,9 @@ Then open `http://localhost:8000`.
 ## Important
 
 All forward-looking precipitation and flash-flood panels are intentionally marked **RESEARCH PLACEHOLDER — NOT ACTIVE** until historical testing establishes skill.
+
+## Phase 1A — live RONI
+
+Source: NOAA Climate Prediction Center ERSSTv6 Relative Oceanic Niño Index (RONI).
+
+The update workflow checks the source daily and writes the latest value to `data/climate_current.json` plus the full parsed record to `data/roni_history.json`. The dashboard treats the newest RONI as observational/provisional only; it does **not** convert RONI into precipitation or flash-flood guidance. NOAA/CPC notes that recent RONI values can be revised for up to two months.
