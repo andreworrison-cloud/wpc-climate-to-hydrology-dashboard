@@ -1,33 +1,33 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-31T20:04:42Z",
+  "generated_at": "2026-09-01T08:43:59Z",
   "overall_status": "current",
   "datasets": [
     {
       "name": "RONI / ENSO",
       "status": "live",
-      "checked_at": "2026-08-31T20:04:42Z",
+      "checked_at": "2026-09-01T08:43:59Z",
       "message": "Live \u2014 latest MJJ 2026: +0.98 \u00b0C",
       "source": "NOAA/CPC RONI (ERSSTv6)"
     },
     {
       "name": "MJO / RMM",
       "status": "live",
-      "checked_at": "2026-08-31T20:04:42Z",
-      "message": "Live \u2014 2026-08-29: phase 7, amplitude 1.19",
+      "checked_at": "2026-09-01T08:43:59Z",
+      "message": "Live \u2014 2026-08-30: phase 7, amplitude 1.12",
       "source": "Australian Bureau of Meteorology Wheeler-Hendon RMM"
     },
     {
       "name": "PNA",
       "status": "live",
-      "checked_at": "2026-08-31T20:04:42Z",
+      "checked_at": "2026-09-01T08:43:59Z",
       "message": "Live \u2014 2026-08-29: -0.757 \u03c3",
       "source": "NOAA/CPC daily PNA index"
     },
     {
       "name": "NAO",
       "status": "live",
-      "checked_at": "2026-08-31T20:04:42Z",
+      "checked_at": "2026-09-01T08:43:59Z",
       "message": "Live \u2014 2026-08-29: -1.071 \u03c3",
       "source": "NOAA/CPC daily NAO index"
     },
