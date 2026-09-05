@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0",
   "phase": "2B.3.2",
-  "generated_at": "2026-09-04T16:19:16Z",
+  "generated_at": "2026-09-05T15:10:52Z",
   "science_guardrail": "No chart-pixel interpretation. MJO uses the public S2S RMMS index feed. OpenCharts PNA/NAO products contribute structured metadata only unless their public API exposes numerical evidence.",
   "mjo": {
     "status": "parse_or_fetch_error",
     "evidence_type": "structured_rmm_ensemble",
     "source_listing": "https://aux.ecmwf.int/ecpds/data/list/RMMS",
-    "retrieved_at": "2026-09-04T16:19:16Z",
+    "retrieved_at": "2026-09-05T15:10:52Z",
     "consensus_readiness": "not_ready",
     "error": "ValueError: No ECMF real-time RMMS file discovered in S2S listing"
   },
@@ -16,16 +16,16 @@
     "evidence_type": "pacific_z500_context",
     "source_name": "ECMWF OpenCharts",
     "source_url": "https://charts.ecmwf.int/products/extended-anomaly-z500?projection=opencharts_pacific",
-    "retrieved_at": "2026-09-04T16:19:16Z",
+    "retrieved_at": "2026-09-05T15:10:52Z",
     "product_attributes": {
       "name": "extended-anomaly-z500",
       "title": "500 hPa height: Weekly mean anomalies",
-      "description": "Base time: Thu 03 Sep 2026 Valid time: Mon 07 Sep 2026 - Mon 14 Sep 2026 (+264h) Area : Pacific"
+      "description": "Base time: Fri 04 Sep 2026 Valid time: Mon 07 Sep 2026 - Mon 14 Sep 2026 (+240h) Area : Pacific"
     },
     "parsed_metadata": {
-      "description": "Base time: Thu 03 Sep 2026 Valid time: Mon 07 Sep 2026 - Mon 14 Sep 2026 (+264h) Area : Pacific",
-      "base_time_text": "Thu 03 Sep 2026",
-      "valid_time_text": "Mon 07 Sep 2026 - Mon 14 Sep 2026 (+264h)",
+      "description": "Base time: Fri 04 Sep 2026 Valid time: Mon 07 Sep 2026 - Mon 14 Sep 2026 (+240h) Area : Pacific",
+      "base_time_text": "Fri 04 Sep 2026",
+      "valid_time_text": "Mon 07 Sep 2026 - Mon 14 Sep 2026 (+240h)",
       "area_text": "Pacific"
     },
     "numerical_evidence_status": "not_exposed_by_public_opencharts_graphical_api",
@@ -37,7 +37,7 @@
     "evidence_type": "euro_atlantic_regime_probabilities",
     "source_name": "ECMWF OpenCharts",
     "source_url": "https://charts.ecmwf.int/products/extended-regime-probabilities",
-    "retrieved_at": "2026-09-04T16:19:16Z",
+    "retrieved_at": "2026-09-05T15:10:52Z",
     "product_attributes": {
       "name": "extended-regime-probabilities",
       "title": "Weather regimes probabilities - Sub-seasonal range forecast",
