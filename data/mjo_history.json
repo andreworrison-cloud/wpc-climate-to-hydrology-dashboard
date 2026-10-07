@@ -4,7 +4,7 @@
   "source_name": "Australian Bureau of Meteorology \u2014 Wheeler-Hendon RMM",
   "source_url": "https://www.bom.gov.au/climate/mjo/",
   "data_url": "https://www.bom.gov.au/clim_data/IDCKGEM000/rmm.74toRealtime.txt",
-  "retrieved_at": "2026-10-06T18:19:23Z",
+  "retrieved_at": "2026-10-07T18:56:11Z",
   "values": [
     {
       "date": "1974-06-01",
@@ -188175,6 +188175,136 @@
       "rmm2": -0.32795253,
       "phase": 1,
       "amplitude": 1.2850183
+    },
+    {
+      "date": "2026-09-23",
+      "year": 2026,
+      "month": 9,
+      "day": 23,
+      "rmm1": -1.3209884,
+      "rmm2": -0.47032711,
+      "phase": 1,
+      "amplitude": 1.4022189
+    },
+    {
+      "date": "2026-09-24",
+      "year": 2026,
+      "month": 9,
+      "day": 24,
+      "rmm1": -1.2911839,
+      "rmm2": -0.6222645,
+      "phase": 1,
+      "amplitude": 1.4333071
+    },
+    {
+      "date": "2026-09-25",
+      "year": 2026,
+      "month": 9,
+      "day": 25,
+      "rmm1": -1.2386652,
+      "rmm2": -0.52756327,
+      "phase": 1,
+      "amplitude": 1.3463337
+    },
+    {
+      "date": "2026-09-26",
+      "year": 2026,
+      "month": 9,
+      "day": 26,
+      "rmm1": -1.2709635,
+      "rmm2": -0.36148068,
+      "phase": 1,
+      "amplitude": 1.3213692
+    },
+    {
+      "date": "2026-09-27",
+      "year": 2026,
+      "month": 9,
+      "day": 27,
+      "rmm1": -1.1952978,
+      "rmm2": -0.46704105,
+      "phase": 1,
+      "amplitude": 1.2833021
+    },
+    {
+      "date": "2026-09-28",
+      "year": 2026,
+      "month": 9,
+      "day": 28,
+      "rmm1": -1.1507846,
+      "rmm2": -0.23178636,
+      "phase": 1,
+      "amplitude": 1.1738952
+    },
+    {
+      "date": "2026-09-29",
+      "year": 2026,
+      "month": 9,
+      "day": 29,
+      "rmm1": -1.2172228,
+      "rmm2": -0.25481999,
+      "phase": 1,
+      "amplitude": 1.2436095
+    },
+    {
+      "date": "2026-09-30",
+      "year": 2026,
+      "month": 9,
+      "day": 30,
+      "rmm1": -1.1451629,
+      "rmm2": -0.27397147,
+      "phase": 1,
+      "amplitude": 1.1774797
+    },
+    {
+      "date": "2026-10-01",
+      "year": 2026,
+      "month": 10,
+      "day": 1,
+      "rmm1": -1.2711223,
+      "rmm2": -0.25467405,
+      "phase": 1,
+      "amplitude": 1.2963837
+    },
+    {
+      "date": "2026-10-02",
+      "year": 2026,
+      "month": 10,
+      "day": 2,
+      "rmm1": -1.111524,
+      "rmm2": -0.0417073332,
+      "phase": 1,
+      "amplitude": 1.1123062
+    },
+    {
+      "date": "2026-10-03",
+      "year": 2026,
+      "month": 10,
+      "day": 3,
+      "rmm1": -1.0683625,
+      "rmm2": 0.26481444,
+      "phase": 8,
+      "amplitude": 1.100693
+    },
+    {
+      "date": "2026-10-04",
+      "year": 2026,
+      "month": 10,
+      "day": 4,
+      "rmm1": -0.914478,
+      "rmm2": 0.60211927,
+      "phase": 8,
+      "amplitude": 1.0949053
+    },
+    {
+      "date": "2026-10-05",
+      "year": 2026,
+      "month": 10,
+      "day": 5,
+      "rmm1": -0.91306752,
+      "rmm2": 0.72866952,
+      "phase": 8,
+      "amplitude": 1.168183
     }
   ]
 }
