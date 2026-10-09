@@ -4,7 +4,7 @@
   "source_name": "NOAA Climate Prediction Center \u2014 Daily PNA Index (CDAS 500-hPa)",
   "source_url": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna.shtml",
   "data_url": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.pna.cdas.z500.19500101_current.csv",
-  "retrieved_at": "2026-10-08T18:49:37Z",
+  "retrieved_at": "2026-10-09T18:20:04Z",
   "values": [
     {
       "date": "1950-01-01",
@@ -112149,6 +112149,10 @@
     {
       "date": "2026-10-06",
       "value": 0.5740330096313722
+    },
+    {
+      "date": "2026-10-07",
+      "value": -0.34501046397335605
     }
   ]
 }

@@ -4,7 +4,7 @@
   "source_name": "NOAA Climate Prediction Center \u2014 RONI (ERSSTv6)",
   "source_url": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/",
   "data_url": "https://www.cpc.ncep.noaa.gov/data/indices/RONI.ascii.txt",
-  "retrieved_at": "2026-10-08T18:49:37Z",
+  "retrieved_at": "2026-10-09T18:20:04Z",
   "provisional_latest": true,
   "values": [
     {
