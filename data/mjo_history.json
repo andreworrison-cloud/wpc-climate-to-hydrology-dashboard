@@ -4,7 +4,7 @@
   "source_name": "Australian Bureau of Meteorology \u2014 Wheeler-Hendon RMM",
   "source_url": "https://www.bom.gov.au/climate/mjo/",
   "data_url": "https://www.bom.gov.au/clim_data/IDCKGEM000/rmm.74toRealtime.txt",
-  "retrieved_at": "2026-10-13T19:14:13Z",
+  "retrieved_at": "2026-10-14T17:07:00Z",
   "values": [
     {
       "date": "1974-06-01",
@@ -188365,6 +188365,16 @@
       "rmm2": -0.61507815,
       "phase": 1,
       "amplitude": 1.5105844
+    },
+    {
+      "date": "2026-10-12",
+      "year": 2026,
+      "month": 10,
+      "day": 12,
+      "rmm1": -1.260332,
+      "rmm2": -0.69393462,
+      "phase": 1,
+      "amplitude": 1.4387432
     }
   ]
 }
