@@ -208,13 +208,11 @@ async function boot(){
     const driverCards = document.getElementById('driverCards');
     climate.indicators.forEach(d => {
       const el = document.createElement('div'); el.className = 'driver-card'; el.innerHTML = driverMarkup(d); driverCards.appendChild(el);
-    });
-
-    const regionCards = document.getElementById('regionCards');
-    regions.regions.forEach(r => {
-      const el = document.createElement('div'); el.className = 'region-card';
-      el.innerHTML = `<div class="region-top"><span class="region-name">${r.name}</span><span class="badge neutral">READY</span></div><div class="region-meta">Regional ID: ${r.id}</div><div class="region-meta">Precip signal: inactive • Flash-flood signal: inactive</div>`;
-      regionCards.appendChild(el);
+      const historyKey=d.id==='mjo_rmm'?'mjo':d.id;
+      const rows=(histories[historyKey]?.values||[]).slice(d.id==='roni'?-24:-30);
+      const mini=document.createElement('div'); mini.className='driver-sparkline';
+      mini.innerHTML=lineChartSVG(rows,d.id==='mjo_rmm'?'amplitude':'value',d.id==='roni'?'roni':'signed');
+      mini.setAttribute('aria-label',d.id==='mjo_rmm'?'Recent MJO amplitude history':'Recent observed history'); el.appendChild(mini);
     });
 
     const health = document.getElementById('dataHealth');

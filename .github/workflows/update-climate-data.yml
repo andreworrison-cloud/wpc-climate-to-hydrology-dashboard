@@ -21,6 +21,8 @@ jobs:
           python-version: '3.12'
       - name: Fetch observed climate drivers and forward guidance
         run: python scripts/update_climate_data.py
+      - name: Cache observed SST and anomaly maps
+        run: python scripts/update_ocean_data.py
       - name: Validate dashboard interfaces
         run: python scripts/validate_data.py
       - name: Commit refreshed climate data when changed
