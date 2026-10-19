@@ -2,7 +2,7 @@
 
 The morning workflow reads the existing dashboard JSON snapshot. It does not refit models, alter science eligibility, scrape forecast plots, or activate precipitation guidance.
 
-- Scheduler: cron-job.org, daily 06:15 America/New_York; target availability by 06:30 Eastern, subject to runner/API availability. No GitHub cron duplicate.
+- Intended scheduler: cron-job.org, daily 06:15 America/New_York; target availability by 06:30 Eastern, subject to runner/API availability. Setup is NOT complete: a disabled cloned draft (job 8680042) was created, but the browser connection failed before its configuration could be saved and verified. Existing jobs were not modified. No GitHub cron duplicate.
 - Workflow: `morning-briefing.yml`, manually dispatchable; code changes also trigger a commissioning run.
 - Required repository Actions secret: `OPENAI_API_KEY`. Never put this in code, browser JavaScript, or cron-job.org.
 - Optional repository variable: `OPENAI_BRIEFING_MODEL`, default `gpt-4.1`. Requires Responses API and strict JSON-schema output support.
