@@ -2,18 +2,23 @@
 (() => {
   const $ = id => document.getElementById(id);
   const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  let ocean, product='ssta', region='global', lead='D1_7', selectedRegion=null;
+  let ocean, provider='sport', product='sst', region='global', lead='D1_7', selectedRegion=null;
   const title = p => p==='sst'?'Sea surface temperature':'SST anomaly';
   const utc = value => { const d=new Date(value); return value && Number.isFinite(d.getTime())?d.toISOString().replace('T',' ').slice(0,16)+' UTC':'not supplied'; };
   function renderOcean(){
-    const row=ocean?.products?.find(r=>r.product===product && r.region===region);
+    const rows=ocean?.products||[];
+    document.querySelectorAll('[data-ocean-region]').forEach(b=>{const available=rows.some(r=>(r.provider||'noaa')===provider&&r.region===b.dataset.oceanRegion);b.hidden=!available;b.textContent=b.dataset.oceanRegion==='pacific'?(provider==='sport'?'East Pacific':'Pacific'):b.dataset.oceanRegion==='atlantic'?'West Atlantic':b.dataset.oceanRegion==='global'?'Global':'Caribbean';});
+    if(!rows.some(r=>(r.provider||'noaa')===provider&&r.region===region))region='global';
+    document.querySelectorAll('[data-ocean-region]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.oceanRegion===region)));
+    const row=rows.find(r=>(r.provider||'noaa')===provider&&r.product===product && r.region===region);
     const img=$('oceanImage'); img.hidden=true; img.removeAttribute('src');
     $('oceanFull').hidden=true;
     $('oceanEmpty').hidden=false;
     $('oceanEmpty').textContent='Ocean imagery unavailable for this selection.';
     $('oceanLabel').textContent=`${title(product)} · ${row?.region_label||region} · °C`;
-    $('oceanBaseline').textContent=product==='ssta'?'1991–2020':'Absolute temperature (°C)';
+    $('oceanBaseline').textContent=product==='ssta'?(row?.baseline||'Not available'):'Absolute temperature (°C)';
     $('oceanProvenance').textContent=row?`Product: ${row.version}. Retrieved: ${utc(row.retrieved_at)}. Source HTTP Last-Modified: ${row.source_last_modified||'not supplied'}.`:'No verified ocean manifest loaded.';
+    $('oceanSourceTitle').textContent=provider==='sport'?'NASA SPoRT composite · 2 km':'NOAA nighttime SST · 5 km';
     if(row){$('oceanSource').href=row.source_url;}
     if(!row?.image_path || !['available','stale'].includes(row.status)){
       $('oceanStatus').textContent='Unavailable · source image could not be retrieved.'; return;
@@ -21,21 +26,23 @@
     // Compute delivery age on every page load, even if the update workflow has stopped.
     const retrieved=Date.parse(row.retrieved_at);
     const modified=Date.parse(row.source_last_modified);
-    const stale=row.status==='stale'||!Number.isFinite(retrieved)||Date.now()-retrieved>72*3600000||(Number.isFinite(modified)&&Date.now()-modified>72*3600000);
-    $('oceanStatus').textContent=`${stale?'STALE CACHE · ':'Cached NOAA image · '}Observation date printed on map. Retrieved ${utc(row.retrieved_at)}.`;
-    img.alt=`NOAA ${row.region_label} ${title(product)}, degrees Celsius${row.baseline?', baseline '+row.baseline:''}. Observation date and color legend are printed on the map.`;
+    const valid=Date.parse(row.valid_time);
+    const stale=(Number.isFinite(valid)&&Date.now()-valid>72*3600000)||row.status==='stale'||!Number.isFinite(retrieved)||Date.now()-retrieved>72*3600000||(Number.isFinite(modified)&&Date.now()-modified>72*3600000);
+    $('oceanStatus').textContent=`${stale?'STALE CACHE · ':'Cached '+row.source_name+' image · '}${row.valid_time?'Composite valid '+utc(row.valid_time):'Observation date printed on map'}. Retrieved ${utc(row.retrieved_at)}.`;
+    img.alt=`${row.source_name} ${row.region_label} ${title(product)}, degrees Celsius${row.baseline?', baseline '+row.baseline:''}. Observation date and color legend are printed on the map.`;
     img.onload=()=>{img.hidden=false;$('oceanEmpty').hidden=true;};
-    img.onerror=()=>{img.hidden=true;$('oceanEmpty').hidden=false;$('oceanEmpty').textContent='Cached image could not load. Open the NOAA source below.';$('oceanFull').hidden=true;};
+    img.onerror=()=>{img.hidden=true;$('oceanEmpty').hidden=false;$('oceanEmpty').textContent='Cached image could not load. Open the source below.';$('oceanFull').hidden=true;};
     img.src=row.image_path;
     $('oceanFull').href=row.image_path;$('oceanFull').hidden=false;
   }
-  document.querySelectorAll('[data-ocean-product],[data-ocean-region]').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('[data-ocean-product],[data-ocean-region],[data-ocean-provider]').forEach(btn=>btn.addEventListener('click',()=>{
+    if(btn.dataset.oceanProvider){provider=btn.dataset.oceanProvider;document.querySelectorAll('[data-ocean-provider]').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));renderOcean();return;}
     const key=btn.dataset.oceanProduct?'oceanProduct':'oceanRegion';
     if(key==='oceanProduct')product=btn.dataset[key];else region=btn.dataset[key];
     document.querySelectorAll(key==='oceanProduct'?'[data-ocean-product]':'[data-ocean-region]').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));
     renderOcean();
   }));
-  loadJSON('data/ocean/manifest.json').then(d=>{ocean=d;renderOcean();}).catch(()=>renderOcean());
+  Promise.all([loadJSON('data/ocean/manifest.json').catch(()=>({products:[]})),loadJSON('data/ocean/sport_manifest.json').catch(()=>({products:[]}))]).then(([n,s])=>{ocean={products:[...n.products,...s.products]};renderOcean();});
   function showEvidence(){
     if(!selectedRegion)return;
     const days={D1_7:'Days 1–7',D8_14:'Days 8–14',D15_21:'Days 15–21',D22_28:'Days 22–28'};

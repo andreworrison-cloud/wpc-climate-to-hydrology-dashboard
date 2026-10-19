@@ -56,6 +56,25 @@ function lineChartSVG(rows, valueKey='value', palette='signed'){
   return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img">${gridLines}<line x1="${m.l}" y1="${zeroY}" x2="${W-m.r}" y2="${zeroY}" class="chart-zero"/>${segments}<circle cx="${x(last)}" cy="${y(lastVal)}" r="4.5" fill="${lastColor}" class="chart-dot-semantic"/><circle cx="${x(last)}" cy="${y(lastVal)}" r="8" class="chart-latest-ring" style="stroke:${lastColor}"/><text x="${m.l}" y="${H-8}" class="chart-axis-label">${firstLabel}</text><text x="${W-m.r}" y="${H-8}" text-anchor="end" class="chart-axis-label">${lastLabel}</text></svg>`;
 }
 
+function driverTimelineSVG(rows, driver){
+  const key=driver==='mjo_rmm'?'amplitude':'value';
+  const valid=r=>r[key]!==null && r[key]!==undefined && Number.isFinite(Number(r[key]));
+  if(rows.length<2 || !rows.some(valid))return '<div class="driver-meta">History unavailable</div>';
+  const W=360,H=120,m={l:35,r:15,t:12,b:30};
+  const values=rows.filter(valid).map(r=>Number(r[key]));
+  const abs=Math.max(.5,...values.map(Math.abs));
+  const lo=driver==='mjo_rmm'?0:-abs*1.12,hi=abs*1.12;
+  const x=i=>m.l+i*(W-m.l-m.r)/(rows.length-1), y=v=>m.t+(hi-v)*(H-m.t-m.b)/(hi-lo);
+  const label=r=>r.date?new Date(r.date+'T00:00:00Z').toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'UTC'}):`${r.season} ${r.year}`;
+  const ticks=[0,Math.floor((rows.length-1)/2),rows.length-1];
+  const time=ticks.map((i,j)=>`<line x1="${x(i)}" x2="${x(i)}" y1="${H-m.b}" y2="${H-m.b+5}" class="mini-tick"/><text x="${x(i)}" y="${H-10}" text-anchor="${j===0?'start':j===2?'end':'middle'}" class="mini-axis">${label(rows[i])}</text>`).join('');
+  const minor=rows.map((_,i)=>`<line x1="${x(i)}" x2="${x(i)}" y1="${H-m.b}" y2="${H-m.b+3}" class="mini-minor"/>`).join('');
+  const levels=driver==='mjo_rmm'?[0,1,Math.ceil(abs)]:[-abs,0,abs];
+  const grid=levels.filter(v=>v<=hi&&v>=lo).map(v=>`<line x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}" class="mini-grid"/><text x="${m.l-6}" y="${y(v)+3}" text-anchor="end" class="mini-axis">${v.toFixed(1)}</text>`).join('');
+  const lines=rows.slice(1).map((r,i)=>valid(r)&&valid(rows[i])?`<line x1="${x(i)}" y1="${y(Number(rows[i][key]))}" x2="${x(i+1)}" y2="${y(Number(r[key]))}" stroke="${driver==='mjo_rmm'?'#8ee2d7':signedStateColor(Number(r[key]))}" stroke-width="2.5"/>`:'').join('');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${driver==='mjo_rmm'?'MJO amplitude':driver.toUpperCase()} history, ${label(rows[0])} through ${label(rows.at(-1))}">${grid}${lines}${minor}${time}</svg><div class="mini-legend">${driver==='roni'?'RONI (°C) · 24 overlapping seasons':driver==='mjo_rmm'?'RMM amplitude · active ≥1 · 30 days':driver.toUpperCase()+' (standardized index) · 30 days'}${rows[0].date?' · '+rows[0].date.slice(0,4)+(rows[0].date.slice(0,4)!==rows.at(-1).date.slice(0,4)?'–'+rows.at(-1).date.slice(0,4):''):''}</div>`;
+}
+
 function phaseSpaceSVG(rows){
   if (!rows || rows.length < 2) return '<div class="empty-state">Insufficient MJO history.</div>';
   const W=520,H=310,cx=260,cy=155,scale=31,maxR=4;
@@ -211,7 +230,7 @@ async function boot(){
       const historyKey=d.id==='mjo_rmm'?'mjo':d.id;
       const rows=(histories[historyKey]?.values||[]).slice(d.id==='roni'?-24:-30);
       const mini=document.createElement('div'); mini.className='driver-sparkline';
-      mini.innerHTML=lineChartSVG(rows,d.id==='mjo_rmm'?'amplitude':'value',d.id==='roni'?'roni':'signed');
+      mini.innerHTML=driverTimelineSVG(rows,d.id);
       mini.setAttribute('aria-label',d.id==='mjo_rmm'?'Recent MJO amplitude history':'Recent observed history'); el.appendChild(mini);
     });
 
