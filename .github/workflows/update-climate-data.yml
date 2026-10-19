@@ -1,36 +1,73 @@
 name: Update climate data
-
 on:
   workflow_dispatch:
+    inputs:
+      collection:
+        description: Source collection to check
+        type: choice
+        options: [all, sport, observed, daily]
+        default: all
+  # Temporary existing trigger until cron-job.org dispatch is verified.
   schedule:
-    # Daily source check. Observed indices and authoritative forecast guidance
-    # are refreshed together; monthly ENSO guidance simply remains unchanged
-    # until CPC posts a new issue.
     - cron: '17 12 * * *'
-
 permissions:
   contents: write
-
+  pages: write
+  id-token: write
+concurrency:
+  group: climate-data-update
+  cancel-in-progress: false
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Fetch observed climate drivers and forward guidance
-        run: python scripts/update_climate_data.py
-      - name: Cache observed SST and anomaly maps
-        run: python scripts/update_ocean_data.py
-      - name: Cache NASA SPoRT SST and anomaly composites
-        run: python scripts/update_sport_sst.py
+      - name: Check selected sources and refresh changed products
+        env:
+          COLLECTION: ${{ inputs.collection || 'all' }}
+        run: python scripts/refresh_dashboard.py --collection "$COLLECTION"
       - name: Validate dashboard interfaces
         run: python scripts/validate_data.py
-      - name: Commit refreshed climate data when changed
+      - name: Commit only substantive changes
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/
-          git diff --cached --quiet || git commit -m "Update climate drivers and forward guidance"
-          git push
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No new products or status changes; no commit or deployment."
+          else
+            git commit -m "Refresh changed dashboard products"
+            git pull --rebase origin main
+            git push origin HEAD:main
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+  deploy:
+    needs: update
+    if: needs.update.outputs.changed == 'true'
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - uses: actions/deploy-pages@v4
+        id: deployment

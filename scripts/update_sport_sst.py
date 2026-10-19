@@ -42,6 +42,16 @@ def main():
             if not frames:raise ValueError('; '.join(errors))
             dt,path,inv=max(frames)
             url=BASE+path
+            prior=old.get(key,{})
+            cached=ROOT/prior.get('image_path','missing')
+            if (prior.get('image_url')==url and prior.get('valid_time')==dt.isoformat()
+                    and prior.get('sha256') and cached.is_file()
+                    and hashlib.sha256(cached.read_bytes()).hexdigest()==prior['sha256']):
+                row={**prior, 'status': 'stale' if (datetime.now(timezone.utc)-dt).total_seconds()>72*3600 else 'available',
+                     'inventory_warnings': errors}
+                row.pop('error',None)
+                print(key,'unchanged: no image download',flush=True)
+                return row
             with urllib.request.urlopen(url,timeout=45) as r:raw=r.read(12_000_001);modified=r.headers.get('Last-Modified')
             if len(raw)>12_000_000:raise ValueError('Image too large')
             width,height=validate_png(raw)

@@ -1191,8 +1191,20 @@ def dataset(status: dict, name: str) -> dict:
     return result
 
 
+def observed_unchanged(path, rows, source_url, status, name):
+    if not path.exists() or dataset(status, name).get("status") != "live":
+        return False
+    old = json.loads(path.read_text())
+    unchanged = old.get("values") == rows and old.get("data_url") == source_url
+    if unchanged:
+        print(name + ": unchanged observations (including historical revisions)")
+    return unchanged
+
+
 def update_roni(climate: dict, status: dict, retrieved_at: str) -> None:
     rows = parse_roni(fetch_text(RONI_URL))
+    if observed_unchanged(RONI_HISTORY, rows, RONI_URL, status, 'RONI / ENSO'):
+        return
     latest = rows[-1]
     indicator(climate, "roni").update({
         "value": latest["value"],
@@ -1237,6 +1249,8 @@ def update_mjo(climate: dict, status: dict, retrieved_at: str) -> None:
         source_url = MJO_FALLBACK_URL
         text = fetch_text(MJO_FALLBACK_URL, referer=MJO_PAGE)
     rows = parse_mjo(text)
+    if observed_unchanged(MJO_HISTORY, rows, source_url, status, 'MJO / RMM'):
+        return
     latest = rows[-1]
     indicator(climate, "mjo_rmm").update({
         "value": round(latest["amplitude"], 2),
@@ -1285,6 +1299,8 @@ def update_pna(climate: dict, status: dict, retrieved_at: str) -> None:
         text = fetch_text(PNA_FALLBACK_URL, referer=PNA_PAGE)
 
     rows = parse_pna(text)
+    if observed_unchanged(PNA_HISTORY, rows, source_url, status, 'PNA'):
+        return
     latest = rows[-1]
     value = latest["value"]
     indicator(climate, "pna").update({
@@ -1328,6 +1344,8 @@ def update_nao(climate: dict, status: dict, retrieved_at: str) -> None:
 
     # CPC's NAO and PNA daily files use the same current/legacy layout.
     rows = parse_pna(text)
+    if observed_unchanged(NAO_HISTORY, rows, source_url, status, 'NAO'):
+        return
     latest = rows[-1]
     value = latest["value"]
     indicator(climate, "nao").update({
