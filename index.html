@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>WPC Climate-to-Hydrology Prediction Dashboard</title>
   <link rel="stylesheet" href="assets/css/styles.css" />
-  <link rel="stylesheet" href="assets/css/workbench.css" />
+  <link rel="stylesheet" href="assets/css/workbench.css?v=20261019-briefing1" />
 </head>
 <body>
   <a class="skip-link" href="#ocean">Skip to ocean viewer</a>
@@ -28,7 +28,13 @@
       <a href="#regional"><span>03</span> Precipitation tendency <small>INACTIVE</small></a>
       <a href="#historical"><span>04</span> Historical impacts</a>
     </nav>
-    <div class="briefing"><span class="briefing-label">FORECASTER BRIEFING</span><p>Explore observed ocean and climate conditions alongside forecast-driver evolution. Regional precipitation guidance remains inactive pending scientific review.</p></div>
+    <section class="briefing" aria-labelledby="briefingTitle">
+      <div class="briefing-heading"><span class="briefing-label" id="briefingTitle">MORNING CLIMATE BRIEFING</span><span id="briefingStatus" class="badge">Checking availability</span></div>
+      <p id="briefingMeta">Daily morning synthesis of the latest available dashboard inputs.</p>
+      <div id="briefingContent" aria-live="polite"></div>
+      <p class="briefing-scope">Regional precipitation guidance remains inactive; no precipitation or flash-flood forecast is issued. Historical impact context is not yet connected to this briefing.</p>
+      <details id="briefingSources" hidden><summary>Sources, valid times &amp; generation record</summary><div id="briefingSourceList"></div></details>
+    </section>
     <main class="dashboard-grid">
       <aside class="panel climate-panel">
         <div class="panel-title">Global Climate Drivers</div>
@@ -138,7 +144,8 @@
     </footer>
   </div>
   <script src="assets/js/app.js"></script>
-  <script src="assets/js/ocean-basin.js?v=20261019-basin2"></script>
-  <script src="assets/js/workbench.js?v=20261019-basin2"></script>
+  <script src="assets/js/ocean-basin.js?v=20261019-briefing1"></script>
+  <script src="assets/js/workbench.js?v=20261019-briefing1"></script>
+  <script src="assets/js/briefing.js?v=20261019-briefing1"></script>
 </body>
 </html>

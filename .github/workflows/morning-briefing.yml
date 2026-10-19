@@ -1,0 +1,71 @@
+name: Morning AI climate briefing
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['scripts/generate_briefing.py', '.github/workflows/morning-briefing.yml']
+# Daily timing belongs solely to cron-job.org; no GitHub cron schedule.
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: morning-climate-briefing
+  cancel-in-progress: false
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Record exact input revision
+        run: echo "SOURCE_COMMIT=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+      - name: Generate and verify daily briefing
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BRIEFING_MODEL: ${{ vars.OPENAI_BRIEFING_MODEL }}
+        run: python scripts/generate_briefing.py
+      - name: Commit issuance or explicit availability status
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/briefing/
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Update daily AI briefing issuance and audit record"
+            git pull --rebase origin main
+            git push origin HEAD:main
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+  deploy:
+    needs: generate
+    if: needs.generate.outputs.changed == 'true'
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+          name: github-pages-${{ github.run_attempt }}
+      - uses: actions/deploy-pages@v4
+        id: deployment
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}

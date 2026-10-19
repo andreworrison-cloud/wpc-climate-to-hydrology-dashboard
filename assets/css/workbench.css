@@ -24,3 +24,15 @@ html{scroll-behavior:smooth;scroll-padding-top:24px}body{background:radial-gradi
 .ocean-frame #oceanImage{position:absolute;max-width:none;max-height:none;object-fit:fill}
 .ocean-frame .empty-state{position:absolute;inset:0;display:grid;place-items:center}
 .ocean-frame .empty-state[hidden]{display:none}
+/* Daily evidence-linked briefing */
+.briefing{display:block;padding:22px 26px;border:1px solid #2c5263;border-left:3px solid #6dd9df;background:linear-gradient(115deg,#102a37,#101e2b);border-radius:14px;margin:24px 0}
+.briefing-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.briefing #briefingMeta{font-size:12px;color:#a8bdca;margin:10px 0 16px}
+#briefingContent{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+#briefingContent h3{font-size:14px;color:#a7ebed;margin:0 0 8px}
+#briefingContent p{font-size:14px;line-height:1.65;margin:0 0 8px}
+#briefingContent small{font-size:11px;line-height:1.7;color:#b7cbd5;display:block;margin-bottom:12px}
+.briefing a{color:#a7dce5;text-underline-offset:3px}
+.briefing .briefing-scope{font-size:12px;color:#b3c6d2;border-top:1px solid #294350;padding-top:14px;margin-top:14px}
+#briefingSources{font-size:12px;line-height:1.65;margin-top:12px}#briefingSources summary{cursor:pointer;color:#a7dce5}
+@media(max-width:850px){#briefingContent{grid-template-columns:1fr;gap:12px}.briefing{padding:18px}}

@@ -3,7 +3,7 @@ const {basinLayout,lonLabel,latLabel}=require('../assets/js/ocean-basin.js');
 for(const region of ['pacific','atlantic']){
  const p=basinLayout(1548,892,region);
  assert.ok(p.width+2*p.margin>p.headerHeight+p.mapHeight+p.legendHeight+2*p.margin,'landscape canvas');
- assert.ok(p.mapY>103&&p.mapY+p.mapHeight<761,'polar areas cropped');
+ assert.ok(p.mapY>103&&p.mapY+p.sourceHeight<761,'polar areas cropped');
  for(const [x,w] of p.segments)assert.ok(x>=32&&x+w<=1516,'source frame excluded');
 }
 const pac=basinLayout(1548,892,'pacific');
@@ -15,3 +15,6 @@ assert.equal(lonLabel(180),'180°');assert.equal(lonLabel(280),'80°W');assert.e
 assert.throws(()=>basinLayout(1600,900,'atlantic'),/layout changed/);
 assert.throws(()=>basinLayout(1548,892,'indian'),/Unknown/);
 console.log('Landscape extents, frame exclusion, coordinate labels and layout guard: PASS');
+
+assert.equal(pac.width,basinLayout(1548,892,'atlantic').width);
+assert.equal(pac.mapHeight,basinLayout(1548,892,'atlantic').mapHeight);
