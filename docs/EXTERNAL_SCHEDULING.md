@@ -14,12 +14,16 @@ securely in cron-job.org. Use a repository-scoped credential with Actions write.
 Never commit credentials. Successful dispatch returns HTTP 204; verify the actual
 Actions run separately (204 does not establish completed ingestion or deployment).
 
-All times below UTC. Initial low-frequency schedules, subject to measured publication
-latency; analysis valid times are not publication-time promises.
+All times below UTC. NASA checks follow the user-specified cycle-relative schedule:
+08:45/10:45 after 06Z and 20:45/22:45 after 18Z.
+The observed-index times and combined daily collection time are provisional operational
+choices, NOT verified source publication schedules. They remain enabled for continuity
+pending source-specific availability review. Grouping forecasts and NOAA ocean maps at
+one time does not establish a common release cadence.
 
 | Job | Initial check times | JSON body |
 |---|---|---|
-| WPC Climate — NASA SPoRT | 03:45, 05:45, 15:45, 17:45 | `{"ref":"main","inputs":{"collection":"sport"}}` |
+| WPC Climate — NASA SPoRT | 08:45, 10:45, 20:45, 22:45 | `{"ref":"main","inputs":{"collection":"sport"}}` |
 | WPC Climate — observed indices | 10:10, 14:10, 18:10 | `{"ref":"main","inputs":{"collection":"observed"}}` |
 | WPC Climate — daily forecast and NOAA ocean context | 12:35 | `{"ref":"main","inputs":{"collection":"daily"}}` |
 
