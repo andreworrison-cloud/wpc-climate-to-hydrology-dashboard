@@ -7,9 +7,6 @@ on:
         type: choice
         options: [all, sport, observed, daily]
         default: all
-  # Temporary existing trigger until cron-job.org dispatch is verified.
-  schedule:
-    - cron: '17 12 * * *'
 permissions:
   contents: write
   pages: write
