@@ -23,7 +23,11 @@ class OceanTests(unittest.TestCase):
             self.assertEqual(cached['status'],'stale')
             self.assertEqual(cached['retrieved_at'],row['retrieved_at'])
             self.assertEqual(path.read_bytes(),raw)
-            self.assertTrue(all(r['status']=='unavailable' for r in result['products'] if r['id']!='ssta_global'))
+            self.assertTrue(all(r['status']=='unavailable' for r in result['products'] if r['id'] not in ['ssta_global','ssta_atlantic']))
+            atlantic=next(r for r in result['products'] if r['id']=='ssta_atlantic')
+            self.assertEqual(atlantic['sha256'],cached['sha256'])
+            self.assertEqual(atlantic['status'],'stale')
+            self.assertEqual(atlantic['image_path'],cached['image_path'])
             self.assertIs(result['active_prediction'],False)
     def test_rejects_html_error_and_truncated_png(self):
         for raw in [b'<html>error</html>',b'\x89PNG\r\n\x1a\n'+b'0'*20000]:
@@ -31,6 +35,7 @@ class OceanTests(unittest.TestCase):
     def test_cached_source_inventory(self):
         data=json.loads((ocean.ROOT/'data/ocean/manifest.json').read_text())
         self.assertEqual(len(data['products']),6)
+        self.assertEqual({r['region'] for r in data['products']},{'global','pacific','atlantic'})
         for row in data['products']:
             raw=(ocean.ROOT/row['image_path']).read_bytes()
             self.assertEqual(ocean.hashlib.sha256(raw).hexdigest(),row['sha256'])

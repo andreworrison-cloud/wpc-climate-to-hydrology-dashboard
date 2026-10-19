@@ -15,7 +15,7 @@ PRODUCTS = {
     'sst': ('data_current/5km/v3.1_op/daily/png/coraltemp_v3.1_{region}_current.png', 'product/5km/index_5km_sst.php', None, 'CoralTemp v3.1'),
     'ssta': ('data_current/5km/v3.1-clim19912020-v1/daily/png/ct5km_ssta_v3.1-clim19912020-v1_{region}_current.png', 'product/5km/index_5km_ssta_clim19912020.php', '1991–2020', '3.1-clim19912020-v1'),
 }
-REGIONS = {'global': 'Global', 'pacific': 'Pacific', 'caribbean': 'Caribbean'}
+REGIONS = {'global': 'Global', 'pacific': 'Pacific', 'atlantic': 'Atlantic'}
 
 def validate_png(raw):
     if len(raw) < 10000 or raw[:8] != b'\x89PNG\r\n\x1a\n':
@@ -36,6 +36,16 @@ def main():
     for product, (template, page, baseline, version) in PRODUCTS.items():
         for region, label in REGIONS.items():
             key = f'{product}_{region}'
+            # NOAA does not publish a corresponding North Atlantic SST panel.
+            # Use an explicitly labeled viewport into the unchanged global image
+            # for BOTH variables, preserving identical Atlantic view behavior.
+            if region == 'atlantic':
+                global_row = next(r for r in rows if r['id'] == f'{product}_global')
+                rows.append({**global_row, 'id': key, 'region': region,
+                             'region_label': 'Atlantic (global-map view)',
+                             'view_focus': [0.83, 0.44], 'initial_zoom': 2,
+                             'coverage_note': 'Atlantic-focused view of the NOAA global source image; Fit shows the complete map and legend.'})
+                continue
             url = BASE + template.format(region=region)
             row = dict(id=key, product=product, region=region, region_label=label,
                        source_name='NOAA Coral Reef Watch', source_url=BASE+page,
