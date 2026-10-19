@@ -1,4 +1,5 @@
-import sys,json,unittest,hashlib
+import sys,json,unittest,hashlib,tempfile,shutil
+from datetime import datetime
 from pathlib import Path
 from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
@@ -14,6 +15,18 @@ class InventoryTests(unittest.TestCase):
     {'time':'Oct 18, 2026 - 06:00 UTC','path':'/sport/dynamic/enhanced_sst/new.png'}]}
   with patch.object(sport.urllib.request,'urlopen'),patch.object(sport.json,'load',return_value=d):
    dt,path,url=sport.inventory('esst06','sst_legacy','global');self.assertTrue(path.endswith('/new.png'));self.assertEqual(dt.hour,6)
+ def test_same_inventory_skips_image_download(self):
+  with tempfile.TemporaryDirectory() as directory:
+   root=Path(directory);shutil.copytree(sport.ROOT/'data/ocean',root/'data/ocean')
+   manifest=json.loads((root/'data/ocean/sport_manifest.json').read_text())
+   rows={(r['product'],r['region']):r for r in manifest['products']}
+   regions={v[0]:k for k,v in sport.DOMAINS.items()}
+   def frame(ds,product,location):
+    row=rows[('sst' if product=='sst_legacy' else 'ssta',regions[location])]
+    return datetime.fromisoformat(row['valid_time']),row['image_url'].removeprefix(sport.BASE),row['inventory_url']
+   with patch.object(sport,'ROOT',root),patch.object(sport,'inventory',side_effect=frame),patch.object(sport.urllib.request,'urlopen') as fetch:
+    sport.main()
+    fetch.assert_not_called()
  def test_cached_manifest(self):
   d=json.loads((sport.ROOT/'data/ocean/sport_manifest.json').read_text());self.assertEqual(len(d['products']),6)
   for r in d['products']:
