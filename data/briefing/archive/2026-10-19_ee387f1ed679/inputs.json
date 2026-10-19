@@ -1,0 +1,197 @@
+{
+  "schema_version": "1.0",
+  "version": "morning-briefing-v1",
+  "as_of": "2026-10-19T18:51:21.689801+00:00",
+  "source_commit": "89076201b620659eaa9b44b07bd2e67f0e0d4303",
+  "source_sha256": {
+    "climate_current.json": "3a2d32692bd930e47778a30c6ce0486a2d9a9e66deecf5ae0e3d883669431047",
+    "mjo_history.json": "068c8d3384b167552f30bfc4c83a8f7e085f95f109dce3217a539dfd96e931e7",
+    "pna_history.json": "30c6707ea2b91bfd0682178710b334e132db966ad8535667d8b482210926114f",
+    "nao_history.json": "57d4e74c3942398211ed0d6a38f6617f97c9099dc35c1e630758805416ca597d",
+    "gefs_teleconnections.json": "3aa0f823e687b1db7047ef5bc86a864da7a268944c4fbb8308cfbc432e512b12",
+    "ecmwf_consensus_inputs.json": "5d145b717f11fa81ce7c3e21b0da94c47320d2c3583069fda147cf846fda7e3c",
+    "forecast_status.json": "ba333f6d42c1f1b4955a9ff619835fa9b7e1576c2b3e525d40489459704c9895",
+    "ocean/sport_manifest.json": "6e540c9e1d7d43926f028bc857015357907509939f3502676d9da1256c530ed6",
+    "ocean/manifest.json": "3b46664adea5ea8673a36b942174c7a7bb2cf8be157729892ee9cee41576578a",
+    "data_status.json": "4a47d339aa269fc5c0cee90b2dab97cce071659d5ed332fa583e318af6627f13"
+  },
+  "scope": "Regional precipitation guidance is inactive. No precipitation or flash-flood forecast is issued. Historical impact context is not yet connected to this briefing.",
+  "facts": [
+    {
+      "id": "roni",
+      "layer": "observed",
+      "text": "ENSO / RONI observed value +1.690 °C, valid JAS 2026. Overlapping-season estimate; provisional and subject to CPC revisions. This is not an ENSO forecast.",
+      "source": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/",
+      "valid_time": "JAS 2026",
+      "status": "seasonal_provisional"
+    },
+    {
+      "id": "mjo_rmm",
+      "layer": "observed",
+      "text": "MJO observed RMM phase 2, amplitude 1.047, valid 2026-10-17; Active RMM signal (Indian Ocean). Source date age 66.9 hours; freshness within_age_limit (72-hour display limit).",
+      "source": "https://www.bom.gov.au/climate/mjo/",
+      "valid_time": "2026-10-17",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "mjo_rmm_change",
+      "layer": "observed",
+      "text": "mjo_rmm amplitude changed from +1.333 on 2026-10-10 to +1.047 on 2026-10-17; change -0.286 over 7 days. This is a historical change, not evidence of an overnight update.",
+      "source": "https://www.bom.gov.au/climate/mjo/",
+      "valid_time": "2026-10-17",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "pna",
+      "layer": "observed",
+      "text": "PNA observed value +0.775 σ, valid 2026-10-17. Source date age 66.9 hours; freshness within_age_limit (72-hour display limit).",
+      "source": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna.shtml",
+      "valid_time": "2026-10-17",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "pna_change",
+      "layer": "observed",
+      "text": "pna value changed from +0.122 on 2026-10-10 to +0.775 on 2026-10-17; change +0.653 over 7 days. This is a historical change, not evidence of an overnight update.",
+      "source": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna.shtml",
+      "valid_time": "2026-10-17",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "nao",
+      "layer": "observed",
+      "text": "NAO observed value +0.977 σ, valid 2026-10-17. Source date age 66.9 hours; freshness within_age_limit (72-hour display limit).",
+      "source": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.shtml",
+      "valid_time": "2026-10-17",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "nao_change",
+      "layer": "observed",
+      "text": "nao value changed from +0.582 on 2026-10-10 to +0.977 on 2026-10-17; change +0.395 over 7 days. This is a historical change, not evidence of an overnight update.",
+      "source": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.shtml",
+      "valid_time": "2026-10-17",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "gefs_pna_5",
+      "layer": "forecast",
+      "text": "GEFS PNA, cycle 2026-10-19, lead 5 days, valid 2026-10-24: ensemble mean +0.145, standard deviation 0.188, 31 members; positive fraction 0.742, negative fraction 0.258. Fractions are not calibrated probabilities.",
+      "source": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.pna.gefs.z500.120days.csv",
+      "valid_time": "2026-10-24",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "gefs_pna_7",
+      "layer": "forecast",
+      "text": "GEFS PNA, cycle 2026-10-19, lead 7 days, valid 2026-10-26: ensemble mean -0.304, standard deviation 0.312, 31 members; positive fraction 0.129, negative fraction 0.871. Fractions are not calibrated probabilities.",
+      "source": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.pna.gefs.z500.120days.csv",
+      "valid_time": "2026-10-26",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "gefs_pna_10",
+      "layer": "forecast",
+      "text": "GEFS PNA, cycle 2026-10-19, lead 10 days, valid 2026-10-29: ensemble mean -0.687, standard deviation 0.555, 31 members; positive fraction 0.097, negative fraction 0.903. Fractions are not calibrated probabilities.",
+      "source": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.pna.gefs.z500.120days.csv",
+      "valid_time": "2026-10-29",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "gefs_pna_14",
+      "layer": "forecast",
+      "text": "GEFS PNA, cycle 2026-10-19, lead 14 days, valid 2026-11-02: ensemble mean -0.011, standard deviation 0.714, 31 members; positive fraction 0.419, negative fraction 0.581. Fractions are not calibrated probabilities.",
+      "source": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.pna.gefs.z500.120days.csv",
+      "valid_time": "2026-11-02",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "gefs_nao_5",
+      "layer": "forecast",
+      "text": "GEFS NAO, cycle 2026-10-19, lead 5 days, valid 2026-10-24: ensemble mean -0.572, standard deviation 0.295, 31 members; positive fraction 0.065, negative fraction 0.935. Fractions are not calibrated probabilities.",
+      "source": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.nao.gefs.z500.120days.csv",
+      "valid_time": "2026-10-24",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "gefs_nao_7",
+      "layer": "forecast",
+      "text": "GEFS NAO, cycle 2026-10-19, lead 7 days, valid 2026-10-26: ensemble mean -0.146, standard deviation 0.409, 31 members; positive fraction 0.355, negative fraction 0.645. Fractions are not calibrated probabilities.",
+      "source": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.nao.gefs.z500.120days.csv",
+      "valid_time": "2026-10-26",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "gefs_nao_10",
+      "layer": "forecast",
+      "text": "GEFS NAO, cycle 2026-10-19, lead 10 days, valid 2026-10-29: ensemble mean +0.084, standard deviation 0.530, 31 members; positive fraction 0.645, negative fraction 0.355. Fractions are not calibrated probabilities.",
+      "source": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.nao.gefs.z500.120days.csv",
+      "valid_time": "2026-10-29",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "gefs_nao_14",
+      "layer": "forecast",
+      "text": "GEFS NAO, cycle 2026-10-19, lead 14 days, valid 2026-11-02: ensemble mean -0.221, standard deviation 0.622, 31 members; positive fraction 0.355, negative fraction 0.645. Fractions are not calibrated probabilities.",
+      "source": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.nao.gefs.z500.120days.csv",
+      "valid_time": "2026-11-02",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "ecmwf_limits",
+      "layer": "forecast",
+      "text": "ECMWF structured MJO status: parse_or_fetch_error. ECMWF circulation/regime graphics are context only here; no standardized PNA/NAO comparison or numerical cross-model agreement is available in this briefing.",
+      "source": "data/ecmwf_consensus_inputs.json",
+      "valid_time": null,
+      "status": "context"
+    },
+    {
+      "id": "enso_probabilities_graphic",
+      "layer": "forecast",
+      "text": "ENSO / RONI probabilities graphic status: live; last-modified Thu, 08 Oct 2026 13:00:13 GMT. Numerical trajectory/probabilities are not supplied to this briefing; inspect the source graphic. Retrieval is not a model initialization time.",
+      "source": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml",
+      "valid_time": "2026-10",
+      "status": "graphic_only"
+    },
+    {
+      "id": "mjo_gefs_graphic",
+      "layer": "forecast",
+      "text": "MJO / RMM GEFS forecast graphic status: live; last-modified Mon, 19 Oct 2026 14:20:58 GMT. Numerical trajectory/probabilities are not supplied to this briefing; inspect the source graphic. Retrieval is not a model initialization time.",
+      "source": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/MJO/foregfs.shtml",
+      "valid_time": null,
+      "status": "graphic_only"
+    },
+    {
+      "id": "sport_sst_global",
+      "layer": "observed",
+      "text": "NASA SPoRT sst global image valid 2026-10-18T18:00:00+00:00; source status available; freshness within_age_limit. No numerical SST regional averages or image-derived pattern diagnosis is available to this briefing.",
+      "source": "https://weather.ndc.nasa.gov/sport/viewer/?dataset=esst06&product=sst_legacy&location=global",
+      "valid_time": "2026-10-18T18:00:00+00:00",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "sport_ssta_global",
+      "layer": "observed",
+      "text": "NASA SPoRT ssta global image valid 2026-10-18T06:00:00+00:00; source status available; freshness within_age_limit. No numerical SST regional averages or image-derived pattern diagnosis is available to this briefing.",
+      "source": "https://weather.ndc.nasa.gov/sport/viewer/?dataset=esst06&product=anomaly&location=global",
+      "valid_time": "2026-10-18T06:00:00+00:00",
+      "status": "within_age_limit"
+    },
+    {
+      "id": "sst_global",
+      "layer": "observed",
+      "text": "NOAA Coral Reef Watch sst global image valid None; source status available; freshness unknown. No numerical SST regional averages or image-derived pattern diagnosis is available to this briefing.",
+      "source": "https://www.coralreefwatch.noaa.gov/product/5km/index_5km_sst.php",
+      "valid_time": null,
+      "status": "unknown"
+    },
+    {
+      "id": "ssta_global",
+      "layer": "observed",
+      "text": "NOAA Coral Reef Watch ssta global image valid None; source status available; freshness unknown. No numerical SST regional averages or image-derived pattern diagnosis is available to this briefing.",
+      "source": "https://www.coralreefwatch.noaa.gov/product/5km/index_5km_ssta_clim19912020.php",
+      "valid_time": null,
+      "status": "unknown"
+    }
+  ]
+}

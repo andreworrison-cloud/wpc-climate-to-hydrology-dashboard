@@ -1,1 +1,8 @@
-{"status":"awaiting_first_run","message":"Awaiting the first verified daily AI briefing.","active_prediction":false}
+{
+  "attempted_at": "2026-10-19T18:51:21.689801+00:00",
+  "issue_date_et": "2026-10-19",
+  "input_sha256": "ee387f1ed679a39488bddb74760d68de86421ffb94a14cfb37ebdb1d3e8d06ff",
+  "active_prediction": false,
+  "status": "configuration_required",
+  "message": "AI briefing unavailable: generation service is not configured."
+}
