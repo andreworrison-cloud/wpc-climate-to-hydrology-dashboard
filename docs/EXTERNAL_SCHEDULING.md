@@ -1,7 +1,9 @@
 # External scheduling cutover
 
-Status: repository prepared; cron-job.org account setup and live dispatch verification pending.
-The existing GitHub daily schedule remains temporarily until its replacement is tested.
+Status: three cron-job.org jobs configured and enabled on 2026-10-19. All three
+test requests returned HTTP 204 and GitHub registered workflow_dispatch runs.
+The redundant GitHub schedule is removed. Runner completion and resulting Pages
+publication remain separate verification steps; dispatch acceptance is not completion.
 
 POST endpoint for all three cron-job.org jobs:
 `https://api.github.com/repos/andreworrison-cloud/wpc-climate-to-hydrology-dashboard/actions/workflows/update-climate-data.yml/dispatches`
@@ -41,8 +43,9 @@ unchanged content avoids a publication. No science qualification or fitting occu
 ## Cutover and verification
 
 1. Configure the three jobs in cron-job.org, preserving unrelated hydro jobs.
-2. Test each dispatch; verify selected collection, source status and successful run.
-3. Remove the temporary `schedule` block from `.github/workflows/update-climate-data.yml`.
+2. Test each dispatch; verify selected collection and HTTP acceptance, then inspect
+   source status and successful run completion separately.
+3. Confirm no `schedule` block remains in `.github/workflows/update-climate-data.yml`.
 4. Enable the three cron jobs; confirm next execution times in UTC.
 5. Verify an unchanged check produces no commit and skips the deploy job; verify a
    changed source produces one data commit and one deploy job.
