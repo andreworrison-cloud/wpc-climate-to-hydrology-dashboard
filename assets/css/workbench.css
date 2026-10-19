@@ -9,3 +9,18 @@ html{scroll-behavior:smooth;scroll-padding-top:24px}body{background:radial-gradi
 
 /* Readable timelines in the top ribbon, independent of full-size charts. */
 .driver-sparkline{height:auto;min-height:118px;margin-top:14px;opacity:1}.driver-sparkline svg{width:100%;height:auto;display:block}.mini-axis{fill:#d3e2ec;font-size:10px;font-weight:600}.mini-tick{stroke:#b5cedd;stroke-width:1.2}.mini-minor{stroke:#718c9f;stroke-width:.7}.mini-grid{stroke:#426073;stroke-width:.7;stroke-dasharray:3 3}.mini-legend{font-size:.68rem;color:#d0e3ee;line-height:1.6;border-top:1px solid #355367;padding-top:7px;font-weight:600}
+
+/* Shared source-map viewport: enlarge cached pixels without changing science. */
+.layer-nav{justify-content:center;text-align:center;gap:20px 36px}
+.layer-nav a{font-size:1.02rem;font-weight:600;padding:8px 5px;line-height:1.5}
+.layer-nav span{font-size:.8rem}.layer-nav small{font-size:.65rem}
+.ocean-zoom-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0 12px}
+.ocean-zoom-tools button{background:#193449;border:1px solid #4f7288;color:#e5f5ff;border-radius:6px;padding:8px 14px;cursor:pointer;font:inherit}
+.ocean-zoom-tools output{min-width:55px;text-align:center;font-size:.8rem}
+.ocean-zoom-tools span{color:#a7bdcd;font-size:.75rem}
+.ocean-frame{display:block;position:relative;height:clamp(300px,52vw,680px);overflow:auto;overscroll-behavior:contain;cursor:grab;touch-action:pan-x pan-y}
+.ocean-frame.dragging{cursor:grabbing;user-select:none}
+#oceanStage{position:relative;min-width:100%;min-height:100%}
+.ocean-frame #oceanImage{position:absolute;max-width:none;max-height:none;object-fit:fill}
+.ocean-frame .empty-state{position:absolute;inset:0;display:grid;place-items:center}
+.ocean-frame .empty-state[hidden]{display:none}
