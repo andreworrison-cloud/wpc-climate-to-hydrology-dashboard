@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-18T15:49:07Z",
+  "generated_at": "2026-10-19T16:25:30Z",
   "overall_status": "current",
   "datasets": [
     {
@@ -13,22 +13,22 @@
     {
       "name": "MJO / RMM",
       "status": "live",
-      "checked_at": "2026-10-18T15:49:07Z",
-      "message": "Live \u2014 2026-10-16: phase 1, amplitude 1.26",
+      "checked_at": "2026-10-19T16:25:30Z",
+      "message": "Live \u2014 2026-10-17: phase 2, amplitude 1.05",
       "source": "Australian Bureau of Meteorology Wheeler-Hendon RMM"
     },
     {
       "name": "PNA",
       "status": "live",
-      "checked_at": "2026-10-18T15:49:07Z",
-      "message": "Live \u2014 2026-10-16: +1.063 \u03c3",
+      "checked_at": "2026-10-19T16:25:30Z",
+      "message": "Live \u2014 2026-10-17: +0.775 \u03c3",
       "source": "NOAA/CPC daily PNA index"
     },
     {
       "name": "NAO",
       "status": "live",
-      "checked_at": "2026-10-18T15:49:07Z",
-      "message": "Live \u2014 2026-10-16: +0.698 \u03c3",
+      "checked_at": "2026-10-19T16:25:30Z",
+      "message": "Live \u2014 2026-10-17: +0.977 \u03c3",
       "source": "NOAA/CPC daily NAO index"
     },
     {
