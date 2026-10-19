@@ -51,7 +51,7 @@
     $('oceanEmpty').textContent='Ocean imagery unavailable for this selection.';
     $('oceanLabel').textContent=`${title(product)} · ${basin?(region==='pacific'?'Pacific basin':'Atlantic basin'):(row?.region_label||region)} · °C`;
     $('oceanBaseline').textContent=product==='ssta'?(row?.baseline||'Not available'):'Absolute temperature (°C)';
-    $('oceanProvenance').textContent=row?`Product: ${row.version}. Retrieved: ${utc(row.retrieved_at)}. Source HTTP Last-Modified: ${row.source_last_modified||'not supplied'}. ${basin?'Display crop of NASA global source pixels; Pacific joined across the dateline. Rendered image detail is limited by the global PNG.':(row.coverage_note||'')}`:'No verified ocean manifest loaded.';
+    $('oceanProvenance').textContent=row?`Product: ${row.version}. Retrieved: ${utc(row.retrieved_at)}. Source HTTP Last-Modified: ${row.source_last_modified||'not supplied'}. ${basin?'Landscape crop of NASA global source pixels with approximate latitude/longitude guides; source frame excluded at Pacific join. Pacific: 100°E–80°W, 45°S–45°N. Atlantic: 100°W–30°E, 30°S–60°N. Rendered detail is limited by the global PNG.':(row.coverage_note||'')}`:'No verified ocean manifest loaded.';
     $('oceanSourceTitle').textContent=provider==='sport'?'NASA SPoRT composite · 2 km':'NOAA nighttime SST · 5 km';
     if(row){$('oceanSource').href=row.source_url;}
     if(!row?.image_path || !['available','stale'].includes(row.status)){
