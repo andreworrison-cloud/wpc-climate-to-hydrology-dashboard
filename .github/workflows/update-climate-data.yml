@@ -12,7 +12,7 @@ permissions:
   pages: write
   id-token: write
 concurrency:
-  group: climate-data-update
+  group: climate-data-update-${{ inputs.collection || 'all' }}
   cancel-in-progress: false
 jobs:
   update:

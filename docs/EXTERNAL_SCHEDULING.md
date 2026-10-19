@@ -52,7 +52,9 @@ unchanged content avoids a publication. No science qualification or fitting occu
 
 There is no `workflow_run` deployment: the updater deploys only when data changes.
 Code pushes retain the ordinary Pages workflow. GITHUB_TOKEN data commits do not
-trigger push workflows. Updates serialize to avoid overlapping data writers; Pages
+trigger push workflows. Repeated checks serialize within each collection; separate collections write disjoint
+data files and rebase before pushing. Avoid manually running `all` alongside individual
+collections. Pages
 jobs share a concurrency group. External dispatch avoids the scheduled-event timing
 path but still uses GitHub runners and Pages, whose execution latency is observable
 rather than guaranteed away.
