@@ -26,3 +26,17 @@ Run `python scripts/validate_data.py`, `python -m unittest discover -s tests`, a
 Sources:
 - https://www.coralreefwatch.noaa.gov/product/5km/index_5km_sst.php
 - https://www.coralreefwatch.noaa.gov/product/5km/index_5km_ssta_clim19912020.php
+
+## NASA SPoRT and timeline update
+
+The default is now NASA SPoRT SST. The published viewer inventory supplies both 0600 and 1800 UTC cycles; each domain/product uses the latest available dated frame. Source identity and location are checked explicitly because the server may return a default unrelated dataset. The source inventory advertises SST composite, anomaly, latency and 1/3/7-day trends. This integration uses SST composite and anomaly only.
+
+The NASA anomaly image title identifies **SPoRT Composite/MERRA2 (1991–2020)**. This is distinct from the retained NOAA CoralTemp anomaly reference. Both are source-rendered maps; no anomalies are computed locally. NASA domain labels are Global, East Pacific, and West Atlantic. NOAA retains its Global, Pacific and Caribbean views. SPoRT is a 2-km blended composite, not an instantaneous satellite swath. Default source failures remain explicit rather than silently substituting NOAA.
+
+Top-card timelines now show start/mid/end dates (overlapping seasons for RONI), tick marks, numeric scale ticks, and higher-contrast legends with units. MJO is explicitly amplitude, with its active threshold; missing numeric samples are not converted to zero.
+
+Sources inspected:
+- https://weather.ndc.nasa.gov/sport/viewer/
+- https://weather.ndc.nasa.gov/sport/sst/descriptions.html
+- https://podaac.jpl.nasa.gov/dataset/SPORT-MSFC-L4-GLOB-v1.0
+- NASA viewer data endpoint `/cgi-bin/live-data/DynamicData.py` with `mode=nrt`, datasets `esst06` / `esst18`, products `sst_legacy` / `anomaly`, locations `global` / `east_pacific` / `west_atlantic`.

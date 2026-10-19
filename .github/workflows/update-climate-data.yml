@@ -23,6 +23,8 @@ jobs:
         run: python scripts/update_climate_data.py
       - name: Cache observed SST and anomaly maps
         run: python scripts/update_ocean_data.py
+      - name: Cache NASA SPoRT SST and anomaly composites
+        run: python scripts/update_sport_sst.py
       - name: Validate dashboard interfaces
         run: python scripts/validate_data.py
       - name: Commit refreshed climate data when changed
