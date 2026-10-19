@@ -49,7 +49,7 @@
           </div>
           <div class="ocean-zoom-tools" role="group" aria-label="Map zoom controls"><button id="oceanZoomOut" aria-label="Zoom out">−</button><output id="oceanZoomLevel" aria-live="polite">100%</output><button id="oceanZoomIn" aria-label="Zoom in">+</button><button id="oceanZoomFit">Fit / legend</button><button id="oceanZoomNative">Native pixels</button><span>Drag or scroll to pan · Arrow keys when map is focused</span></div>
           <div class="ocean-frame" id="oceanViewport" tabindex="0" role="region" aria-label="Ocean map; use arrow keys to pan"><div id="oceanStage"><img id="oceanImage" alt="" draggable="false" hidden></div><div id="oceanEmpty" class="empty-state">Loading NASA SPoRT SST…</div></div>
-          <div class="ocean-caption"><div><b id="oceanLabel">Sea surface temperature · °C</b><p id="oceanStatus" role="status">Checking cached source product</p></div><a id="oceanFull" target="_blank" rel="noopener" hidden>Open full-resolution map ↗</a></div>
+          <div class="ocean-caption"><div><b id="oceanLabel">Sea surface temperature · °C</b><p id="oceanStatus" role="status">Checking cached source product</p></div><a id="oceanDetail" target="_blank" rel="noopener" hidden>Open NASA regional detail ↗</a><a id="oceanFull" target="_blank" rel="noopener" hidden>Open full-resolution map ↗</a></div>
           <div class="ocean-context-grid"><div><span>THE BASELINE</span><b id="oceanBaseline">Absolute temperature (°C)</b><p>Anomaly reference depends on the selected source; the baseline is shown here.</p></div><div><span>THE INTERPRETATION</span><b>Ocean state ≠ U.S. impact</b><p>SST patterns provide context; they do not establish a regional precipitation or flood forecast.</p></div><div><span>THE SOURCE</span><b id="oceanSourceTitle">NASA SPoRT composite</b><a id="oceanSource" href="https://www.coralreefwatch.noaa.gov/product/5km/index_5km_ssta_clim19912020.php" target="_blank" rel="noopener">Product methodology &amp; source ↗</a></div></div>
           <details class="evidence-details"><summary>Product provenance and time interpretation</summary><p id="oceanProvenance"></p><p>Use the valid time printed on the source map. NASA SPoRT is a blended composite, not an instantaneous observation. Retrieval and HTTP modification times are not observation times. NASA anomaly maps are labeled SPoRT Composite/MERRA2 (1991–2020); NOAA anomalies use CoralTemp’s 1991–2020 climatology. These are distinct products. This SST layer is separate from CPC’s ERSST-based RONI index and is not an input to the Q3 model.</p></details>
         </article>
@@ -138,6 +138,7 @@
     </footer>
   </div>
   <script src="assets/js/app.js"></script>
+  <script src="assets/js/ocean-basin.js"></script>
   <script src="assets/js/workbench.js"></script>
 </body>
 </html>
