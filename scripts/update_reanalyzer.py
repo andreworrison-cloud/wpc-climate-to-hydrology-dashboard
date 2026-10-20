@@ -42,7 +42,7 @@ def parse_series(records,prelim_year,today):
  years=sorted(int(n) for n in by if re.fullmatch(r'\d{4}',n))
  if not years or prelim_year not in years:raise ValueError('Preliminary year not present in annual series')
  points={}
- for year in years[-2:]:
+ for year in years[-3:]:
   vals=by[str(year)]['data'];length=366 if calendar.isleap(year) else 365
   if len(vals)!=366 or any(v is not None for v in vals[length:]):raise ValueError('Unexpected annual calendar layout')
   for i,v in enumerate(vals[:length]):
@@ -60,7 +60,7 @@ def parse_series(records,prelim_year,today):
   c=clim[climatology_index(d)]
   rows.append(dict(date=d.isoformat(),sst_c=v,climatology_c=c,anomaly_c=round(v-c,6),preliminary=preliminary))
  if not rows:raise ValueError('No observations')
- cutoff=date.fromisoformat(rows[-1]['date'])-timedelta(days=365)
+ cutoff=date.fromisoformat(rows[-1]['date'])-timedelta(days=731)
  return [r for r in rows if date.fromisoformat(r['date'])>=cutoff]
 
 def png_valid(b):

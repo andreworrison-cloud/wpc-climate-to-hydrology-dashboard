@@ -33,6 +33,26 @@
     ctx.drawImage(source,0,762,1548,130,m,top+p.mapHeight+m,p.width,p.legendHeight);
     return canvas.toDataURL('image/png');
   }
+  function renderNoaaAtlantic(source,product){
+    const h=product==='sst'?1085:1050;
+    if(source.naturalWidth!==1787||source.naturalHeight!==h)throw new Error('NOAA global layout changed; Atlantic view requires review.');
+    // Verified cylindrical source frames: 20E–380E, 90N–90S. Separate layouts per variable.
+    const left=product==='sst'?67:98,right=product==='sst'?1720:1689,top=110,bottom=product==='sst'?937:905;
+    const west=-100,east=20,north=60,south=-5;
+    const sx=left+(west+360-20)/360*(right-left),sy=top+(90-north)/180*(bottom-top);
+    const sw=(east-west)/360*(right-left),sh=(north-south)/180*(bottom-top);
+    const c=document.createElement('canvas');c.width=900;c.height=650;const ctx=c.getContext('2d');ctx.fillStyle='white';ctx.fillRect(0,0,900,650);
+    ctx.drawImage(source,0,0,1787,65,0,0,900,33);
+    const x=50,y=70,w=800,mh=sh*w/sw;
+    ctx.drawImage(source,sx,sy,sw,sh,x,y,w,mh);
+    ctx.font='14px sans-serif';ctx.fillStyle='#263644';
+    for(let lon=-100;lon<=20;lon+=20){const xx=x+(lon-west)/(east-west)*w;ctx.textAlign='center';ctx.fillText(lonLabel(lon),xx,y-12);}
+    for(let lat=0;lat<=60;lat+=20){const yy=y+(north-lat)/(north-south)*mh;ctx.textAlign='right';ctx.fillText(latLabel(lat),x-5,yy+4);}
+    ctx.strokeStyle='#627181';ctx.strokeRect(x,y,w,mh);
+    ctx.textAlign='center';ctx.font='12px sans-serif';ctx.fillText('Atlantic · 100°W–20°E, 5°S–60°N · NOAA source-image crop',450,y+mh+23);
+    const legend=product==='sst'?985:953;ctx.drawImage(source,0,legend,1787,h-legend,0,560,900,(h-legend)*900/1787);
+    return c.toDataURL('image/png');
+  }
   if(typeof module!=='undefined')module.exports={basinLayout,lonLabel,latLabel};
-  else root.OceanBasin={basinLayout,renderBasin};
+  else root.OceanBasin={basinLayout,renderBasin,renderNoaaAtlantic};
 })(typeof window!=='undefined'?window:globalThis);
