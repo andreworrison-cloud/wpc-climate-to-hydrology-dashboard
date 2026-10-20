@@ -1,0 +1,31 @@
+name: Climate Reanalyzer integration check
+on:
+  push:
+    branches: [climate-reanalyzer-package-1]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect public source contracts
+        run: |
+          python - <<'PY'
+          import urllib.request,re,json
+          from urllib.parse import urljoin
+          for path in ['clim/sst_daily/','clim/daily_maps/','wx/todays-weather/']:
+              url='https://climatereanalyzer.org/'+path
+              try:
+                  body=urllib.request.urlopen(url,timeout=30).read().decode()
+                  print('PAGE',url)
+                  print(body[:60000])
+                  for script in re.findall(r'<script[^>]+src=["\']([^"\']+)',body):
+                      u=urljoin(url,script)
+                      if 'climatereanalyzer.org' in u and not any(x in u.lower() for x in ['jquery','highchart','bootstrap']):
+                          print('SCRIPT',u)
+                          try: print(urllib.request.urlopen(u,timeout=20).read().decode()[:80000])
+                          except Exception as e: print(type(e).__name__,str(e))
+              except Exception as e: print(type(e).__name__,str(e))
+          PY
