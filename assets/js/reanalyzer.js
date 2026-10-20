@@ -52,10 +52,32 @@
     if(!frame){$('crMovieImage').hidden=true;$('crMovieStatus').textContent='No verified frames available for this view.';return;}
 
     const image=frameImage(frame);
-    try{await image.decode();if(token!==requestNumber)return;$('crMovieImage').src=frame.path;$('crMovieImage').alt=`OISST SST anomaly, ${frame.valid_date}, ${$('crMovieDomain').selectedOptions[0].text}`;$('crMovieImage').hidden=false;$('crMovieStatus').textContent=`Valid ${frame.valid_date} · 1991–2020 baseline${age(frame.valid_date)>3?' · historical frame':''}`;}
+    try{await image.decode();if(token!==requestNumber)return;$('crMovieImage').src=$('crMovieDomain').value==='north_pacific'?northPacific(image):image.src;$('crMovieImage').alt=`OISST ${$('crMovieVariable').selectedOptions[0].text}, ${frame.valid_date}, ${$('crMovieDomain').selectedOptions[0].text}`;$('crMovieImage').hidden=false;$('crMovieStatus').textContent=`Valid ${frame.valid_date} · ${$('crMovieVariable').value==='sst'?'Absolute SST · °C':'Anomaly · °C · 1991–2020 baseline'}${$('crMovieDomain').value==='north_pacific'?' · North Pacific crop of global source map':''}${age(frame.valid_date)>3?' · historical frame':''}`;}
     catch{if(token===requestNumber){stop();$('crMovieStatus').textContent=`Frame unavailable: ${frame.valid_date}. Playback stopped.`;}}
   }
-  function selectMovie(){$('crMovieRefresh').hidden=true;stop();++requestNumber;$('crMovieImage').hidden=true;imageCache.clear();const group=data.animation?.domains?.[$('crMovieDomain').value];selectedFrames=group?.frames||[];$('crSlider').max=Math.max(0,selectedFrames.length-1);$('crSlider').value=Math.max(0,selectedFrames.length-1);$('crPlay').disabled=selectedFrames.length<2;$('crSlider').disabled=!selectedFrames.length;$('crMovieRange').textContent=selectedFrames.length?`${selectedFrames[0].valid_date} → ${selectedFrames.at(-1).valid_date} · ${selectedFrames.length} available daily frames${group.status!=='current'?' · partial / retained archive':''}`:'Unavailable';showFrame();}
+  function movieGroup(){const variable=$('crMovieVariable').value,domain=$('crMovieDomain').value;return data.animation?.variables?.[variable]?.domains?.[domain]||(variable==='ssta'?data.animation?.domains?.[domain]:null);}
+  function northPacific(source){
+    // Verified source layout; crop preserves the source projection, not a new lat/lon grid.
+    if(source.naturalWidth!==1100||source.naturalHeight!==794)throw Error('Global map layout changed; Pacific view requires review.');
+    const canvas=document.createElement('canvas');canvas.width=1100;canvas.height=830;const ctx=canvas.getContext('2d');
+    ctx.fillStyle='white';ctx.fillRect(0,0,1100,830);
+    ctx.drawImage(source,0,0,1100,55,0,0,1100,55);
+    ctx.drawImage(source,5,65,550,345,0,55,1100,690);
+    ctx.font='16px sans-serif';ctx.fillStyle='#253747';ctx.textAlign='center';ctx.fillText('North Pacific · crop of global source map · original projection retained',550,765);
+    ctx.drawImage(source,0,734,1100,60,0,770,1100,60);
+    return canvas.toDataURL('image/png');
+  }
+  function selectMovie({keepDate=false}={}){
+    const date=keepDate?selectedFrames[Number($('crSlider').value)]?.valid_date:null;
+    $('crMovieRefresh').hidden=true;stop();++requestNumber;$('crMovieImage').hidden=true;imageCache.clear();
+    const group=movieGroup();selectedFrames=group?.frames||[];$('crSlider').setAttribute('aria-label',$('crMovieVariable').selectedOptions[0].text+' date');
+    const match=selectedFrames.findIndex(f=>f.valid_date===date);
+    $('crSlider').max=Math.max(0,selectedFrames.length-1);$('crSlider').value=match>=0?match:Math.max(0,selectedFrames.length-1);
+    $('crPlay').disabled=selectedFrames.length<2;$('crSlider').disabled=!selectedFrames.length;
+    $('crMovieRange').textContent=selectedFrames.length?`${selectedFrames[0].valid_date} → ${selectedFrames.at(-1).valid_date} · ${selectedFrames.length} available daily frames${group.status!=='current'?' · partial / retained archive':''}${date&&match<0?' · selected date unavailable; showing latest available frame':''}`:'Unavailable for this variable and view';
+    showFrame();
+  }
+
   async function showAtmosphere(){const item=(data.atmosphere?.maps||[]).find(m=>m.domain===$('crAtmosDomain').value&&m.variable===$('crAtmosVariable').value);$('crAtmosImage').hidden=true;
     if(!item?.path){$('crAtmosStatus').textContent='Selected forecast context unavailable.';return;}
     $('crAtmosStatus').textContent=`${item.status==='current'?'Cached source map':'RETAINED — latest retrieval failed'} · retrieval ${item.retrieved_at}. Valid date is printed on the map; model initialization is not supplied in the verified metadata. Retrieval is not valid time.`;
@@ -81,9 +103,9 @@
     $('crCatalogStatus').textContent=`Source check: ${data.checked_at} · NOAA OISST via Climate Reanalyzer`;
   });
   $('crMovieRefresh').addEventListener('click',()=>data&&selectMovie());
-  $('crHistoryWindow').addEventListener('change',()=>data&&renderCards());$('crMovieDomain').addEventListener('change',()=>data&&selectMovie());$('crSlider').addEventListener('input',()=>{stop();showFrame();});
+  $('crHistoryWindow').addEventListener('change',()=>data&&renderCards());['crMovieDomain','crMovieVariable'].forEach(id=>$(id).addEventListener('change',()=>data&&selectMovie({keepDate:true})));$('crSlider').addEventListener('input',()=>{stop();showFrame();});
   const imageCache=new Map();
-  function frameImage(frame){if(!imageCache.has(frame.path)){const image=new Image();image.src=frame.path;imageCache.set(frame.path,image);if(imageCache.size>8)imageCache.delete(imageCache.keys().next().value);}return imageCache.get(frame.path);}
+  function frameImage(frame){if(!imageCache.has(frame.path)){const image=new Image();image.src=DashboardRefresh.versioned(frame.path,frame.sha256||frame.retrieved_at);imageCache.set(frame.path,image);if(imageCache.size>8)imageCache.delete(imageCache.keys().next().value);}return imageCache.get(frame.path);}
   async function advance(){timer=null;if(!playing||document.hidden){stop();return;}const i=(Number($('crSlider').value)+1)%selectedFrames.length;$('crSlider').value=i;await showFrame();if(!playing)return;for(let j=1;j<=3;j++)frameImage(selectedFrames[(i+j)%selectedFrames.length]);timer=setTimeout(advance,Number($('crSpeed').value));}
   $('crPlay').addEventListener('click',()=>{if(playing){stop();return;}if(selectedFrames.length<2)return;playing=true;$('crPlay').textContent='Pause';$('crPlay').setAttribute('aria-pressed','true');advance();});
   $('crSpeed').addEventListener('change',()=>{if(playing&&timer){clearTimeout(timer);timer=setTimeout(advance,Number($('crSpeed').value));}});

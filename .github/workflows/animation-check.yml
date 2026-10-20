@@ -5,31 +5,58 @@ on:
     paths: ['scripts/**', 'assets/**', 'index.html', 'tests/**', '.github/workflows/animation-check.yml']
 permissions:
   contents: write
+concurrency:
+  group: ocean-animation-integration
+  cancel-in-progress: false
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: Inspect published map options
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Calendar and syntax checks
+        run: |
+          python -m unittest discover -s tests -p test_reanalyzer.py
+          node --check assets/js/reanalyzer.js
+      - name: Cache verified temperature and anomaly frames
+        run: python scripts/update_reanalyzer.py
+      - name: Verify source coverage
         run: |
           python - <<'PY'
-          import urllib.request,urllib.parse,re
+          import json,shutil
           from pathlib import Path
-          base='https://climatereanalyzer.org/clim/daily_maps/'
-          out=Path('review');out.mkdir(exist_ok=True)
-          html=urllib.request.urlopen(base,timeout=30).read().decode()
-          (out/'source.html').write_text(html)
-          for i,src in enumerate(re.findall(r'<script[^>]+src=["\']([^"\']+)',html)):
-              url=urllib.parse.urljoin(base,src)
-              if not url.startswith('https://climatereanalyzer.org/'):continue
-              text=urllib.request.urlopen(url,timeout=30).read().decode()
-              (out/f'source_{i}.js').write_text(text)
-              print(url)
-              for m in list(re.finditer(r'npac|pacific|sstanom|dates_sst',text,re.I))[:25]:
-                  print(text[max(0,m.start()-140):m.end()+200])
-          print('HTML option tags:',re.findall(r'<option[^>]*>.*?</option>',html)[:100])
+          d=json.loads(Path('data/reanalyzer/manifest.json').read_text())
+          Path('review').mkdir(exist_ok=True)
+          for variable,product in d['animation']['variables'].items():
+              for domain,group in product['domains'].items():
+                  frames=group['frames'];print(variable,domain,len(frames),group['status'],[(f['width'],f['height']) for f in frames[-1:]])
+                  assert len(frames)>=25
+                  assert all(f['path'].startswith('data/reanalyzer/maps/'+variable+'_') for f in frames)
+                  assert group['baseline']==('1991–2020' if variable=='ssta' else None)
+              shutil.copy(product['domains']['global']['frames'][-1]['path'],f'review/source-{variable}-global.png')
           PY
-      - uses: actions/upload-artifact@v4
+      - name: Browser controls and refresh checks
+        run: |
+          pip -q install playwright
+          python -m playwright install --with-deps chromium > /tmp/browser-install.log 2>&1
+          python tests/check_reanalyzer_browser.py
+          python tests/check_auto_refresh_browser.py
+          python tests/check_ocean_animation_browser.py
+      - name: Retain review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: animation-source-review
+          name: animation-review
           path: review/
+      - name: Commit populated animation cache
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/reanalyzer/
+          if ! git diff --cached --quiet; then
+            git commit -m 'Cache absolute SST and anomaly animation products'
+            git push origin HEAD:pacific-sst-animation
+          fi
