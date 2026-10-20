@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-19T21:36:22.226616+00:00",
+  "generated_at": "2026-10-20T21:36:09.190213+00:00",
   "scientific_role": "observed_ocean_context",
   "active_prediction": false,
   "products": [
@@ -17,14 +17,15 @@
       "version": "CoralTemp v3.1",
       "valid_time": null,
       "valid_time_note": "Observation date is printed on the NOAA map; HTTP timestamps are delivery metadata.",
-      "attempted_at": "2026-10-19T21:36:22.226616+00:00",
-      "status": "available",
+      "attempted_at": "2026-10-20T21:36:09.190213+00:00",
       "image_path": "data/ocean/sst_global.png",
       "retrieved_at": "2026-10-19T21:36:22.226616+00:00",
       "source_last_modified": "Mon, 19 Oct 2026 14:26:10 GMT",
       "sha256": "c01bca53a91b9bdc2151f94633e84ad89e49db93741f4c249d880473eb0d949f",
       "width": 1787,
-      "height": 1085
+      "height": 1085,
+      "status": "stale",
+      "error": "URLError: <urlopen error timed out>"
     },
     {
       "id": "sst_pacific",
@@ -39,20 +40,21 @@
       "version": "CoralTemp v3.1",
       "valid_time": null,
       "valid_time_note": "Observation date is printed on the NOAA map; HTTP timestamps are delivery metadata.",
-      "attempted_at": "2026-10-19T21:36:22.226616+00:00",
-      "status": "available",
+      "attempted_at": "2026-10-20T21:36:09.190213+00:00",
       "image_path": "data/ocean/sst_pacific.png",
       "retrieved_at": "2026-10-19T21:36:22.226616+00:00",
       "source_last_modified": "Mon, 19 Oct 2026 14:25:59 GMT",
       "sha256": "357050dd233c399eed6083457e2634672b38c17cb13afc957ef8cf2a193056f1",
       "width": 1491,
-      "height": 909
+      "height": 909,
+      "status": "stale",
+      "error": "URLError: <urlopen error timed out>"
     },
     {
       "id": "sst_atlantic",
       "product": "sst",
       "region": "atlantic",
-      "region_label": "Atlantic (global-map view)",
+      "region_label": "Atlantic basin",
       "source_name": "NOAA Coral Reef Watch",
       "source_url": "https://www.coralreefwatch.noaa.gov/product/5km/index_5km_sst.php",
       "image_url": "https://www.coralreefwatch.noaa.gov/data_current/5km/v3.1_op/daily/png/coraltemp_v3.1_global_current.png",
@@ -61,20 +63,17 @@
       "version": "CoralTemp v3.1",
       "valid_time": null,
       "valid_time_note": "Observation date is printed on the NOAA map; HTTP timestamps are delivery metadata.",
-      "attempted_at": "2026-10-19T21:36:22.226616+00:00",
-      "status": "available",
+      "attempted_at": "2026-10-20T21:36:09.190213+00:00",
       "image_path": "data/ocean/sst_global.png",
       "retrieved_at": "2026-10-19T21:36:22.226616+00:00",
       "source_last_modified": "Mon, 19 Oct 2026 14:26:10 GMT",
       "sha256": "c01bca53a91b9bdc2151f94633e84ad89e49db93741f4c249d880473eb0d949f",
       "width": 1787,
       "height": 1085,
-      "view_focus": [
-        0.83,
-        0.44
-      ],
-      "initial_zoom": 2,
-      "coverage_note": "Atlantic-focused view of the NOAA global source image; Fit shows the complete map and legend."
+      "status": "stale",
+      "error": "URLError: <urlopen error timed out>",
+      "render_view": "noaa_atlantic_crop",
+      "coverage_note": "Atlantic crop of NOAA global pixels: 100\u00b0W\u201320\u00b0E, 5\u00b0S\u201360\u00b0N. Original header and color legend retained; Fit preserves the basin."
     },
     {
       "id": "ssta_global",
@@ -89,14 +88,15 @@
       "version": "3.1-clim19912020-v1",
       "valid_time": null,
       "valid_time_note": "Observation date is printed on the NOAA map; HTTP timestamps are delivery metadata.",
-      "attempted_at": "2026-10-19T21:36:22.226616+00:00",
-      "status": "available",
+      "attempted_at": "2026-10-20T21:36:09.190213+00:00",
       "image_path": "data/ocean/ssta_global.png",
       "retrieved_at": "2026-10-19T21:36:22.226616+00:00",
       "source_last_modified": "Mon, 19 Oct 2026 14:24:09 GMT",
       "sha256": "460c12465a2788ab8dfbce82f429542ec7b00a6a82276ebb094af8a07447855d",
       "width": 1787,
-      "height": 1050
+      "height": 1050,
+      "status": "stale",
+      "error": "URLError: <urlopen error timed out>"
     },
     {
       "id": "ssta_pacific",
@@ -111,20 +111,21 @@
       "version": "3.1-clim19912020-v1",
       "valid_time": null,
       "valid_time_note": "Observation date is printed on the NOAA map; HTTP timestamps are delivery metadata.",
-      "attempted_at": "2026-10-19T21:36:22.226616+00:00",
-      "status": "available",
+      "attempted_at": "2026-10-20T21:36:09.190213+00:00",
       "image_path": "data/ocean/ssta_pacific.png",
       "retrieved_at": "2026-10-19T21:36:22.226616+00:00",
       "source_last_modified": "Mon, 19 Oct 2026 14:24:16 GMT",
       "sha256": "eebee7b9c94802e56e8ed7200a6100d14f2e463c76c1f159ab8cc91d36f2ea11",
       "width": 1491,
-      "height": 880
+      "height": 880,
+      "status": "stale",
+      "error": "URLError: <urlopen error timed out>"
     },
     {
       "id": "ssta_atlantic",
       "product": "ssta",
       "region": "atlantic",
-      "region_label": "Atlantic (global-map view)",
+      "region_label": "Atlantic basin",
       "source_name": "NOAA Coral Reef Watch",
       "source_url": "https://www.coralreefwatch.noaa.gov/product/5km/index_5km_ssta_clim19912020.php",
       "image_url": "https://www.coralreefwatch.noaa.gov/data_current/5km/v3.1-clim19912020-v1/daily/png/ct5km_ssta_v3.1-clim19912020-v1_global_current.png",
@@ -133,20 +134,17 @@
       "version": "3.1-clim19912020-v1",
       "valid_time": null,
       "valid_time_note": "Observation date is printed on the NOAA map; HTTP timestamps are delivery metadata.",
-      "attempted_at": "2026-10-19T21:36:22.226616+00:00",
-      "status": "available",
+      "attempted_at": "2026-10-20T21:36:09.190213+00:00",
       "image_path": "data/ocean/ssta_global.png",
       "retrieved_at": "2026-10-19T21:36:22.226616+00:00",
       "source_last_modified": "Mon, 19 Oct 2026 14:24:09 GMT",
       "sha256": "460c12465a2788ab8dfbce82f429542ec7b00a6a82276ebb094af8a07447855d",
       "width": 1787,
       "height": 1050,
-      "view_focus": [
-        0.83,
-        0.44
-      ],
-      "initial_zoom": 2,
-      "coverage_note": "Atlantic-focused view of the NOAA global source image; Fit shows the complete map and legend."
+      "status": "stale",
+      "error": "URLError: <urlopen error timed out>",
+      "render_view": "noaa_atlantic_crop",
+      "coverage_note": "Atlantic crop of NOAA global pixels: 100\u00b0W\u201320\u00b0E, 5\u00b0S\u201360\u00b0N. Original header and color legend retained; Fit preserves the basin."
     }
   ]
 }
