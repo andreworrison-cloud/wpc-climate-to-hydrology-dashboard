@@ -138,7 +138,7 @@ def main():
  for domain,source_domain in ATMOS_DOMAINS.items():
   for variable in VARIABLES:
    prior=next((m for m in old.get('atmosphere',{}).get('maps',[]) if m['domain']==domain and m['variable']==variable),{})
-   rec=dict(domain=domain,variable=variable,valid_time=None,initialization_time=None,time_basis='Read valid date and initialization from unmodified source image; HTTP dates are retrieval metadata only',baseline='1991–2020 (source anomaly products)',source_page=BASE+'wx/todays-weather/?var_id='+variable)
+   rec=dict(domain=domain,variable=variable,valid_time=None,initialization_time=None,time_basis='Read valid date from unmodified source image; initialization unavailable in verified metadata; HTTP dates are retrieval metadata only',baseline='1991–2020 (source anomaly products)',source_page=BASE+'wx/todays-weather/?var_id='+variable)
    try:rec.update(image(BASE+f'wx/todays-weather/maps/gfs_{source_domain}_{variable}_d1.png',f'data/reanalyzer/maps/gfs_{domain}_{variable}.png',prior,now))
    except Exception as ex:rec=retained(prior,ex,**rec)
    result['atmosphere']['maps'].append(rec)
