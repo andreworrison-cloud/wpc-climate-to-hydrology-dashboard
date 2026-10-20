@@ -2,31 +2,60 @@ name: Climate Reanalyzer integration check
 on:
   push:
     branches: [climate-reanalyzer-package-1]
+    paths: ['scripts/**', 'assets/**', 'index.html', 'tests/**', '.github/workflows/reanalyzer-check.yml']
 permissions:
-  contents: read
+  contents: write
+concurrency:
+  group: reanalyzer-integration-check
+  cancel-in-progress: false
 jobs:
-  inspect:
+  check:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: Verify series and image metadata
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Calendar and source contract tests
+        run: |
+          python -m unittest discover -s tests -p test_reanalyzer.py
+          node --check assets/js/reanalyzer.js
+      - name: Fetch source context on integration branch
+        run: python scripts/update_reanalyzer.py
+      - name: Verify populated products
         run: |
           python - <<'PY'
-          import urllib.request,json,hashlib,subprocess,shutil
-          base='https://climatereanalyzer.org/'
-          paths=['clim/sst_daily/json/dates_sstanom.json','clim/daily_maps/json/dates_sstanom.json']
-          paths += ['clim/sst_daily/json_2clim/oisst2.1_'+r+'_sst_day.json' for r in ['world2','natlan','gomex','nino3.4']]
-          for path in paths:
-              b=urllib.request.urlopen(base+path,timeout=30).read();j=json.loads(b)
-              print('JSON',path)
-              if isinstance(j,list) and j and isinstance(j[0],dict):
-                  for row in j:
-                      vals=row.get('data',[])
-                      print({k:v for k,v in row.items() if k!='data'},'length',len(vals),'head',vals[:3],'tail',[(i,v) for i,v in enumerate(vals) if v is not None][-3:])
-              else:print(j)
-          url=base+'wx/todays-weather/maps/gfs_nh-sat1_pwtr-anomsd_d1.png'
-          b=urllib.request.urlopen(url,timeout=30).read();open('/tmp/pw.png','wb').write(b)
-          print('IMAGE',len(b),b[:8],hashlib.sha256(b).hexdigest())
-          if shutil.which('tesseract'):subprocess.run(['tesseract','/tmp/pw.png','stdout'])
+          import json
+          from pathlib import Path
+          d=json.loads(Path('data/reanalyzer/manifest.json').read_text())
+          assert len(d['sst_regions'])==4
+          for r in d['sst_regions']:
+              assert r['status']=='current' and len(r['rows'])>=90,r
+              print(r['label'],r['rows'][-1])
+          for name,g in d['animation']['domains'].items():
+              print(name,len(g['frames']),g['status'])
+              assert len(g['frames'])>=25,g
+          assert len(d['atmosphere']['maps'])==12
+          assert all(m['status']=='current' for m in d['atmosphere']['maps'])
           PY
+      - name: Browser checks and screenshots
+        run: |
+          pip -q install playwright
+          python -m playwright install --with-deps chromium > /tmp/browser-install.log 2>&1
+          python tests/check_reanalyzer_browser.py
+      - name: Retain review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reanalyzer-review
+          path: review/
+      - name: Save verified source cache to integration branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/reanalyzer/
+          if ! git diff --cached --quiet; then
+            git commit -m 'Cache verified Climate Reanalyzer context for review'
+            git push origin HEAD:climate-reanalyzer-package-1
+          fi

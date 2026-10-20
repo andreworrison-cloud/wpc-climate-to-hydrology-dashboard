@@ -5,6 +5,7 @@ from pathlib import Path
 import update_climate_data as climate
 import update_ocean_data as ocean
 import update_sport_sst as sport
+import update_reanalyzer as reanalyzer
 
 DATA = Path(__file__).resolve().parents[1] / 'data'
 CHECK_FIELDS = {'generated_at', 'retrieved_at', 'checked_at', 'attempted_at'}
@@ -58,6 +59,7 @@ def main():
                 if warnings:
                     print('::warning::'+str(warnings))
             ocean.main()
+            reanalyzer.main()
     finally:
         restore_unchanged(before)
 
