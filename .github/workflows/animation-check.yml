@@ -1,0 +1,35 @@
+name: Ocean animation integration check
+on:
+  push:
+    branches: [pacific-sst-animation]
+    paths: ['scripts/**', 'assets/**', 'index.html', 'tests/**', '.github/workflows/animation-check.yml']
+permissions:
+  contents: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect published map options
+        run: |
+          python - <<'PY'
+          import urllib.request,urllib.parse,re
+          from pathlib import Path
+          base='https://climatereanalyzer.org/clim/daily_maps/'
+          out=Path('review');out.mkdir(exist_ok=True)
+          html=urllib.request.urlopen(base,timeout=30).read().decode()
+          (out/'source.html').write_text(html)
+          for i,src in enumerate(re.findall(r'<script[^>]+src=["\']([^"\']+)',html)):
+              url=urllib.parse.urljoin(base,src)
+              if not url.startswith('https://climatereanalyzer.org/'):continue
+              text=urllib.request.urlopen(url,timeout=30).read().decode()
+              (out/f'source_{i}.js').write_text(text)
+              print(url)
+              for m in list(re.finditer(r'npac|pacific|sstanom|dates_sst',text,re.I))[:25]:
+                  print(text[max(0,m.start()-140):m.end()+200])
+          print('HTML option tags:',re.findall(r'<option[^>]*>.*?</option>',html)[:100])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: animation-source-review
+          path: review/
