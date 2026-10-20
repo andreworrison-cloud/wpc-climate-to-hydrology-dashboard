@@ -10,22 +10,23 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Inspect public source contracts
+      - name: Verify series and image metadata
         run: |
           python - <<'PY'
-          import urllib.request,re,json
-          from urllib.parse import urljoin
-          for path in ['clim/sst_daily/','clim/daily_maps/','wx/todays-weather/']:
-              url='https://climatereanalyzer.org/'+path
-              try:
-                  body=urllib.request.urlopen(url,timeout=30).read().decode()
-                  print('PAGE',url)
-                  print(body[:60000])
-                  for script in re.findall(r'<script[^>]+src=["\']([^"\']+)',body):
-                      u=urljoin(url,script)
-                      if 'climatereanalyzer.org' in u and not any(x in u.lower() for x in ['jquery','highchart','bootstrap']):
-                          print('SCRIPT',u)
-                          try: print(urllib.request.urlopen(u,timeout=20).read().decode()[:80000])
-                          except Exception as e: print(type(e).__name__,str(e))
-              except Exception as e: print(type(e).__name__,str(e))
+          import urllib.request,json,hashlib,subprocess,shutil
+          base='https://climatereanalyzer.org/'
+          paths=['clim/sst_daily/json/dates_sstanom.json','clim/daily_maps/json/dates_sstanom.json']
+          paths += ['clim/sst_daily/json_2clim/oisst2.1_'+r+'_sst_day.json' for r in ['world2','natlan','gomex','nino3.4']]
+          for path in paths:
+              b=urllib.request.urlopen(base+path,timeout=30).read();j=json.loads(b)
+              print('JSON',path)
+              if isinstance(j,list) and j and isinstance(j[0],dict):
+                  for row in j:
+                      vals=row.get('data',[])
+                      print({k:v for k,v in row.items() if k!='data'},'length',len(vals),'head',vals[:3],'tail',[(i,v) for i,v in enumerate(vals) if v is not None][-3:])
+              else:print(j)
+          url=base+'wx/todays-weather/maps/gfs_nh-sat1_pwtr-anomsd_d1.png'
+          b=urllib.request.urlopen(url,timeout=30).read();open('/tmp/pw.png','wb').write(b)
+          print('IMAGE',len(b),b[:8],hashlib.sha256(b).hexdigest())
+          if shutil.which('tesseract'):subprocess.run(['tesseract','/tmp/pw.png','stdout'])
           PY
