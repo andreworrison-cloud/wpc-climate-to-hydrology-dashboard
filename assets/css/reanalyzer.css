@@ -3,3 +3,5 @@
 .cr-panel footer a{color:#8fd8e7}.cr-panel footer a:visited{color:#b4c9e8}
 
 .cr-readout{padding:10px 12px;border:1px solid #456175;border-radius:7px;background:#091c2b;color:#e4f3ff;font-size:.8rem;line-height:1.6;min-height:4.8em;font-variant-numeric:tabular-nums}.cr-chart:focus-visible{outline:2px solid #64d9e7;outline-offset:3px}.mjo-phase-legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin:12px 0;font-size:.75rem;color:#d7e9f5}.mjo-phase-legend span{display:inline-flex;align-items:center;gap:5px}.mjo-phase-legend i{width:12px;height:12px;border-radius:50%;display:inline-block}.strength-legend{margin:8px 0;color:#b8cfde;font-size:.72rem;line-height:1.5}.strength-legend summary{cursor:pointer;color:#a1dfee;font-weight:600}.strength-legend p{margin:7px 0}.strength-legend a{color:#8fd8e7}
+
+.auto-refresh-status{margin:12px 0;color:#b8cfde;font-size:.78rem;line-height:1.5}.cr-toolbar button[hidden]{display:none}

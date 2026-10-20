@@ -32,7 +32,8 @@
   viewport.addEventListener('pointerup',endDrag);viewport.addEventListener('pointercancel',endDrag);
   viewport.addEventListener('keydown',e=>{const offsets={ArrowLeft:[-80,0],ArrowRight:[80,0],ArrowUp:[0,-80],ArrowDown:[0,80]};if(offsets[e.key]){e.preventDefault();viewport.scrollBy(...offsets[e.key]);}});
   new ResizeObserver(()=>setZoom(zoom)).observe(viewport);
-  function renderOcean(){
+  function renderOcean({preserve=false,prepared=null}={}){
+    const savedZoom=zoom,savedFocus=[(viewport.scrollLeft+viewport.clientWidth/2)/stage.scrollWidth,(viewport.scrollTop+viewport.clientHeight/2)/stage.scrollHeight];
     const request=++oceanRequest;
     const rows=ocean?.products||[];
     document.querySelectorAll('[data-ocean-region]').forEach(b=>{const available=rows.some(r=>(r.provider||'noaa')===provider&&r.region===b.dataset.oceanRegion);b.hidden=!available;b.textContent=({global:'Global',pacific:'Pacific',atlantic:'Atlantic'})[b.dataset.oceanRegion];});
@@ -47,9 +48,9 @@
     $('oceanDetail').hidden=!(nasaBasin&&detail?.image_path&&['available','stale'].includes(detail.status));
     if(!$('oceanDetail').hidden){$('oceanDetail').href=detail.image_path;$('oceanDetail').textContent=`NASA ${detail.region_label} detail · ${utc(detail.valid_time)} ↗`;}
 
-    const img=$('oceanImage'); img.hidden=true; img.removeAttribute('src');
+    const img=$('oceanImage'); if(!preserve){img.hidden=true;img.removeAttribute('src');}
     $('oceanFull').hidden=true;
-    $('oceanEmpty').hidden=false;
+    $('oceanEmpty').hidden=preserve;
     $('oceanEmpty').textContent='Ocean imagery unavailable for this selection.';
     $('oceanLabel').textContent=`${title(product)} · ${basin?(region==='pacific'?'Pacific basin':'Atlantic basin'):(row?.region_label||region)} · °C`;
     $('oceanBaseline').textContent=product==='ssta'?(row?.baseline||'Not available'):'Absolute temperature (°C)';
@@ -66,15 +67,15 @@
     const stale=(Number.isFinite(valid)&&Date.now()-valid>72*3600000)||row.status==='stale'||!Number.isFinite(retrieved)||Date.now()-retrieved>72*3600000||(Number.isFinite(modified)&&Date.now()-modified>72*3600000);
     $('oceanStatus').textContent=`${stale?'STALE CACHE · ':'Cached '+row.source_name+' image · '}${row.valid_time?'Composite valid '+utc(row.valid_time):'Observation date printed on map'}. Retrieved ${utc(row.retrieved_at)}.`;
     img.alt=`${row.source_name} ${row.region_label} ${title(product)}, degrees Celsius${row.baseline?', baseline '+row.baseline:''}. Observation date and color legend are printed on the map.`;
-    img.onload=()=>{if(request!==oceanRequest)return;img.hidden=false;$('oceanEmpty').hidden=true;setZoom(basin?1:(row.initial_zoom||1),basin?[.5,.5]:(row.view_focus||[.5,.5]));};
+    img.onload=()=>{if(request!==oceanRequest)return;img.hidden=false;$('oceanEmpty').hidden=true;setZoom(preserve?savedZoom:(basin?1:(row.initial_zoom||1)),preserve?savedFocus:(basin?[.5,.5]:(row.view_focus||[.5,.5])));};
     img.onerror=()=>{img.hidden=true;$('oceanEmpty').hidden=false;$('oceanEmpty').textContent='Cached image could not load. Open the source below.';$('oceanFull').hidden=true;};
-    if(basin){
+    if(prepared){img.src=prepared;}else if(basin){
       img.alt=`${row.source_name} ${selectionRegion} basin view assembled from the global ${title(product)} image; original color scale retained.`;
       const source=new Image();
       source.onload=()=>{if(request!==oceanRequest)return;try{img.src=noaaAtlantic?OceanBasin.renderNoaaAtlantic(source,product):OceanBasin.renderBasin(source,selectionRegion);}catch(error){$('oceanEmpty').textContent=error.message;$('oceanStatus').textContent='Basin view unavailable; open original source map.';}};
       source.onerror=()=>{if(request===oceanRequest){$('oceanEmpty').textContent='Global source could not load; basin view unavailable.';}};
-      source.src=row.image_path;
-    }else img.src=row.image_path;
+      source.src=DashboardRefresh.versioned(row.image_path,row.sha256||row.retrieved_at);
+    }else img.src=DashboardRefresh.versioned(row.image_path,row.sha256||row.retrieved_at);
     $('oceanFull').href=row.image_path;$('oceanFull').textContent=basin?'Open original global map ↗':'Open full-resolution map ↗';$('oceanFull').hidden=false;
   }
   document.querySelectorAll('[data-ocean-product],[data-ocean-region],[data-ocean-provider]').forEach(btn=>btn.addEventListener('click',()=>{
@@ -84,7 +85,20 @@
     document.querySelectorAll(key==='oceanProduct'?'[data-ocean-product]':'[data-ocean-region]').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));
     renderOcean();
   }));
-  Promise.all([loadJSON('data/ocean/manifest.json').catch(()=>({products:[]})),loadJSON('data/ocean/sport_manifest.json').catch(()=>({products:[]}))]).then(([n,s])=>{ocean={products:[...n.products,...s.products]};renderOcean();});
+  DashboardRefresh.register('ocean maps',['data/ocean/manifest.json','data/ocean/sport_manifest.json'],async ([n,s],{initial})=>{
+    if(!Array.isArray(n.products)||!Array.isArray(s.products))throw Error('Invalid ocean catalogs');
+    const next={products:[...n.products,...s.products]},key=[provider,product,region].join('/');
+    const basin=(provider==='sport'&&region!=='global')||(provider==='noaa'&&region==='atlantic');
+    const row=next.products.find(r=>(r.provider||'noaa')===provider&&r.product===product&&r.region===(basin?'global':region));
+    if(initial){ocean=next;renderOcean();return;}
+    if(!row?.image_path||!['available','stale'].includes(row.status)||!next.products.some(r=>(r.provider||'noaa')===provider&&r.product===product&&r.region===region))throw Error('Selected ocean map unavailable; retaining view');
+    const source=await DashboardRefresh.imageReady(DashboardRefresh.versioned(row.image_path,row.sha256||row.retrieved_at));
+    let prepared=source.src;
+    if(basin){prepared=provider==='noaa'?OceanBasin.renderNoaaAtlantic(source,product):OceanBasin.renderBasin(source,region);await DashboardRefresh.imageReady(prepared);}
+    if(key!==[provider,product,region].join('/')||drag)throw Error('Ocean selection changed during check; deferred');
+    ocean=next;renderOcean({preserve:true,prepared});
+  });
+
   function showEvidence(){
     if(!selectedRegion)return;
     const days={D1_7:'Days 1–7',D8_14:'Days 8–14',D15_21:'Days 15–21',D22_28:'Days 22–28'};
