@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>WPC Climate-to-Hydrology Prediction Dashboard</title>
   <link rel="stylesheet" href="assets/css/styles.css" />
-  <link rel="stylesheet" href="assets/css/workbench.css?v=20261020-2" />
-  <link rel="stylesheet" href="assets/css/reanalyzer.css?v=20261020-2" />
+  <link rel="stylesheet" href="assets/css/workbench.css?v=20261020-3" />
+  <link rel="stylesheet" href="assets/css/reanalyzer.css?v=20261020-3" />
 </head>
 <body>
   <a class="skip-link" href="#ocean">Skip to ocean viewer</a>
@@ -64,7 +64,7 @@
 <article id="ocean-history" class="panel cr-panel">
 <div class="section-kicker">01 / OBSERVED OCEAN HISTORY</div><h2>Ocean temperatures in context</h2><p class="panel-subtitle">NOAA OISST v2.1 · daily regional means · Climate Reanalyzer</p>
 <div class="cr-toolbar"><label>History <select id="crHistoryWindow"><option value="30">30 days</option><option value="90" selected>90 days</option><option value="180">180 days</option><option value="1y">1 year</option><option value="2y">2 years</option></select></label><span class="badge observed">OBSERVATION-BASED ANALYSIS</span></div>
-<div class="cr-legend"><span>━━ Daily SST · °C</span><span>┄┄ 1991–2020 seasonal mean</span></div><p class="cr-note">Amber dots mark preliminary values. Hover over points for dates and anomalies. Each region has its own temperature scale.</p><div id="crCards" class="cr-cards">Loading verified SST histories…</div>
+<div class="cr-legend"><span>━━ Daily SST · °C</span><span>┄┄ 1991–2020 seasonal mean</span></div><p class="cr-note">Amber dots mark preliminary values. Hover or tap anywhere along a chart for dates and values; focus the chart and use arrow keys for keyboard inspection. Each region has its own temperature scale.</p><div id="crCards" class="cr-cards">Loading verified SST histories…</div>
 <p id="crCatalogStatus" class="cr-meta" role="status"></p><p class="cr-note">Niño 3.4 here is daily OISST SST, not CPC RONI. The global series covers 60°S–60°N. Basins and subregions are labeled by their exact source bounds. These series are descriptive context, not inputs to the Q3 model.</p>
 <div class="cr-wide"><h3>Watch the ocean anomaly evolve</h3><div class="cr-toolbar"><label>Source view <select id="crMovieDomain"><option value="global">Global</option><option value="north_atlantic">North Atlantic</option></select></label><label>Speed <select id="crSpeed"><option value="1000">1 frame/sec</option><option value="500" selected>2 frames/sec</option><option value="250">4 frames/sec</option><option value="125">8 frames/sec</option></select></label><button id="crPlay" aria-pressed="false" disabled>Play</button><label for="crSlider">Date</label><input id="crSlider" type="range" min="0" max="0" value="0" disabled aria-label="SST anomaly date"></div><p id="crMovieRange" class="cr-meta"></p><div class="cr-image-wrap"><img id="crMovieImage" hidden alt="SST anomaly animation"></div><p id="crMovieStatus" class="cr-meta" role="status">Loading dated frames…</p><p class="cr-note">Last 30 available calendar days requested. Missing frames are omitted, not interpolated; the displayed date governs. Native source views are Global and North Atlantic. NASA SPoRT remains the default map above.</p></div>
 <footer class="cr-note">Data: NOAA OISST v2.1. Source figures and series: <a href="https://climatereanalyzer.org/clim/sst_daily/" target="_blank" rel="noopener">ClimateReanalyzer.org, Climate Change Institute, University of Maine</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. SST charts rendered by this dashboard; source maps retain their labels.</footer></article>
@@ -86,9 +86,9 @@
               <div id="roniStats" class="chart-stats"></div>
             </section>
             <section class="chart-card mjo-card">
-              <div class="chart-title-row"><div><b>MJO / RMM amplitude</b><span id="mjoWindowLabel">Observed history</span></div><strong id="mjoLatest">—</strong></div>
-              <div id="mjoChart" class="chart-host"></div>
-              <div id="mjoStats" class="chart-stats"></div><details><summary>Recent 30-day RMM phase trajectory</summary><div id="mjoPhaseDetail" class="chart-host phase-host"></div></details>
+              <div class="chart-title-row"><div><b>MJO / Wheeler–Hendon RMM</b><span id="mjoWindowLabel">Observed history</span></div><strong id="mjoLatest">—</strong></div>
+              <label class="cr-toolbar">MJO view <select id="mjoView"><option value="phase" selected>Wheeler–Hendon phase space</option><option value="timeline">Amplitude time series</option></select></label><div id="mjoChart" class="chart-host phase-host"></div><div id="mjoLegend"></div>
+              <div id="mjoStats" class="chart-stats"></div>
             </section>
             <section class="chart-card">
               <div class="chart-title-row"><div><b>PNA</b><span id="pnaWindowLabel">Recent 60 days</span></div><strong id="pnaLatest">—</strong></div>
@@ -150,11 +150,11 @@
     <footer>Experimental research dashboard · Not an official NWS/WPC forecast product. Observed climate, forecast-driver evolution, model-derived precipitation guidance, and historical impacts are separate scientific layers.
     </footer>
   </div>
-  <script src="assets/js/history.js?v=20261020-2"></script>
-  <script src="assets/js/app.js?v=20261020-2"></script>
-  <script src="assets/js/ocean-basin.js?v=20261020-2"></script>
-  <script src="assets/js/workbench.js?v=20261020-2"></script>
-  <script src="assets/js/briefing.js?v=20261020-2"></script>
-  <script src="assets/js/reanalyzer.js?v=20261020-2"></script>
+  <script src="assets/js/history.js?v=20261020-3"></script>
+  <script src="assets/js/app.js?v=20261020-3"></script>
+  <script src="assets/js/ocean-basin.js?v=20261020-3"></script>
+  <script src="assets/js/workbench.js?v=20261020-3"></script>
+  <script src="assets/js/briefing.js?v=20261020-3"></script>
+  <script src="assets/js/reanalyzer.js?v=20261020-3"></script>
 </body>
 </html>

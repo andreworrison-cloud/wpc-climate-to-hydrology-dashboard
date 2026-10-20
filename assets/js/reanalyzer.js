@@ -24,16 +24,26 @@
     svg+=HistoryView.ticks(begin,end,L,W-L-R,H-B);
     return svg+'</svg>';
   }
+  function attachReadout(svg,rows){
+    const panel=svg.parentElement.querySelector('.cr-readout'),begin=Date.parse(rows[0].date),end=Date.parse(rows.at(-1).date);let index=rows.length-1;
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label',svg.getAttribute('aria-label')+'. Use left and right arrows to inspect observations.');
+    const marker=document.createElementNS('http://www.w3.org/2000/svg','line');marker.setAttribute('stroke','#f3faff');marker.setAttribute('stroke-dasharray','3 3');marker.setAttribute('y1','12');marker.setAttribute('y2','158');marker.style.pointerEvents='none';marker.style.display='none';svg.append(marker);
+    function display(i){index=Math.max(0,Math.min(rows.length-1,i));const row=rows[index],x=44+(Date.parse(row.date)-begin)/(end-begin)*404;marker.setAttribute('x1',x);marker.setAttribute('x2',x);marker.style.display='';panel.textContent=`${row.date} · SST ${fmt(row.sst_c)} °C · 1991–2020 seasonal mean ${fmt(row.climatology_c)} °C · Anomaly ${signed(row.anomaly_c)} °C · ${row.preliminary?'Preliminary':'Finalized series'}`;}
+    function point(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse()),t=begin+Math.max(0,Math.min(1,(q.x-44)/404))*(end-begin);let i=0;for(let j=1;j<rows.length;j++)if(Math.abs(Date.parse(rows[j].date)-t)<Math.abs(Date.parse(rows[i].date)-t))i=j;display(i);}
+    svg.addEventListener('pointermove',point);svg.addEventListener('pointerdown',point);svg.addEventListener('focus',()=>display(index));
+    svg.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();display(e.key==='Home'?0:e.key==='End'?rows.length-1:index+(e.key==='ArrowRight'?1:-1));}});
+  }
   let data, timer=null, playing=false, selectedFrames=[], requestNumber=0;
   function stop(){playing=false;clearTimeout(timer);timer=null;$('crPlay').textContent='Play';$('crPlay').setAttribute('aria-pressed','false');}
   function renderCards(){
-    const days=$('crHistoryWindow').value;
+    const days=$('crHistoryWindow').value,chartRows=[];
     $('crCards').innerHTML=(data.sst_regions||[]).map(r=>{
       const rows=r.rows||[],latest=rows.at(-1),stale=r.status!=='current'||age(latest?.date)>3;
       if(!latest)return `<section class="cr-card"><h3>${esc(r.label)}</h3><p>Unavailable — ${esc(r.error||'no verified series')}</p></section>`;
-      const cutoff=HistoryView.cutoff(latest.date,days),shown=rows.filter(p=>Date.parse(p.date)>=cutoff);
-      return `<section class="cr-card"><h3>${esc(r.label)}</h3><p>${esc(r.bounds)}</p><div class="cr-value">${fmt(latest.sst_c)} <small>°C</small></div><b class="${latest.anomaly_c>=0?'cr-positive':'cr-negative'}">${signed(latest.anomaly_c)} °C anomaly</b><br><span class="cr-state ${stale?'stale':''}">${stale?'STALE / RETAINED · ':''}${latest.preliminary?'PRELIMINARY':'FINALIZED SERIES'} · ${esc(latest.date)}</span>${chart(shown)}<p>1991–2020 seasonal mean: ${fmt(latest.climatology_c)} °C. ${esc(r.error||'')}</p><a class="cr-source" href="${esc(r.source_page)}" target="_blank" rel="noopener">Source series & methodology ↗</a></section>`;
+      const cutoff=HistoryView.cutoff(latest.date,days),shown=rows.filter(p=>Date.parse(p.date)>=cutoff);chartRows.push(shown);
+      return `<section class="cr-card"><h3>${esc(r.label)}</h3><p>${esc(r.bounds)}</p><div class="cr-value">${fmt(latest.sst_c)} <small>°C</small></div><b class="${latest.anomaly_c>=0?'cr-positive':'cr-negative'}">${signed(latest.anomaly_c)} °C anomaly</b><br><span class="cr-state ${stale?'stale':''}">${stale?'STALE / RETAINED · ':''}${latest.preliminary?'PRELIMINARY':'FINALIZED SERIES'} · ${esc(latest.date)}</span>${chart(shown)}<div class="cr-readout" role="status">Hover or tap the chart for a dated SST, climatology and anomaly readout.</div><p>1991–2020 seasonal mean: ${fmt(latest.climatology_c)} °C. ${esc(r.error||'')}</p><a class="cr-source" href="${esc(r.source_page)}" target="_blank" rel="noopener">Source series & methodology ↗</a></section>`;
     }).join('');
+    $('crCards').querySelectorAll('svg.cr-chart').forEach((svg,i)=>attachReadout(svg,chartRows[i]));
   }
   async function showFrame(){
     const token=++requestNumber,frame=selectedFrames[Number($('crSlider').value)];

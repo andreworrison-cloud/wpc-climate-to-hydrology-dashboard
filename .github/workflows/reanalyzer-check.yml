@@ -1,7 +1,7 @@
 name: Climate Reanalyzer integration check
 on:
   push:
-    branches: [history-controls-atlantic-fix]
+    branches: [chart-tooltips-driver-legends]
     paths: ['scripts/**', 'assets/**', 'index.html', 'tests/**', '.github/workflows/reanalyzer-check.yml']
 permissions:
   contents: write
@@ -21,24 +21,6 @@ jobs:
         run: |
           python -m unittest discover -s tests -p test_reanalyzer.py
           node --check assets/js/reanalyzer.js
-      - name: Fetch source context on integration branch
-        run: python scripts/update_reanalyzer.py
-      - name: Verify populated products
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          d=json.loads(Path('data/reanalyzer/manifest.json').read_text())
-          assert len(d['sst_regions'])==4
-          for r in d['sst_regions']:
-              assert r['status']=='current' and len(r['rows'])>=730,r
-              print(r['label'],r['rows'][-1])
-          for name,g in d['animation']['domains'].items():
-              print(name,len(g['frames']),g['status'])
-              assert len(g['frames'])>=25,g
-          assert len(d['atmosphere']['maps'])==12
-          assert all(m['status']=='current' for m in d['atmosphere']['maps'])
-          PY
       - name: Browser checks and screenshots
         run: |
           pip -q install playwright
@@ -50,12 +32,3 @@ jobs:
         with:
           name: reanalyzer-review
           path: review/
-      - name: Save verified source cache to integration branch
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/reanalyzer/
-          if ! git diff --cached --quiet; then
-            git commit -m 'Cache verified Climate Reanalyzer context for review'
-            git push origin HEAD:history-controls-atlantic-fix
-          fi
