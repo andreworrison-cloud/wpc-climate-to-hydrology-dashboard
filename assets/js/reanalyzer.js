@@ -57,7 +57,7 @@
   $('crHistoryWindow').addEventListener('change',()=>data&&renderCards());$('crMovieDomain').addEventListener('change',()=>data&&selectMovie());$('crSlider').addEventListener('input',()=>{stop();showFrame();});
   const imageCache=new Map();
   function frameImage(frame){if(!imageCache.has(frame.path)){const image=new Image();image.src=frame.path;imageCache.set(frame.path,image);if(imageCache.size>8)imageCache.delete(imageCache.keys().next().value);}return imageCache.get(frame.path);}
-  async function advance(){if(!playing||document.hidden){stop();return;}const i=(Number($('crSlider').value)+1)%selectedFrames.length;$('crSlider').value=i;await showFrame();if(!playing)return;for(let j=1;j<=3;j++)frameImage(selectedFrames[(i+j)%selectedFrames.length]);timer=setTimeout(advance,Number($('crSpeed').value));}
+  async function advance(){timer=null;if(!playing||document.hidden){stop();return;}const i=(Number($('crSlider').value)+1)%selectedFrames.length;$('crSlider').value=i;await showFrame();if(!playing)return;for(let j=1;j<=3;j++)frameImage(selectedFrames[(i+j)%selectedFrames.length]);timer=setTimeout(advance,Number($('crSpeed').value));}
   $('crPlay').addEventListener('click',()=>{if(playing){stop();return;}if(selectedFrames.length<2)return;playing=true;$('crPlay').textContent='Pause';$('crPlay').setAttribute('aria-pressed','true');advance();});
   $('crSpeed').addEventListener('change',()=>{if(playing&&timer){clearTimeout(timer);timer=setTimeout(advance,Number($('crSpeed').value));}});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});

@@ -37,14 +37,14 @@ def main():
         for region, label in REGIONS.items():
             key = f'{product}_{region}'
             # NOAA does not publish a corresponding North Atlantic SST panel.
-            # Use an explicitly labeled viewport into the unchanged global image
+            # Use a verified client-side Atlantic crop of the global source image
             # for BOTH variables, preserving identical Atlantic view behavior.
             if region == 'atlantic':
                 global_row = next(r for r in rows if r['id'] == f'{product}_global')
                 rows.append({**global_row, 'id': key, 'region': region,
-                             'region_label': 'Atlantic (global-map view)',
-                             'view_focus': [0.83, 0.44], 'initial_zoom': 2,
-                             'coverage_note': 'Atlantic-focused view of the NOAA global source image; Fit shows the complete map and legend.'})
+                             'region_label': 'Atlantic basin',
+                             'render_view': 'noaa_atlantic_crop',
+                             'coverage_note': 'Atlantic crop of NOAA global pixels: 100°W–20°E, 5°S–60°N. Original header and color legend retained; Fit preserves the basin.'})
                 continue
             url = BASE + template.format(region=region)
             row = dict(id=key, product=product, region=region, region_label=label,

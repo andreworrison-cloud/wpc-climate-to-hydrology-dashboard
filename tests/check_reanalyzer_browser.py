@@ -3,6 +3,11 @@ import http.server,threading,functools
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 root=Path(__file__).resolve().parents[1]
+import json
+from datetime import date
+for driver in ['mjo','pna','nao']:
+ rows=json.loads((root/f'data/{driver}_history.json').read_text())['values']
+ assert (date.fromisoformat(rows[-1]['date'])-date.fromisoformat(rows[0]['date'])).days>=730,driver
 server=http.server.ThreadingHTTPServer(('127.0.0.1',8765),functools.partial(http.server.SimpleHTTPRequestHandler,directory=str(root)))
 threading.Thread(target=server.serve_forever,daemon=True).start()
 (root/'review').mkdir(exist_ok=True)
@@ -25,7 +30,7 @@ with sync_playwright() as p:
   for period in ['30','90','180','1y','2y']:
    page.select_option(selector,period)
    assert page.locator('#crCards svg').count()==4
-   assert page.locator('#observed .chart-host svg').count()==4
+   assert page.locator('#observed .chart-host > svg').count()==4
  page.locator('#observed').screenshot(path=str(root/'review/observed-two-years.png'))
  page.locator('#ocean-history').screenshot(path=str(root/'review/history-two-years.png'))
  page.select_option('#crSpeed','125');page.click('#crPlay');page.wait_for_timeout(1000);page.click('#crPlay')
