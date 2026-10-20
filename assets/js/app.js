@@ -42,18 +42,19 @@ function driverMarkup(d){
 }
 
 function lineChartSVG(rows, valueKey='value', palette='signed'){
-  if (!rows || rows.length < 2) return '<div class="empty-state">Insufficient history.</div>';
-  const W=640,H=210,m={l:38,r:14,t:14,b:28},vals=rows.map(r=>Number(r[valueKey])).filter(Number.isFinite);
-  if(!vals.length) return '<div class="empty-state">No numeric history.</div>';
-  let min=Math.min(...vals),max=Math.max(...vals); const abs=Math.max(Math.abs(min),Math.abs(max),.5); min=-abs*1.12;max=abs*1.12;
-  const x=i=>m.l+i*(W-m.l-m.r)/(rows.length-1),y=v=>m.t+(max-v)*(H-m.t-m.b)/(max-min),zeroY=y(0);
-  const grid=[-1,-.5,0,.5,1].map(f=>min+(max-min)*(f+1)/2).filter(v=>v>=min&&v<=max);
-  const gridLines=grid.map(v=>`<line x1="${m.l}" y1="${y(v)}" x2="${W-m.r}" y2="${y(v)}" class="chart-grid-line"/><text x="${m.l-6}" y="${y(v)+3}" text-anchor="end" class="chart-axis-label">${v.toFixed(1)}</text>`).join('');
-  const scale=palette==='roni'?1.2:1.5;
-  const segments=rows.slice(1).map((r,i)=>{const av=Number(rows[i][valueKey]),bv=Number(r[valueKey]),c=signedStateColor((av+bv)/2,scale);return `<line x1="${x(i)}" y1="${y(av)}" x2="${x(i+1)}" y2="${y(bv)}" class="chart-semantic-segment" stroke="${c}"/>`;}).join('');
-  const last=rows.length-1,lastVal=Number(rows[last][valueKey]),lastColor=signedStateColor(lastVal,scale);
-  const firstLabel=rows[0].date||`${rows[0].season||''} ${rows[0].year||''}`,lastLabel=rows[last].date||`${rows[last].season||''} ${rows[last].year||''}`;
-  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img">${gridLines}<line x1="${m.l}" y1="${zeroY}" x2="${W-m.r}" y2="${zeroY}" class="chart-zero"/>${segments}<circle cx="${x(last)}" cy="${y(lastVal)}" r="4.5" fill="${lastColor}" class="chart-dot-semantic"/><circle cx="${x(last)}" cy="${y(lastVal)}" r="8" class="chart-latest-ring" style="stroke:${lastColor}"/><text x="${m.l}" y="${H-8}" class="chart-axis-label">${firstLabel}</text><text x="${W-m.r}" y="${H-8}" text-anchor="end" class="chart-axis-label">${lastLabel}</text></svg>`;
+  if(!rows?.length)return '<div class="empty-state">History unavailable.</div>';
+  const valid=r=>r[valueKey]!=null&&Number.isFinite(Number(r[valueKey]));
+  const W=640,H=210,L=40,R=16,T=14,B=34;
+  const vals=rows.filter(valid).map(r=>Number(r[valueKey]));if(!vals.length)return 'No numeric history.';
+  const amp=valueKey==='amplitude',max=Math.max(.5,...vals.map(Math.abs))*1.12,min=amp?0:-max;
+  const begin=Date.parse(HistoryView.date(rows[0])),end=Date.parse(HistoryView.date(rows.at(-1)));
+  const x=r=>L+(end===begin?.5:(Date.parse(HistoryView.date(r))-begin)/(end-begin))*(W-L-R),y=v=>T+(max-v)/(max-min)*(H-T-B);
+  let svg=`<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${amp?'MJO amplitude':palette==='roni'?'RONI':'Index'} history">`;
+  for(const v of amp?[0,1,max]:[min,0,max])svg+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" class="chart-grid-line"/><text x="${L-5}" y="${y(v)+4}" text-anchor="end" class="chart-axis-label">${v.toFixed(1)}</text>`;
+  rows.forEach((r,i)=>{if(!valid(r))return;const color=amp?mjoStateColor(r.phase,r.amplitude):signedStateColor(r[valueKey]);const prev=rows[i-1];
+    if(prev&&valid(prev)&&Date.parse(HistoryView.date(r))-Date.parse(HistoryView.date(prev))<=(palette==='roni'?32:1)*86400000)svg+=`<line x1="${x(prev)}" x2="${x(r)}" y1="${y(prev[valueKey])}" y2="${y(r[valueKey])}" stroke="${color}" stroke-width="2"/>`;
+    svg+=`<circle cx="${x(r)}" cy="${y(r[valueKey])}" r="${palette==='roni'?3:2}" fill="${color}"><title>${r.season?`${r.season} ${r.year}`:r.date}: ${Number(r[valueKey]).toFixed(2)}${amp?`; phase ${r.phase}`:''}</title></circle>`;});
+  return svg+HistoryView.ticks(begin,end,L,W-L-R,H-B)+'</svg>';
 }
 
 function driverTimelineSVG(rows, driver){
@@ -108,37 +109,40 @@ function phaseSpaceSVG(rows){
 }
 
 function statChip(label,value){ return `<span class="stat-chip">${label}: <b>${value}</b></span>`; }
-function sliceDaily(rows,days){ return (rows || []).slice(-days); }
+function sliceDaily(rows,days){ return HistoryView.select(rows || [],days); }
 
-function renderObservedPatterns(histories, days=60){
-  const roniRows=(histories.roni?.values || []).slice(-24);
+function renderObservedPatterns(histories, days="90"){
+  const roniRows=HistoryView.select(histories.roni?.values || [],days);
   const pnaRows=sliceDaily(histories.pna?.values || [],days);
   const naoRows=sliceDaily(histories.nao?.values || [],days);
-  const mjoRows=sliceDaily(histories.mjo?.values || [],30);
+  const mjoRows=sliceDaily(histories.mjo?.values || [],days);
 
   document.getElementById('roniChart').innerHTML=lineChartSVG(roniRows,'value','roni');
   document.getElementById('pnaChart').innerHTML=lineChartSVG(pnaRows);
   document.getElementById('naoChart').innerHTML=lineChartSVG(naoRows);
-  document.getElementById('mjoChart').innerHTML=phaseSpaceSVG(mjoRows);
-  document.getElementById('pnaWindowLabel').textContent=`Recent ${days} days`;
-  document.getElementById('naoWindowLabel').textContent=`Recent ${days} days`;
+  document.getElementById('mjoChart').innerHTML=lineChartSVG(mjoRows,"amplitude");
+  document.getElementById('mjoPhaseDetail').innerHTML=phaseSpaceSVG(sliceDaily(histories.mjo?.values||[],30));
+  document.getElementById('pnaWindowLabel').textContent=document.getElementById("observedHistoryWindow").selectedOptions[0].textContent;
+  document.getElementById('naoWindowLabel').textContent=document.getElementById("observedHistoryWindow").selectedOptions[0].textContent;
 
+  document.getElementById('roniWindowLabel').textContent='Overlapping seasons · '+document.getElementById('observedHistoryWindow').selectedOptions[0].textContent;
+  document.getElementById('mjoWindowLabel').textContent=document.getElementById('observedHistoryWindow').selectedOptions[0].textContent+' · phase-colored amplitude';
   if(roniRows.length){
     const a=roniRows.at(-1), prev=roniRows.at(-2);
     document.getElementById('roniLatest').textContent=`${signed(a.value,2)} °C`; document.getElementById('roniLatest').style.color=signedStateColor(a.value,1.2);
-    document.getElementById('roniStats').innerHTML=statChip('Valid',`${a.season} ${a.year}`)+statChip('1-season Δ',signed(a.value-prev.value,2)+' °C')+statChip('24-season range',`${num(Math.min(...roniRows.map(r=>r.value)),2)} to ${signed(Math.max(...roniRows.map(r=>r.value)),2)} °C`);
+    document.getElementById('roniStats').innerHTML=statChip('Valid',`${a.season} ${a.year}`)+statChip('1-season Δ',(prev?signed(a.value-prev.value,2):'—')+' °C')+statChip('Shown range',`${num(Math.min(...roniRows.map(r=>r.value)),2)} to ${signed(Math.max(...roniRows.map(r=>r.value)),2)} °C`);
   }
   const renderDailyStats=(rows,prefix,units='σ')=>{
     if(!rows.length)return;
     const a=rows.at(-1), back=rows[Math.max(0,rows.length-8)];
     document.getElementById(`${prefix}Latest`).textContent=`${signed(a.value,3)} ${units}`; document.getElementById(`${prefix}Latest`).style.color=signedStateColor(a.value,1.5);
-    document.getElementById(`${prefix}Stats`).innerHTML=statChip('Valid',a.date)+statChip('7-day Δ',`${signed(a.value-back.value,3)} ${units}`)+statChip(`${days}D range`,`${num(Math.min(...rows.map(r=>r.value)),2)} to ${signed(Math.max(...rows.map(r=>r.value)),2)} ${units}`);
+    document.getElementById(`${prefix}Stats`).innerHTML=statChip('Valid',a.date)+statChip('7-day Δ',`${signed(a.value-back.value,3)} ${units}`)+statChip('Shown range',`${num(Math.min(...rows.map(r=>r.value)),2)} to ${signed(Math.max(...rows.map(r=>r.value)),2)} ${units}`);
   };
   renderDailyStats(pnaRows,'pna'); renderDailyStats(naoRows,'nao');
   if(mjoRows.length){
     const a=mjoRows.at(-1), maxAmp=Math.max(...mjoRows.map(r=>Number(r.amplitude)));
     document.getElementById('mjoLatest').textContent=`P${a.phase} • ${num(a.amplitude,2)}`; document.getElementById('mjoLatest').style.color=mjoStateColor(a.phase,a.amplitude);
-    document.getElementById('mjoStats').innerHTML=statChip('Valid',a.date)+statChip('RMM1',signed(a.rmm1,2))+statChip('RMM2',signed(a.rmm2,2))+statChip('30D max amp',num(maxAmp,2));
+    document.getElementById('mjoStats').innerHTML=statChip('Valid',a.date)+statChip('RMM1',signed(a.rmm1,2))+statChip('RMM2',signed(a.rmm2,2))+statChip('Shown max amp',num(maxAmp,2));
   }
 }
 
@@ -240,11 +244,9 @@ async function boot(){
       el.innerHTML = `<span>${d.name}</span><b class="${healthy ? 'ok' : 'warn'}">${d.status.replaceAll('_',' ')}</b>`; health.appendChild(el);
     });
 
-    renderObservedPatterns(histories,60);
+    renderObservedPatterns(histories,"90");
     renderForwardGuidance(forecast);
-    document.querySelectorAll('.window-btn').forEach(btn=>btn.addEventListener('click',()=>{
-      document.querySelectorAll('.window-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderObservedPatterns(histories,Number(btn.dataset.days));
-    }));
+    document.getElementById('observedHistoryWindow').addEventListener('change',e=>renderObservedPatterns(histories,e.target.value));
   } catch (err) {
     console.error(err); badge.textContent = 'LOAD ERROR'; badge.className = 'badge research';
   }
