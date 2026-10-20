@@ -49,7 +49,7 @@ with sync_playwright() as p:
  assert latest['date'] in readout.inner_text()
  assert f"{latest['sst_c']:.2f}" in readout.inner_text()
  assert 'Anomaly' in readout.inner_text() and 'Preliminary' in readout.inner_text()
- box=chart.bounding_box();page.mouse.move(box['x']+box['width']*.12,box['y']+box['height']*.5)
+ chart.scroll_into_view_if_needed();box=chart.bounding_box();chart.hover(position={'x':box['width']*.12,'y':box['height']*.5})
  assert latest['date'] not in readout.inner_text()
  chart.press('End');chart.press('ArrowLeft')
  assert manifest['sst_regions'][0]['rows'][-2]['date'] in readout.inner_text()
