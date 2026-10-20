@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-10-20T00:30:44.989777+00:00",
+  "checked_at": "2026-10-20T00:32:37.288559+00:00",
   "attribution": "ClimateReanalyzer.org / Climate Change Institute, University of Maine; NOAA OISST v2.1 and NOAA/NCEP GFS",
   "license": "CC BY 4.0",
   "science_role": "display_context_only",
@@ -2578,7 +2578,7 @@
       ],
       "source_url": "https://climatereanalyzer.org/clim/sst_daily/json_2clim/oisst2.1_world2_sst_day.json",
       "source_sha256": "766264f536edd4845a9a6f5ba722f900125ceadb04c3e4cb4fb0cf9b165c897e",
-      "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
+      "retrieved_at": "2026-10-20T00:32:37.288559+00:00",
       "status": "current",
       "preliminary_year": 2026
     },
@@ -5154,7 +5154,7 @@
       ],
       "source_url": "https://climatereanalyzer.org/clim/sst_daily/json_2clim/oisst2.1_nino3.4_sst_day.json",
       "source_sha256": "682fede5f88a7ae41253b515c0a6afee7c7d3e02e6e47ac40137d0d935b21960",
-      "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
+      "retrieved_at": "2026-10-20T00:32:37.288559+00:00",
       "status": "current",
       "preliminary_year": 2026
     },
@@ -7730,7 +7730,7 @@
       ],
       "source_url": "https://climatereanalyzer.org/clim/sst_daily/json_2clim/oisst2.1_natlan_sst_day.json",
       "source_sha256": "acb7cbdae09d4ec7b3e4ccf83d19a6d622039bf1e840044587f0cff92008efe0",
-      "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
+      "retrieved_at": "2026-10-20T00:32:37.288559+00:00",
       "status": "current",
       "preliminary_year": 2026
     },
@@ -10306,7 +10306,7 @@
       ],
       "source_url": "https://climatereanalyzer.org/clim/sst_daily/json_2clim/oisst2.1_gomex_sst_day.json",
       "source_sha256": "b8ecf22ed97a118b22a67e6346026d04d66ed486f26750ce46b83b2cd924d721",
-      "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
+      "retrieved_at": "2026-10-20T00:32:37.288559+00:00",
       "status": "current",
       "preliminary_year": 2026
     }
@@ -10325,7 +10325,8 @@
             "last_modified": "Mon, 05 Oct 2026 14:59:05 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-19"
+            "valid_date": "2026-09-19",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-09-20.png",
@@ -10337,7 +10338,8 @@
             "last_modified": "Tue, 06 Oct 2026 14:59:05 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-20"
+            "valid_date": "2026-09-20",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-09-21.png",
@@ -10349,7 +10351,8 @@
             "last_modified": "Wed, 07 Oct 2026 14:59:10 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-21"
+            "valid_date": "2026-09-21",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-09-22.png",
@@ -10361,7 +10364,8 @@
             "last_modified": "Thu, 08 Oct 2026 14:59:05 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-22"
+            "valid_date": "2026-09-22",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-09-23.png",
@@ -10373,7 +10377,8 @@
             "last_modified": "Fri, 09 Oct 2026 14:59:09 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-23"
+            "valid_date": "2026-09-23",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-09-24.png",
@@ -10385,7 +10390,8 @@
             "last_modified": "Sat, 10 Oct 2026 14:59:04 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-24"
+            "valid_date": "2026-09-24",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-09-25.png",
@@ -10397,7 +10403,8 @@
             "last_modified": "Sun, 11 Oct 2026 14:59:04 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-25"
+            "valid_date": "2026-09-25",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-09-26.png",
@@ -10409,7 +10416,8 @@
             "last_modified": "Mon, 12 Oct 2026 14:59:04 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-26"
+            "valid_date": "2026-09-26",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-09-27.png",
@@ -10421,7 +10429,8 @@
             "last_modified": "Tue, 13 Oct 2026 14:59:05 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-27"
+            "valid_date": "2026-09-27",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-09-28.png",
@@ -10433,7 +10442,8 @@
             "last_modified": "Wed, 14 Oct 2026 14:59:05 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-28"
+            "valid_date": "2026-09-28",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-09-29.png",
@@ -10445,7 +10455,8 @@
             "last_modified": "Thu, 15 Oct 2026 14:59:05 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-29"
+            "valid_date": "2026-09-29",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-09-30.png",
@@ -10457,7 +10468,8 @@
             "last_modified": "Fri, 16 Oct 2026 14:59:05 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-30"
+            "valid_date": "2026-09-30",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-01.png",
@@ -10469,7 +10481,8 @@
             "last_modified": "Sat, 17 Oct 2026 14:59:05 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-01"
+            "valid_date": "2026-10-01",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-02.png",
@@ -10481,7 +10494,8 @@
             "last_modified": "Sun, 18 Oct 2026 14:59:06 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-02"
+            "valid_date": "2026-10-02",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-03.png",
@@ -10493,7 +10507,8 @@
             "last_modified": "Mon, 19 Oct 2026 14:59:04 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-03"
+            "valid_date": "2026-10-03",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-04.png",
@@ -10505,7 +10520,8 @@
             "last_modified": "Mon, 19 Oct 2026 14:59:10 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-04"
+            "valid_date": "2026-10-04",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-05.png",
@@ -10517,7 +10533,8 @@
             "last_modified": "Thu, 08 Oct 2026 14:58:07 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-05"
+            "valid_date": "2026-10-05",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-06.png",
@@ -10529,7 +10546,8 @@
             "last_modified": "Fri, 09 Oct 2026 14:58:07 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-06"
+            "valid_date": "2026-10-06",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-07.png",
@@ -10541,7 +10559,8 @@
             "last_modified": "Sat, 10 Oct 2026 14:58:07 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-07"
+            "valid_date": "2026-10-07",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-08.png",
@@ -10553,7 +10572,8 @@
             "last_modified": "Sun, 11 Oct 2026 14:58:08 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-08"
+            "valid_date": "2026-10-08",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-09.png",
@@ -10565,7 +10585,8 @@
             "last_modified": "Mon, 12 Oct 2026 14:58:07 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-09"
+            "valid_date": "2026-10-09",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-10.png",
@@ -10577,7 +10598,8 @@
             "last_modified": "Tue, 13 Oct 2026 14:58:07 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-10"
+            "valid_date": "2026-10-10",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-11.png",
@@ -10589,7 +10611,8 @@
             "last_modified": "Wed, 14 Oct 2026 14:58:07 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-11"
+            "valid_date": "2026-10-11",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-12.png",
@@ -10601,7 +10624,8 @@
             "last_modified": "Thu, 15 Oct 2026 14:58:07 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-12"
+            "valid_date": "2026-10-12",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-13.png",
@@ -10613,7 +10637,8 @@
             "last_modified": "Fri, 16 Oct 2026 14:58:07 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-13"
+            "valid_date": "2026-10-13",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-14.png",
@@ -10625,7 +10650,8 @@
             "last_modified": "Sat, 17 Oct 2026 14:58:07 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-14"
+            "valid_date": "2026-10-14",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-15.png",
@@ -10637,7 +10663,8 @@
             "last_modified": "Sun, 18 Oct 2026 14:58:07 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-15"
+            "valid_date": "2026-10-15",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-16.png",
@@ -10649,7 +10676,8 @@
             "last_modified": "Mon, 19 Oct 2026 14:58:07 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-16"
+            "valid_date": "2026-10-16",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-17.png",
@@ -10661,7 +10689,8 @@
             "last_modified": "Mon, 19 Oct 2026 14:58:12 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-17"
+            "valid_date": "2026-10-17",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-18.png",
@@ -10673,7 +10702,8 @@
             "last_modified": "Mon, 19 Oct 2026 14:58:17 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-18"
+            "valid_date": "2026-10-18",
+            "error": null
           }
         ],
         "status": "current",
@@ -10693,7 +10723,8 @@
             "last_modified": "Mon, 05 Oct 2026 14:59:15 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-19"
+            "valid_date": "2026-09-19",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-09-20.png",
@@ -10705,7 +10736,8 @@
             "last_modified": "Tue, 06 Oct 2026 14:59:14 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-20"
+            "valid_date": "2026-09-20",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-09-21.png",
@@ -10717,7 +10749,8 @@
             "last_modified": "Wed, 07 Oct 2026 14:59:19 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-21"
+            "valid_date": "2026-09-21",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-09-22.png",
@@ -10729,7 +10762,8 @@
             "last_modified": "Thu, 08 Oct 2026 14:59:14 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-22"
+            "valid_date": "2026-09-22",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-09-23.png",
@@ -10741,7 +10775,8 @@
             "last_modified": "Fri, 09 Oct 2026 14:59:18 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-23"
+            "valid_date": "2026-09-23",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-09-24.png",
@@ -10753,7 +10788,8 @@
             "last_modified": "Sat, 10 Oct 2026 14:59:13 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-24"
+            "valid_date": "2026-09-24",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-09-25.png",
@@ -10765,7 +10801,8 @@
             "last_modified": "Sun, 11 Oct 2026 14:59:13 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-25"
+            "valid_date": "2026-09-25",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-09-26.png",
@@ -10777,7 +10814,8 @@
             "last_modified": "Mon, 12 Oct 2026 14:59:13 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-26"
+            "valid_date": "2026-09-26",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-09-27.png",
@@ -10789,7 +10827,8 @@
             "last_modified": "Tue, 13 Oct 2026 14:59:14 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-27"
+            "valid_date": "2026-09-27",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-09-28.png",
@@ -10801,7 +10840,8 @@
             "last_modified": "Wed, 14 Oct 2026 14:59:15 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-28"
+            "valid_date": "2026-09-28",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-09-29.png",
@@ -10813,7 +10853,8 @@
             "last_modified": "Thu, 15 Oct 2026 14:59:14 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-29"
+            "valid_date": "2026-09-29",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-09-30.png",
@@ -10825,7 +10866,8 @@
             "last_modified": "Fri, 16 Oct 2026 14:59:14 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-09-30"
+            "valid_date": "2026-09-30",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-01.png",
@@ -10837,7 +10879,8 @@
             "last_modified": "Sat, 17 Oct 2026 14:59:14 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-01"
+            "valid_date": "2026-10-01",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-02.png",
@@ -10849,7 +10892,8 @@
             "last_modified": "Sun, 18 Oct 2026 14:59:15 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-02"
+            "valid_date": "2026-10-02",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-03.png",
@@ -10861,7 +10905,8 @@
             "last_modified": "Mon, 19 Oct 2026 14:59:14 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-03"
+            "valid_date": "2026-10-03",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-04.png",
@@ -10873,7 +10918,8 @@
             "last_modified": "Mon, 19 Oct 2026 14:59:17 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-04"
+            "valid_date": "2026-10-04",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-05.png",
@@ -10885,7 +10931,8 @@
             "last_modified": "Thu, 08 Oct 2026 14:58:20 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-05"
+            "valid_date": "2026-10-05",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-06.png",
@@ -10897,7 +10944,8 @@
             "last_modified": "Fri, 09 Oct 2026 14:58:21 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-06"
+            "valid_date": "2026-10-06",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-07.png",
@@ -10909,7 +10957,8 @@
             "last_modified": "Sat, 10 Oct 2026 14:58:20 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-07"
+            "valid_date": "2026-10-07",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-08.png",
@@ -10921,7 +10970,8 @@
             "last_modified": "Sun, 11 Oct 2026 14:58:21 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-08"
+            "valid_date": "2026-10-08",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-09.png",
@@ -10933,7 +10983,8 @@
             "last_modified": "Mon, 12 Oct 2026 14:58:20 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-09"
+            "valid_date": "2026-10-09",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-10.png",
@@ -10945,7 +10996,8 @@
             "last_modified": "Tue, 13 Oct 2026 14:58:20 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-10"
+            "valid_date": "2026-10-10",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-11.png",
@@ -10957,7 +11009,8 @@
             "last_modified": "Wed, 14 Oct 2026 14:58:20 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-11"
+            "valid_date": "2026-10-11",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-12.png",
@@ -10969,7 +11022,8 @@
             "last_modified": "Thu, 15 Oct 2026 14:58:20 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-12"
+            "valid_date": "2026-10-12",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-13.png",
@@ -10981,7 +11035,8 @@
             "last_modified": "Fri, 16 Oct 2026 14:58:20 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-13"
+            "valid_date": "2026-10-13",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-14.png",
@@ -10993,7 +11048,8 @@
             "last_modified": "Sat, 17 Oct 2026 14:58:21 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-14"
+            "valid_date": "2026-10-14",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-15.png",
@@ -11005,7 +11061,8 @@
             "last_modified": "Sun, 18 Oct 2026 14:58:20 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-15"
+            "valid_date": "2026-10-15",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-16.png",
@@ -11017,7 +11074,8 @@
             "last_modified": "Mon, 19 Oct 2026 14:58:20 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-16"
+            "valid_date": "2026-10-16",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-17.png",
@@ -11029,7 +11087,8 @@
             "last_modified": "Mon, 19 Oct 2026 14:58:23 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-17"
+            "valid_date": "2026-10-17",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-18.png",
@@ -11041,7 +11100,8 @@
             "last_modified": "Mon, 19 Oct 2026 14:58:26 GMT",
             "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
             "status": "current",
-            "valid_date": "2026-10-18"
+            "valid_date": "2026-10-18",
+            "error": null
           }
         ],
         "status": "current",
@@ -11069,7 +11129,8 @@
         "etag": "\"21c62-65e2aad8c4a19\"",
         "last_modified": "Mon, 19 Oct 2026 05:20:53 GMT",
         "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
-        "status": "current"
+        "status": "current",
+        "error": null
       },
       {
         "domain": "north_america",
@@ -11087,7 +11148,8 @@
         "etag": "\"1d1a1-65e2ab0fb8201\"",
         "last_modified": "Mon, 19 Oct 2026 05:21:51 GMT",
         "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
-        "status": "current"
+        "status": "current",
+        "error": null
       },
       {
         "domain": "north_america",
@@ -11105,7 +11167,8 @@
         "etag": "\"1d170-65e2ac365a7ce\"",
         "last_modified": "Mon, 19 Oct 2026 05:27:00 GMT",
         "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
-        "status": "current"
+        "status": "current",
+        "error": null
       },
       {
         "domain": "north_america",
@@ -11123,7 +11186,8 @@
         "etag": "\"3272d-65e2ac72e4a6c\"",
         "last_modified": "Mon, 19 Oct 2026 05:28:03 GMT",
         "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
-        "status": "current"
+        "status": "current",
+        "error": null
       },
       {
         "domain": "pacific",
@@ -11141,7 +11205,8 @@
         "etag": "\"193c1-65e2aae9aebe6\"",
         "last_modified": "Mon, 19 Oct 2026 05:21:11 GMT",
         "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
-        "status": "current"
+        "status": "current",
+        "error": null
       },
       {
         "domain": "pacific",
@@ -11159,7 +11224,8 @@
         "etag": "\"146d0-65e2ab162d757\"",
         "last_modified": "Mon, 19 Oct 2026 05:21:57 GMT",
         "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
-        "status": "current"
+        "status": "current",
+        "error": null
       },
       {
         "domain": "pacific",
@@ -11177,7 +11243,8 @@
         "etag": "\"14563-65e2ac3cd3ba1\"",
         "last_modified": "Mon, 19 Oct 2026 05:27:06 GMT",
         "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
-        "status": "current"
+        "status": "current",
+        "error": null
       },
       {
         "domain": "pacific",
@@ -11195,7 +11262,8 @@
         "etag": "\"26c1e-65e2ac7b4a14e\"",
         "last_modified": "Mon, 19 Oct 2026 05:28:12 GMT",
         "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
-        "status": "current"
+        "status": "current",
+        "error": null
       },
       {
         "domain": "global",
@@ -11213,7 +11281,8 @@
         "etag": "\"29398-65e2aaa73bdd8\"",
         "last_modified": "Mon, 19 Oct 2026 05:20:01 GMT",
         "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
-        "status": "current"
+        "status": "current",
+        "error": null
       },
       {
         "domain": "global",
@@ -11231,7 +11300,8 @@
         "etag": "\"233e8-65e2ab0afd2da\"",
         "last_modified": "Mon, 19 Oct 2026 05:21:46 GMT",
         "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
-        "status": "current"
+        "status": "current",
+        "error": null
       },
       {
         "domain": "global",
@@ -11249,7 +11319,8 @@
         "etag": "\"24284-65e2ac3298910\"",
         "last_modified": "Mon, 19 Oct 2026 05:26:56 GMT",
         "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
-        "status": "current"
+        "status": "current",
+        "error": null
       },
       {
         "domain": "global",
@@ -11267,7 +11338,8 @@
         "etag": "\"3b362-65e2ac6c222b7\"",
         "last_modified": "Mon, 19 Oct 2026 05:27:56 GMT",
         "retrieved_at": "2026-10-20T00:30:44.989777+00:00",
-        "status": "current"
+        "status": "current",
+        "error": null
       }
     ]
   }
