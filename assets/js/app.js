@@ -24,20 +24,35 @@ function semanticColorForDriver(d){
   return '#78dfff';
 }
 
+function driverStrength(d){
+  const raw=d.id==='mjo_rmm'?d.amplitude:d.value;
+  if(raw===null||raw===undefined||!Number.isFinite(Number(raw)))return 'Strength unavailable';
+  const v=Number(raw),a=Math.abs(v);
+  if(d.id==='roni')return a<.5?'ENSO-neutral range':`${a<1?'Weak':a<1.5?'Moderate':a<2?'Strong':'Very strong'} ${v>0?'El Niño':'La Niña'} range`;
+  if(d.id==='mjo_rmm')return a<1?'Weak MJO':a<2?'Moderate MJO · active':'Strong MJO · active';
+  return a<.5?'Near-zero magnitude':`${a<1?'Weak':a<2?'Moderate':'Strong'} ${v>0?'positive':'negative'} ${d.id.toUpperCase()}`;
+}
+function strengthLegend(d){
+  if(d.id==='roni')return `<details class="strength-legend"><summary>ENSO state & strength key</summary><p><span style="color:#80c8ff">La Niña ≤ −0.5°C</span> · Neutral: −0.5 &lt; RONI &lt; +0.5°C · <span style="color:#ffb18a">El Niño ≥ +0.5°C</span></p><p>Absolute RONI: weak 0.5–&lt;1; moderate 1–&lt;1.5; strong 1.5–&lt;2; very strong ≥2°C.</p><p>Latest overlapping-season magnitude, subject to revision; not an independent ENSO event declaration or impact forecast. <a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/strengths/" target="_blank" rel="noopener">CPC strength bands ↗</a></p></details>`;
+  return `<details class="strength-legend"><summary>Magnitude key · dashboard convention</summary><p>${d.id==='mjo_rmm'?'RMM amplitude: weak &lt;1; moderate 1–&lt;2; strong ≥2. The unit-circle threshold distinguishes weak from active MJO.':'Absolute standardized index: near-zero &lt;0.5; weak 0.5–&lt;1; moderate 1–&lt;2; strong ≥2. Sign indicates positive or negative phase.'}</p><p>Descriptive display brackets, not official ${d.id==='mjo_rmm'?'BOM':'CPC'} strength classes or precipitation-skill tiers.</p></details>`;
+}
+function mjoLegend(){return '<div class="mjo-phase-legend" aria-label="MJO phase colors">'+Object.entries(mjoPhaseColors).map(([phase,color])=>`<span><i style="background:${color}"></i>Phase ${phase}</span>`).join('')+'<span><i style="background:#91a7b7"></i>Weak · amplitude &lt;1</span></div>';}
+
 function driverMarkup(d){
   const stateColor=semanticColorForDriver(d);
   if (d.id === 'mjo_rmm' && d.phase && d.amplitude !== null && d.amplitude !== undefined) {
     return `<div class="driver-top"><span class="driver-name">${d.display_name}</span><span class="status-dot"></span></div>
       <div class="driver-value semantic-value" style="--state-color:${stateColor}">Phase ${d.phase} <span style="font-size:.58em;font-weight:700">• Amp ${Number(d.amplitude).toFixed(2)}</span></div>
-      <div class="driver-state-key"><span class="state-swatch" style="background:${stateColor}"></span><span>${d.signal_strength || 'RMM signal'} • ${d.phase_region || ''}</span></div>
+      <div class="driver-state-key"><span class="state-swatch" style="background:${stateColor}"></span><span>${driverStrength(d)} • ${d.phase_region || ''}</span></div>
       <div class="driver-meta">RMM1 ${Number(d.rmm1).toFixed(2)} • RMM2 ${Number(d.rmm2).toFixed(2)} • valid ${d.valid_time || '—'}</div>
-      <div class="driver-meta">Source: ${d.source_name}</div>`;
+      <div class="driver-meta">Source: ${d.source_name}</div>${strengthLegend(d)}`;
   }
   return `<div class="driver-top"><span class="driver-name">${d.display_name}</span><span class="status-dot"></span></div>
     <div class="driver-value semantic-value" style="--state-color:${stateColor}">${fmt(d.value, d.units ? ` ${d.units}` : '')}</div>
-    <div class="driver-state-key"><span class="state-swatch" style="background:${stateColor}"></span><span>${d.state || 'Awaiting ingestion'}</span></div>
+    <div class="driver-state-key"><span class="state-swatch" style="background:${stateColor}"></span><span>${driverStrength(d)}</span></div>
     <div class="driver-meta">valid ${d.valid_time || '—'}</div>
     <div class="driver-meta">Source: ${d.source_name}</div>
+    ${strengthLegend(d)}
     ${d.provisional ? '<div class="driver-meta">Latest value is provisional / subject to CPC revision</div>' : ''}`;
 }
 
@@ -78,7 +93,7 @@ function driverTimelineSVG(rows, driver){
 
 function phaseSpaceSVG(rows){
   if (!rows || rows.length < 2) return '<div class="empty-state">Insufficient MJO history.</div>';
-  const W=520,H=310,cx=260,cy=155,scale=31,maxR=4;
+  const W=520,H=310,cx=260,cy=155,maxR=Math.max(4,...rows.map(r=>Math.hypot(Number(r.rmm1),Number(r.rmm2))))*1.05,scale=118/maxR;
   const sx=v=>cx+Math.max(-maxR,Math.min(maxR,Number(v)))*scale;
   const sy=v=>cy-Math.max(-maxR,Math.min(maxR,Number(v)))*scale;
   const edgeR=118;
@@ -93,7 +108,7 @@ function phaseSpaceSVG(rows){
     return `<text x="${cx+Math.cos(a)*r}" y="${cy-Math.sin(a)*r+4}" text-anchor="middle" class="phase-label">${i+1}</text>`;
   }).join('');
   const trailSegments=rows.slice(1).map((r,i)=>{const prev=rows[i],c=mjoStateColor(r.phase,r.amplitude);return `<line x1="${sx(prev.rmm1)}" y1="${sy(prev.rmm2)}" x2="${sx(r.rmm1)}" y2="${sy(r.rmm2)}" class="phase-semantic-segment" stroke="${c}" opacity="${(0.35+0.65*(i+2)/rows.length).toFixed(2)}"/>`;}).join('');
-  const points=rows.map((r,i)=>{const c=mjoStateColor(r.phase,r.amplitude);return `<circle cx="${sx(r.rmm1)}" cy="${sy(r.rmm2)}" r="${i===rows.length-1?4.5:2.2}" fill="${c}" class="phase-point-semantic" opacity="${(0.25+0.75*(i+1)/rows.length).toFixed(2)}"${i===rows.length-1?' stroke="#eafff5" stroke-width="1.4"':''}/>`;}).join('');
+  const points=rows.map((r,i)=>{const c=mjoStateColor(r.phase,r.amplitude);return `<circle cx="${sx(r.rmm1)}" cy="${sy(r.rmm2)}" r="${i===rows.length-1?4.5:2.2}" fill="${c}" class="phase-point-semantic" opacity="${(0.25+0.75*(i+1)/rows.length).toFixed(2)}"${i===rows.length-1?' stroke="#eafff5" stroke-width="1.4"':''}><title>${r.date}: phase ${r.phase}; amplitude ${Number(r.amplitude).toFixed(2)}</title></circle>`;}).join('');
   return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Wheeler-Hendon RMM phase-space diagram">
     <line x1="${cx-edgeR}" y1="${cy}" x2="${cx+edgeR}" y2="${cy}" class="phase-axis"/><line x1="${cx}" y1="${cy-edgeR}" x2="${cx}" y2="${cy+edgeR}" class="phase-axis"/>
     ${radial}<circle cx="${cx}" cy="${cy}" r="${scale}" class="phase-circle"/>
@@ -120,13 +135,15 @@ function renderObservedPatterns(histories, days="90"){
   document.getElementById('roniChart').innerHTML=lineChartSVG(roniRows,'value','roni');
   document.getElementById('pnaChart').innerHTML=lineChartSVG(pnaRows);
   document.getElementById('naoChart').innerHTML=lineChartSVG(naoRows);
-  document.getElementById('mjoChart').innerHTML=lineChartSVG(mjoRows,"amplitude");
-  document.getElementById('mjoPhaseDetail').innerHTML=phaseSpaceSVG(sliceDaily(histories.mjo?.values||[],30));
+  const phaseView=document.getElementById('mjoView').value==='phase';
+  const mjoHost=document.getElementById('mjoChart');mjoHost.classList.toggle('phase-host',phaseView);
+  mjoHost.innerHTML=phaseView?phaseSpaceSVG(mjoRows):lineChartSVG(mjoRows,'amplitude');
+  document.getElementById('mjoLegend').innerHTML=mjoLegend();
   document.getElementById('pnaWindowLabel').textContent=document.getElementById("observedHistoryWindow").selectedOptions[0].textContent;
   document.getElementById('naoWindowLabel').textContent=document.getElementById("observedHistoryWindow").selectedOptions[0].textContent;
 
   document.getElementById('roniWindowLabel').textContent='Overlapping seasons · '+document.getElementById('observedHistoryWindow').selectedOptions[0].textContent;
-  document.getElementById('mjoWindowLabel').textContent=document.getElementById('observedHistoryWindow').selectedOptions[0].textContent+' · phase-colored amplitude';
+  document.getElementById('mjoWindowLabel').textContent=document.getElementById('observedHistoryWindow').selectedOptions[0].textContent+(phaseView?' · Wheeler–Hendon phase space':' · phase-colored amplitude')+(mjoRows.length?` · ${mjoRows[0].date} → ${mjoRows.at(-1).date}`:'');
   if(roniRows.length){
     const a=roniRows.at(-1), prev=roniRows.at(-2);
     document.getElementById('roniLatest').textContent=`${signed(a.value,2)} °C`; document.getElementById('roniLatest').style.color=signedStateColor(a.value,1.2);
@@ -246,6 +263,7 @@ async function boot(){
 
     renderObservedPatterns(histories,"90");
     renderForwardGuidance(forecast);
+    document.getElementById('mjoView').addEventListener('change',()=>renderObservedPatterns(histories,document.getElementById('observedHistoryWindow').value));
     document.getElementById('observedHistoryWindow').addEventListener('change',e=>renderObservedPatterns(histories,e.target.value));
   } catch (err) {
     console.error(err); badge.textContent = 'LOAD ERROR'; badge.className = 'badge research';
