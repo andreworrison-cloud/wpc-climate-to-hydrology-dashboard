@@ -120,7 +120,8 @@ function renderObservedPatterns(histories, days="90"){
   document.getElementById('roniChart').innerHTML=lineChartSVG(roniRows,'value','roni');
   document.getElementById('pnaChart').innerHTML=lineChartSVG(pnaRows);
   document.getElementById('naoChart').innerHTML=lineChartSVG(naoRows);
-  document.getElementById('mjoChart').innerHTML=lineChartSVG(mjoRows,"amplitude")+`<details><summary>Recent 30-day RMM phase trajectory</summary>${phaseSpaceSVG(sliceDaily(histories.mjo?.values||[],30))}</details>`;
+  document.getElementById('mjoChart').innerHTML=lineChartSVG(mjoRows,"amplitude");
+  document.getElementById('mjoPhaseDetail').innerHTML=phaseSpaceSVG(sliceDaily(histories.mjo?.values||[],30));
   document.getElementById('pnaWindowLabel').textContent=document.getElementById("observedHistoryWindow").selectedOptions[0].textContent;
   document.getElementById('naoWindowLabel').textContent=document.getElementById("observedHistoryWindow").selectedOptions[0].textContent;
 

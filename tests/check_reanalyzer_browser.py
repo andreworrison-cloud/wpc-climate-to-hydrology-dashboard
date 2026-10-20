@@ -30,7 +30,10 @@ with sync_playwright() as p:
   for period in ['30','90','180','1y','2y']:
    page.select_option(selector,period)
    assert page.locator('#crCards svg').count()==4
-   assert page.locator('#observed .chart-host > svg').count()==4
+   assert page.locator('#observed .chart-host > svg').count()==5
+ page.locator('#observed details summary').click()
+ assert page.locator('#mjoPhaseDetail svg').is_visible()
+ page.locator('#observed details summary').click()
  page.locator('#observed').screenshot(path=str(root/'review/observed-two-years.png'))
  page.locator('#ocean-history').screenshot(path=str(root/'review/history-two-years.png'))
  page.select_option('#crSpeed','125');page.click('#crPlay');page.wait_for_timeout(1000);page.click('#crPlay')
