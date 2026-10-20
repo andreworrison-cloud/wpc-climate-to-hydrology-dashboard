@@ -98,7 +98,7 @@ def retained(previous,error,**defaults):
 def main():
  now=datetime.now(timezone.utc).isoformat();today=datetime.now(timezone.utc).date()
  manifest=OUT/'manifest.json';old=json.loads(manifest.read_text()) if manifest.exists() else {}
- result=dict(schema_version=1,checked_at=now,attribution='ClimateReanalyzer.org / Climate Change Institute, University of Maine; NOAA OISST v2.1 and NOAA/NCEP GFS',license='CC BY 4.0',science_role='display_context_only',q3_input=False,sst_regions=[],animation={'domains':{}},atmosphere={'maps':[]})
+ result=dict(schema_version=1,checked_at=now,attribution='ClimateReanalyzer.org / Climate Change Institute, University of Maine; NOAA OISST v2.1 and NOAA/NCEP GFS',license='CC BY 4.0',science_role='display_context_only',q3_input=False,sst_regions=[],animation={'domains':{},'variables':{}},atmosphere={'maps':[]})
  # Read the source's year declaration; never infer preliminary year from our clock.
  try:
   script,_=get(BASE+'clim/sst_daily/js/sst_daily.min.js?v=002')
@@ -116,25 +116,34 @@ def main():
    rec.update(rows=rows,source_url=url,source_sha256=sha(b),retrieved_at=now,status='current',preliminary_year=prelim_year)
   except Exception as ex:rec=retained(prior,ex,**rec)
   result['sst_regions'].append(rec)
- # Date inventory establishes image valid dates. Every downloaded PNG is checked.
- try:
-  b,_=get(BASE+'clim/daily_maps/json/dates_sstanom.json');dates=json.loads(b)
-  end=date(*map(int,dates[3:6]))
-  if end>today:raise ValueError('Future SST animation date')
-  for domain,source_domain in DOMAINS.items():
-   prior=old.get('animation',{}).get('domains',{}).get(domain,{})
-   previous={f['valid_date']:f for f in prior.get('frames',[])}
-   def frame(i):
-    d=end-timedelta(days=29-i);url=BASE+f'clim/daily_maps/maps/sstanom_1991-2020/{source_domain}/{d.year}/sstanom_{source_domain}_{d.year}_d{d.timetuple().tm_yday:03d}.png'
-    oldframe=previous.get(d.isoformat(),{})
-    try:return {**image(url,f'data/reanalyzer/maps/ssta_{domain}_{d}.png',oldframe,now),'valid_date':d.isoformat()}
-    except Exception as ex:
-     if oldframe and (ROOT/oldframe['path']).exists():return {**oldframe,'status':'retained','error':str(ex)[:160]}
-     print('::warning::Missing animation frame '+d.isoformat()+' '+domain);return None
-   with ThreadPoolExecutor(max_workers=4) as pool:frames=[f for f in pool.map(frame,range(30)) if f]
-   result['animation']['domains'][domain]={'frames':frames,'status':'current' if len(frames)==30 and all(f['status']=='current' for f in frames) else 'partial','source_page':BASE+'clim/daily_maps/?wm_id=sstanom&dm_id='+source_domain,'baseline':'1991–2020','inventory_sha256':sha(b)}
- except Exception as ex:
-  for domain in DOMAINS:result['animation']['domains'][domain]=retained(old.get('animation',{}).get('domains',{}).get(domain,{}),ex,frames=[])
+ # Independent published inventories for absolute SST and anomalies. North Pacific reuses global pixels.
+ for variable,source_variable in [('sst','sst'),('ssta','sstanom')]:
+  groups={}
+  oldgroups=old.get('animation',{}).get('variables',{}).get(variable,{}).get('domains',{})
+  if variable=='ssta' and not oldgroups:oldgroups=old.get('animation',{}).get('domains',{})
+  try:
+   inventory,_=get(BASE+f'clim/daily_maps/json/dates_{source_variable}.json');dates=json.loads(inventory)
+   end=date(*map(int,dates[3:6]))
+   if end>today:raise ValueError('Future SST animation date')
+   folder=source_variable+('_1991-2020' if variable=='ssta' else '')
+   for domain,source_domain in DOMAINS.items():
+    prior=oldgroups.get(domain,{})
+    previous={f['valid_date']:f for f in prior.get('frames',[])}
+    def frame(i):
+     d=end-timedelta(days=29-i);url=BASE+f'clim/daily_maps/maps/{folder}/{source_domain}/{d.year}/{source_variable}_{source_domain}_{d.year}_d{d.timetuple().tm_yday:03d}.png'
+     oldframe=previous.get(d.isoformat(),{})
+     try:return {**image(url,f'data/reanalyzer/maps/{variable}_{domain}_{d}.png',oldframe,now),'valid_date':d.isoformat()}
+     except Exception as ex:
+      if oldframe and (ROOT/oldframe['path']).exists():return {**oldframe,'status':'retained','error':str(ex)[:160]}
+      print('::warning::Missing animation frame '+variable+' '+d.isoformat()+' '+domain);return None
+    with ThreadPoolExecutor(max_workers=4) as pool:frames=[f for f in pool.map(frame,range(30)) if f]
+    groups[domain]={'frames':frames,'status':'current' if len(frames)==30 and all(f['status']=='current' for f in frames) else 'partial','source_page':BASE+'clim/daily_maps/?wm_id='+source_variable+'&dm_id='+source_domain,'baseline':'1991–2020' if variable=='ssta' else None,'units':'°C','inventory_sha256':sha(inventory)}
+  except Exception as ex:
+   for domain in DOMAINS:groups[domain]=retained(oldgroups.get(domain,{}),ex,frames=[])
+  groups['north_pacific']={**groups['global'],'render_view':'north_pacific_crop','view_note':'Display crop of the global source map; original projection retained. Not a separately computed regional field.'}
+  result['animation']['variables'][variable]={'domains':groups}
+ # Additive schema: preserve anomaly domains for dashboard tabs opened before the variable selector.
+ result['animation']['domains']=result['animation']['variables']['ssta']['domains']
  for domain,source_domain in ATMOS_DOMAINS.items():
   for variable in VARIABLES:
    prior=next((m for m in old.get('atmosphere',{}).get('maps',[]) if m['domain']==domain and m['variable']==variable),{})
@@ -144,9 +153,12 @@ def main():
    result['atmosphere']['maps'].append(rec)
  atomic(manifest,(json.dumps(result,indent=2,ensure_ascii=False,allow_nan=False)+'\n').encode())
  # Only prune this collector's dated image cache, after the new manifest is durable.
- keep={f['path'] for group in result['animation']['domains'].values() for f in group.get('frames',[])}
- for path in (OUT/'maps').glob('ssta_*.png'):
-  if path.relative_to(ROOT).as_posix() not in keep:path.unlink()
+ keep={f['path'] for product in result['animation']['variables'].values() for group in product['domains'].values() for f in group.get('frames',[])}
+ # Grace period for existing open tabs that keep their user-selected animation frame lists.
+ for pattern in ['ssta_*.png','sst_*.png']:
+  for path in (OUT/'maps').glob(pattern):
+   match=re.search(r'(\d{4}-\d{2}-\d{2})\.png$',path.name)
+   if path.relative_to(ROOT).as_posix() not in keep and match and date.fromisoformat(match[1])<today-timedelta(days=60):path.unlink()
  print('Climate Reanalyzer:',[(r['id'],r['status'],len(r['rows'])) for r in result['sst_regions']],'; frames',sum(len(v['frames']) for v in result['animation']['domains'].values()))
  return result
 if __name__=='__main__':main()
