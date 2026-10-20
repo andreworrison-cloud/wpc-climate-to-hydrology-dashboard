@@ -18,3 +18,13 @@ Sources inspected 2026-10-20: Climate Reanalyzer's `sst_daily.min.js?v=002`, `da
 `update_reanalyzer.main()` joins the existing `daily` collection at the existing external 21:35Z trigger. No GitHub schedule or cron-job.org job is added. Conditional image requests use ETag/Last-Modified when supplied. Changed bytes are atomically replaced; unchanged content avoids publication through the existing substantive-change comparison. Transient failures retain previous valid products with failure flags. The animation cache is pruned only after writing its replacement manifest.
 
 The branch-only integration workflow fetches source data, checks source contracts, exercises the actual frontend in Chromium, and retains screenshots. It is not a recurring production scheduler.
+
+## Ocean animation expansion — 2026-10-20
+
+The shared player offers absolute SST and SST anomaly for Global, North Pacific and North Atlantic. Global and North Atlantic are native Climate Reanalyzer map areas; the source's published `daily_maps.min.js` lists `world-wt3` and `natlan-ced` for both variables. Each variable has its own published date inventory (`dates_sst.json` and `dates_sstanom.json`). Absolute temperature is in °C; only anomalies reference the 1991–2020 baseline.
+
+North Pacific is a labeled display crop of the global frame, preserving its original projection, header/date, color scale and attribution. It is not a separately computed regional field or a rectangular geographic mask. Rendering checks the reviewed source PNG dimensions and stops if the layout changes. It reuses the global files and hashes, requiring no separate Pacific downloads. Modified-image credit follows the source's CC BY 4.0 terms.
+
+Variable and basin changes preserve the selected calendar date when available and pause playback. If that date is absent, the latest available frame is shown with an explicit notice. The same slider and 1/2/4/8 fps speed selector apply to both variables. Background checks do not change variable/domain/date or start playback; the user adopts new frame catalogs with “Load latest frames.” Frame URLs carry content hashes to pick up source revisions.
+
+`animation.variables.sst.domains` and `animation.variables.ssta.domains` are additive schema fields. `animation.domains` retains the anomaly catalog for already-open older dashboard tabs. The collector uses the existing daily update job. Unreferenced dated frames have a 60-day grace period for open tabs retaining older frame lists; referenced frames are never pruned.
