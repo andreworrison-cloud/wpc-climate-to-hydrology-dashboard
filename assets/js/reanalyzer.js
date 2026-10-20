@@ -55,16 +55,32 @@
     try{await image.decode();if(token!==requestNumber)return;$('crMovieImage').src=frame.path;$('crMovieImage').alt=`OISST SST anomaly, ${frame.valid_date}, ${$('crMovieDomain').selectedOptions[0].text}`;$('crMovieImage').hidden=false;$('crMovieStatus').textContent=`Valid ${frame.valid_date} · 1991–2020 baseline${age(frame.valid_date)>3?' · historical frame':''}`;}
     catch{if(token===requestNumber){stop();$('crMovieStatus').textContent=`Frame unavailable: ${frame.valid_date}. Playback stopped.`;}}
   }
-  function selectMovie(){stop();++requestNumber;$('crMovieImage').hidden=true;imageCache.clear();const group=data.animation?.domains?.[$('crMovieDomain').value];selectedFrames=group?.frames||[];$('crSlider').max=Math.max(0,selectedFrames.length-1);$('crSlider').value=Math.max(0,selectedFrames.length-1);$('crPlay').disabled=selectedFrames.length<2;$('crSlider').disabled=!selectedFrames.length;$('crMovieRange').textContent=selectedFrames.length?`${selectedFrames[0].valid_date} → ${selectedFrames.at(-1).valid_date} · ${selectedFrames.length} available daily frames${group.status!=='current'?' · partial / retained archive':''}`:'Unavailable';showFrame();}
+  function selectMovie(){$('crMovieRefresh').hidden=true;stop();++requestNumber;$('crMovieImage').hidden=true;imageCache.clear();const group=data.animation?.domains?.[$('crMovieDomain').value];selectedFrames=group?.frames||[];$('crSlider').max=Math.max(0,selectedFrames.length-1);$('crSlider').value=Math.max(0,selectedFrames.length-1);$('crPlay').disabled=selectedFrames.length<2;$('crSlider').disabled=!selectedFrames.length;$('crMovieRange').textContent=selectedFrames.length?`${selectedFrames[0].valid_date} → ${selectedFrames.at(-1).valid_date} · ${selectedFrames.length} available daily frames${group.status!=='current'?' · partial / retained archive':''}`:'Unavailable';showFrame();}
   async function showAtmosphere(){const item=(data.atmosphere?.maps||[]).find(m=>m.domain===$('crAtmosDomain').value&&m.variable===$('crAtmosVariable').value);$('crAtmosImage').hidden=true;
     if(!item?.path){$('crAtmosStatus').textContent='Selected forecast context unavailable.';return;}
     $('crAtmosStatus').textContent=`${item.status==='current'?'Cached source map':'RETAINED — latest retrieval failed'} · retrieval ${item.retrieved_at}. Valid date is printed on the map; model initialization is not supplied in the verified metadata. Retrieval is not valid time.`;
-    $('crAtmosImage').src=item.path;$('crAtmosImage').alt=`GFS forecast-based daily ${$('crAtmosVariable').selectedOptions[0].text}, ${$('crAtmosDomain').selectedOptions[0].text}`;$('crAtmosImage').hidden=false;
+    $('crAtmosImage').src=DashboardRefresh.versioned(item.path,item.sha256||item.retrieved_at);$('crAtmosImage').alt=`GFS forecast-based daily ${$('crAtmosVariable').selectedOptions[0].text}, ${$('crAtmosDomain').selectedOptions[0].text}`;$('crAtmosImage').hidden=false;
     $('crAtmosImage').onerror=()=>{$('crAtmosImage').hidden=true;$('crAtmosStatus').textContent='Forecast map file unavailable.';};
   }
-  async function init(){try{const response=await fetch('data/reanalyzer/manifest.json',{cache:'no-cache'});if(!response.ok)throw new Error('Source catalog unavailable');data=await response.json();if(data.schema_version!==1)throw new Error('Unsupported source catalog');renderCards();selectMovie();showAtmosphere();$('crCatalogStatus').textContent=`Source check: ${data.checked_at} · NOAA OISST via Climate Reanalyzer`;}
-    catch(err){$('crCatalogStatus').textContent=`Unavailable — ${err.message}`;$('crCards').textContent='Verified SST series have not been loaded.';$('crPlay').disabled=true;$('crAtmosStatus').textContent='Forecast context unavailable.';}
-  }
+  DashboardRefresh.register('SST history and atmospheric context',['data/reanalyzer/manifest.json'],async ([next],{initial})=>{
+    if(next.schema_version!==1||!Array.isArray(next.sst_regions)||!Array.isArray(next.atmosphere?.maps))throw Error('Unsupported source catalog');
+    const selection=[$('crAtmosDomain').value,$('crAtmosVariable').value].join('/');
+    const item=next.atmosphere.maps.find(m=>m.domain===$('crAtmosDomain').value&&m.variable===$('crAtmosVariable').value);
+    if(initial){data=next;renderCards();selectMovie();showAtmosphere();}
+    else{
+      if(!item?.path)throw Error('Selected atmospheric map unavailable');
+      const image=await DashboardRefresh.imageReady(DashboardRefresh.versioned(item.path,item.sha256||item.retrieved_at));
+      if(selection!==[$('crAtmosDomain').value,$('crAtmosVariable').value].join('/'))throw Error('Atmospheric selection changed; deferred');
+      const newFrames=JSON.stringify(data.animation)!==JSON.stringify(next.animation);
+      data=next;renderCards();
+      $('crAtmosImage').src=image.src;$('crAtmosImage').hidden=false;
+      $('crAtmosStatus').textContent=`${item.status==='current'?'Cached source map':'RETAINED — latest retrieval failed'} · retrieval ${item.retrieved_at}. Valid date is printed on the map; retrieval is not valid time.`;
+      // Keep the selected frame, playback state and frame list until explicit user engagement.
+      if(newFrames)$('crMovieRefresh').hidden=false;
+    }
+    $('crCatalogStatus').textContent=`Source check: ${data.checked_at} · NOAA OISST via Climate Reanalyzer`;
+  });
+  $('crMovieRefresh').addEventListener('click',()=>data&&selectMovie());
   $('crHistoryWindow').addEventListener('change',()=>data&&renderCards());$('crMovieDomain').addEventListener('change',()=>data&&selectMovie());$('crSlider').addEventListener('input',()=>{stop();showFrame();});
   const imageCache=new Map();
   function frameImage(frame){if(!imageCache.has(frame.path)){const image=new Image();image.src=frame.path;imageCache.set(frame.path,image);if(imageCache.size>8)imageCache.delete(imageCache.keys().next().value);}return imageCache.get(frame.path);}
@@ -73,5 +89,4 @@
   $('crSpeed').addEventListener('change',()=>{if(playing&&timer){clearTimeout(timer);timer=setTimeout(advance,Number($('crSpeed').value));}});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
   ['crAtmosDomain','crAtmosVariable'].forEach(id=>$(id).addEventListener('change',()=>data&&showAtmosphere()));
-  init();
 })();

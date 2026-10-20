@@ -228,46 +228,30 @@ function renderForwardGuidance(forecast){
   ].join('');
 }
 
-async function boot(){
-  const badge = document.getElementById('liveBadge');
-  try {
-    const [climate, status, regions, histories, forecast] = await Promise.all([
-      loadJSON('data/climate_current.json'),
-      loadJSON('data/data_status.json'),
-      loadJSON('data/ufvs_regions.json'),
-      Promise.all([
-        loadJSON('data/roni_history.json'), loadJSON('data/mjo_history.json'), loadJSON('data/pna_history.json'), loadJSON('data/nao_history.json')
-      ]).then(([roni,mjo,pna,nao])=>({roni,mjo,pna,nao})),
-      loadJSON('data/forecast_status.json').catch(()=>({products:[],overall_status:'pending'}))
-    ]);
-
-    document.getElementById('lastUpdated').textContent = `Last updated: ${status.generated_at || '—'}`;
-    badge.textContent = status.overall_status === 'current' ? 'DATA INTERFACES ONLINE' : 'CHECK DATA';
-    badge.className = `badge ${status.overall_status === 'current' ? 'live' : 'research'}`;
-
-    const driverCards = document.getElementById('driverCards');
-    climate.indicators.forEach(d => {
-      const el = document.createElement('div'); el.className = 'driver-card'; el.innerHTML = driverMarkup(d); driverCards.appendChild(el);
-      const historyKey=d.id==='mjo_rmm'?'mjo':d.id;
-      const rows=(histories[historyKey]?.values||[]).slice(d.id==='roni'?-24:-30);
-      const mini=document.createElement('div'); mini.className='driver-sparkline';
-      mini.innerHTML=driverTimelineSVG(rows,d.id);
-      mini.setAttribute('aria-label',d.id==='mjo_rmm'?'Recent MJO amplitude history':'Recent observed history'); el.appendChild(mini);
-    });
-
-    const health = document.getElementById('dataHealth');
-    status.datasets.forEach(d => {
-      const el = document.createElement('div'); el.className = 'health-item'; const healthy = ['interface_ready','live'].includes(d.status);
-      el.innerHTML = `<span>${d.name}</span><b class="${healthy ? 'ok' : 'warn'}">${d.status.replaceAll('_',' ')}</b>`; health.appendChild(el);
-    });
-
-    renderObservedPatterns(histories,"90");
-    renderForwardGuidance(forecast);
-    document.getElementById('mjoView').addEventListener('change',()=>renderObservedPatterns(histories,document.getElementById('observedHistoryWindow').value));
-    document.getElementById('observedHistoryWindow').addEventListener('change',e=>renderObservedPatterns(histories,e.target.value));
-  } catch (err) {
-    console.error(err); badge.textContent = 'LOAD ERROR'; badge.className = 'badge research';
-  }
-}
-
-boot();
+let displayedHistories=null;
+DashboardRefresh.register('observed drivers',[
+ 'data/climate_current.json','data/data_status.json','data/roni_history.json','data/mjo_history.json','data/pna_history.json','data/nao_history.json'
+],async ([climate,status,roni,mjo,pna,nao])=>{
+  const histories={roni,mjo,pna,nao};
+  if(!Array.isArray(climate.indicators)||!Array.isArray(status.datasets)||Object.values(histories).some(h=>!Array.isArray(h.values)||!h.values.length))throw Error('Invalid observed data');
+  const driverCards=document.getElementById('driverCards'),fragment=document.createDocumentFragment();
+  const expanded=new Set([...driverCards.querySelectorAll('[data-driver]')].filter(el=>el.querySelector('details')?.open).map(el=>el.dataset.driver));
+  climate.indicators.forEach(d=>{
+    const el=document.createElement('div');el.className='driver-card';el.dataset.driver=d.id;el.innerHTML=driverMarkup(d);
+    if(el.querySelector('details'))el.querySelector('details').open=expanded.has(d.id);
+    const key=d.id==='mjo_rmm'?'mjo':d.id,rows=(histories[key]?.values||[]).slice(d.id==='roni'?-24:-30);
+    const mini=document.createElement('div');mini.className='driver-sparkline';mini.innerHTML=driverTimelineSVG(rows,d.id);el.append(mini);fragment.append(el);
+  });
+  const health=document.createDocumentFragment();
+  status.datasets.forEach(d=>{const el=document.createElement('div');el.className='health-item';const healthy=['interface_ready','live'].includes(d.status);el.innerHTML=`<span>${d.name}</span><b class="${healthy?'ok':'warn'}">${d.status.replaceAll('_',' ')}</b>`;health.append(el);});
+  driverCards.replaceChildren(fragment);document.getElementById('dataHealth').replaceChildren(health);
+  document.getElementById('lastUpdated').textContent=`Last updated: ${status.generated_at||'—'}`;
+  const badge=document.getElementById('liveBadge');badge.textContent=status.overall_status==='current'?'DATA INTERFACES ONLINE':'CHECK DATA';badge.className=`badge ${status.overall_status==='current'?'live':'research'}`;
+  displayedHistories=histories;renderObservedPatterns(histories,document.getElementById('observedHistoryWindow').value);
+});
+for(const id of ['mjoView','observedHistoryWindow'])document.getElementById(id).addEventListener('change',()=>{if(displayedHistories)renderObservedPatterns(displayedHistories,document.getElementById('observedHistoryWindow').value);});
+DashboardRefresh.register('forecast guidance',['data/forecast_status.json'],async ([forecast])=>{
+  if(!Array.isArray(forecast.products))throw Error('Invalid forecast catalog');
+  await Promise.all(forecast.products.filter(p=>p.status==='live'&&p.image_path).map(p=>DashboardRefresh.imageReady(DashboardRefresh.versioned(p.image_path,p.retrieved_at))));
+  renderForwardGuidance(forecast);
+});

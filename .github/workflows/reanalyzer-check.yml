@@ -1,7 +1,7 @@
 name: Climate Reanalyzer integration check
 on:
   push:
-    branches: [chart-tooltips-driver-legends]
+    branches: [automatic-display-refresh]
     paths: ['scripts/**', 'assets/**', 'index.html', 'tests/**', '.github/workflows/reanalyzer-check.yml']
 permissions:
   contents: write
@@ -21,11 +21,15 @@ jobs:
         run: |
           python -m unittest discover -s tests -p test_reanalyzer.py
           node --check assets/js/reanalyzer.js
+          node --check assets/js/auto-refresh.js
+          node --check assets/js/app.js
+          node --check assets/js/workbench.js
       - name: Browser checks and screenshots
         run: |
           pip -q install playwright
           python -m playwright install --with-deps chromium > /tmp/browser-install.log 2>&1
           python tests/check_reanalyzer_browser.py
+          python tests/check_auto_refresh_browser.py
       - name: Retain review screenshots
         if: always()
         uses: actions/upload-artifact@v4
