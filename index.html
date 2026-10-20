@@ -6,6 +6,7 @@
   <title>WPC Climate-to-Hydrology Prediction Dashboard</title>
   <link rel="stylesheet" href="assets/css/styles.css" />
   <link rel="stylesheet" href="assets/css/workbench.css?v=20261019-briefing1" />
+  <link rel="stylesheet" href="assets/css/reanalyzer.css?v=20261020-1" />
 </head>
 <body>
   <a class="skip-link" href="#ocean">Skip to ocean viewer</a>
@@ -60,6 +61,13 @@
           <details class="evidence-details"><summary>Product provenance and time interpretation</summary><p id="oceanProvenance"></p><p>Use the valid time printed on the source map. NASA SPoRT is a blended composite, not an instantaneous observation. Retrieval and HTTP modification times are not observation times. NASA anomaly maps are labeled SPoRT Composite/MERRA2 (1991–2020); NOAA anomalies use CoralTemp’s 1991–2020 climatology. These are distinct products. This SST layer is separate from CPC’s ERSST-based RONI index and is not an input to the Q3 model.</p></details>
         </article>
 
+<article id="ocean-history" class="panel cr-panel">
+<div class="section-kicker">01 / OBSERVED OCEAN HISTORY</div><h2>Ocean temperatures in context</h2><p class="panel-subtitle">NOAA OISST v2.1 · daily regional means · Climate Reanalyzer</p>
+<div class="cr-toolbar"><label>History <select id="crHistoryWindow"><option value="90">90 days</option><option value="30">30 days</option><option value="366">One year</option></select></label><span class="badge observed">OBSERVATION-BASED ANALYSIS</span></div>
+<div class="cr-legend"><span>━━ Daily SST · °C</span><span>┄┄ 1991–2020 seasonal mean</span></div><p class="cr-note">Amber dots mark preliminary values. Hover over points for dates and anomalies. Each region has its own temperature scale.</p><div id="crCards" class="cr-cards">Loading verified SST histories…</div>
+<p id="crCatalogStatus" class="cr-meta" role="status"></p><p class="cr-note">Niño 3.4 here is daily OISST SST, not CPC RONI. The global series covers 60°S–60°N. Basins and subregions are labeled by their exact source bounds. These series are descriptive context, not inputs to the Q3 model.</p>
+<div class="cr-wide"><h3>Watch the ocean anomaly evolve</h3><div class="cr-toolbar"><label>Source view <select id="crMovieDomain"><option value="global">Global</option><option value="north_atlantic">North Atlantic</option></select></label><button id="crPlay" aria-pressed="false" disabled>Play</button><label for="crSlider">Date</label><input id="crSlider" type="range" min="0" max="0" value="0" disabled aria-label="SST anomaly date"></div><p id="crMovieRange" class="cr-meta"></p><div class="cr-image-wrap"><img id="crMovieImage" hidden alt="SST anomaly animation"></div><p id="crMovieStatus" class="cr-meta" role="status">Loading dated frames…</p><p class="cr-note">Last 30 available calendar days requested. Missing frames are omitted, not interpolated; the displayed date governs. Native source views are Global and North Atlantic. NASA SPoRT remains the default map above.</p></div>
+<footer class="cr-note">Data: NOAA OISST v2.1. Source figures and series: <a href="https://climatereanalyzer.org/clim/sst_daily/" target="_blank" rel="noopener">ClimateReanalyzer.org, Climate Change Institute, University of Maine</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. SST charts rendered by this dashboard; source maps retain their labels.</footer></article>
         <article id="observed" class="panel pattern-observed-panel">
           <div class="panel-title-row pattern-header">
             <div>
@@ -126,6 +134,9 @@
           <div class="pattern-footnote">CPC ENSO/RONI probabilities are shown separately as the seasonal background. Below, GEFS remains consistently on the left and the ECMWF IFS Sub-seasonal Ensemble on the right. The ECMWF Pacific 500-hPa anomaly product is circulation context rather than a standardized PNA-index forecast; the ECMWF Euro-Atlantic product is weather-regime probability guidance rather than a standardized NAO-index forecast. No precipitation or flash-flood inference is enabled.</div>
         </article>
 
+<article id="atmospheric-context" class="panel cr-panel"><div class="section-kicker">02 / FORECAST MOISTURE &amp; CIRCULATION</div><h2>The atmospheric setting</h2><p class="panel-subtitle">NOAA/NCEP GFS · Climate Reanalyzer daily forecast maps</p><span class="badge forecast">FORECAST-BASED · NOT OBSERVATIONS</span>
+<div class="cr-toolbar"><label>View <select id="crAtmosDomain"><option value="north_america">North America centered</option><option value="pacific">Pacific centered</option><option value="global">Global</option></select></label><label>Field <select id="crAtmosVariable"><option value="pwtr-anomsd">Precipitable-water standardized anomaly</option><option value="pwtr">Precipitable water</option><option value="gph500-anomsd">500-hPa height standardized anomaly</option><option value="ws250-mslp">250-hPa jet / sea-level pressure</option></select></label></div>
+<div class="cr-image-wrap"><img id="crAtmosImage" hidden alt="GFS atmospheric context"></div><p id="crAtmosStatus" class="cr-meta" role="status">Loading forecast context…</p><p class="cr-note">Daily averages of eight three-hourly GFS forecast times beginning at 00Z. Anomaly reference: 1991–2020. Use the valid date printed on each map. Model initialization is unavailable in the verified source metadata; neither is inferred from retrieval time. Maps may have different update times. Moisture and circulation patterns do not establish a calibrated heavy-rainfall or flash-flood probability.</p><a class="cr-source" href="https://climatereanalyzer.org/wx/todays-weather/" target="_blank" rel="noopener">Climate Reanalyzer / University of Maine · NOAA/NCEP GFS · source methodology ↗</a></article>
         <article id="historical" class="panel historical-panel"><div class="section-kicker">04 / HISTORICAL FFW &amp; LSR CONTEXT</div><h2>From rainfall to reported impacts</h2><p class="panel-subtitle">Historical association · not a flash-flood probability</p><div class="science-chain"><span>Climate state</span><span aria-hidden="true">→</span><span>Precipitation tendency</span><span aria-hidden="true">→</span><span>Historical FFW / LSR response</span></div><div class="context-empty"><b>Historical context export not connected</b><p>Regional charts will appear after the authoritative event lineage and display metrics are verified. No event probabilities or climate-causal attribution are shown.</p></div><details class="evidence-details"><summary>Historical analogs</summary><p>Analog ranking remains inactive pending validation of the similarity method and source lineage.</p></details></article>
         <article class="panel health-panel"><div class="panel-title">Source health</div><div id="dataHealth" class="health-list"></div></article>
       </section>
@@ -147,5 +158,6 @@
   <script src="assets/js/ocean-basin.js?v=20261019-briefing1"></script>
   <script src="assets/js/workbench.js?v=20261019-briefing1"></script>
   <script src="assets/js/briefing.js?v=20261019-briefing1"></script>
+  <script src="assets/js/reanalyzer.js?v=20261020-1"></script>
 </body>
 </html>
