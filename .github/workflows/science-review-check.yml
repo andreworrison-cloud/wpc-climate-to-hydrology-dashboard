@@ -1,0 +1,36 @@
+name: Inactive science integration checks
+on:
+  pull_request:
+    paths: ['data/science/**', 'assets/js/science*', 'assets/css/science.css', 'index.html', 'scripts/build_science_review.py', 'tests/*science*', '.github/workflows/science-review-check.yml']
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source identities and science contract
+        run: |
+          node --check assets/js/science.js
+          node --check assets/js/science-contract.js
+          node --check assets/js/workbench.js
+          node tests/test_science_review.cjs
+          node tests/test_driver_timeline.cjs
+      - name: Browser review
+        run: |
+          pip -q install playwright==1.56.0
+          python -m playwright install --with-deps chromium
+          python tests/check_science_browser.py
+      - name: Retain science review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: inactive-science-review
+          path: review/q6-*.png
