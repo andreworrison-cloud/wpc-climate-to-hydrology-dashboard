@@ -1,8 +1,7 @@
 /* Observed ocean context and inactive science shell. No model inference here. */
 (() => {
   const $ = id => document.getElementById(id);
-  const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  let ocean, provider='sport', product='sst', region='global', lead='D1_7', selectedRegion=null;
+  let ocean, provider='sport', product='sst', region='global';
   const title = p => p==='sst'?'Sea surface temperature':'SST anomaly';
   const utc = value => { const d=new Date(value); return value && Number.isFinite(d.getTime())?d.toISOString().replace('T',' ').slice(0,16)+' UTC':'not supplied'; };
   let zoom=1, oceanRequest=0;
@@ -99,19 +98,4 @@
     ocean=next;renderOcean({preserve:true,prepared});
   });
 
-  function showEvidence(){
-    if(!selectedRegion)return;
-    const days={D1_7:'Days 1–7',D8_14:'Days 8–14',D15_21:'Days 15–21',D22_28:'Days 22–28'};
-    const target=$('precipTarget').selectedOptions[0].textContent;
-    $('regionEvidence').innerHTML=`<h3>${escape(selectedRegion.name)} <span class="badge neutral">UNAVAILABLE</span></h3><p>${days[lead]} · ${escape(target)}</p><p class="region-meta">No verified current science product is connected. Guidance is inactive; no issue time or forecast valid period has been assigned. This is not a near-climatology forecast.</p><div class="evidence-metrics"><span>Tendency<b>Not issued</b></span><span>Fold stability<b>—</b></span><span>Calibration support<b>—</b></span><span>Evidence tier<b>Not loaded</b></span></div>`;
-  }
-  loadJSON('data/ufvs_regions.json').then(data=>{
-    $('regionCards').replaceChildren();
-    data.regions.forEach(r=>{const b=document.createElement('button');b.type='button';b.className='region-card';b.setAttribute('aria-pressed','false');
-      b.innerHTML=`<span class="region-name">${escape(r.name)}</span><div class="region-meta">Unavailable · guidance inactive</div><div class="region-meta">Inspect evidence →</div>`;
-      b.onclick=()=>{selectedRegion=r;document.querySelectorAll('.region-card').forEach(n=>n.setAttribute('aria-pressed',String(n===b)));showEvidence();};$('regionCards').append(b);
-    });$('regionCards').firstElementChild?.click();
-  }).catch(()=>{$('regionEvidence').textContent='Region inventory unavailable. Guidance remains inactive.';});
-  document.querySelectorAll('[data-lead]').forEach(b=>b.onclick=()=>{lead=b.dataset.lead;document.querySelectorAll('[data-lead]').forEach(n=>n.setAttribute('aria-pressed',String(n===b)));showEvidence();});
-  $('precipTarget').onchange=showEvidence;
 })();
