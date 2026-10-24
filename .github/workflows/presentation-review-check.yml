@@ -1,0 +1,35 @@
+name: Climate presentation review
+on:
+  pull_request:
+    paths: ['assets/js/presentation.js', 'assets/css/presentation.css', 'assets/js/auto-refresh.js', 'index.html', 'data/presentation/**', 'scripts/build_presentation_review.py', 'scripts/refresh_dashboard.py', 'scripts/update_climate_data.py', 'tests/*presentation*', '.github/workflows/presentation-review-check.yml', '.github/workflows/update-climate-data.yml']
+permissions:
+  contents: read
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Snapshot source and regression checks
+        run: |
+          pip -q install Pillow==12.3.0 playwright==1.56.0
+          node --check assets/js/presentation.js
+          node tests/test_science_review.cjs
+          node tests/test_driver_timeline.cjs
+          python -m unittest discover -s tests -p 'test_*.py'
+      - name: Browser scenes, controls and screenshots
+        run: |
+          python -m playwright install --with-deps chromium
+          python tests/check_presentation_browser.py
+      - name: Retain large-display review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: climate-presentation-review
+          path: snapshots/Climate_Dashboard_*.png

@@ -6,6 +6,7 @@ import update_climate_data as climate
 import update_ocean_data as ocean
 import update_sport_sst as sport
 import update_reanalyzer as reanalyzer
+import build_presentation_review as presentation
 
 DATA = Path(__file__).resolve().parents[1] / 'data'
 CHECK_FIELDS = {'generated_at', 'retrieved_at', 'checked_at', 'attempted_at'}
@@ -60,6 +61,9 @@ def main():
                     print('::warning::'+str(warnings))
             ocean.main()
             reanalyzer.main()
+            # Current source context only; immutable research exports are not rebuilt.
+            gefs = json.loads(climate.GEFS_TELECONNECTIONS.read_text()).get('drivers', {})
+            presentation.refresh_context(gefs_rows=gefs)
     finally:
         restore_unchanged(before)
 

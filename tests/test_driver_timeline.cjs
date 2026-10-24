@@ -1,6 +1,6 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const code=fs.readFileSync('assets/js/app.js','utf8').replace(/boot\(\);\s*$/,'');
-const ctx={};vm.createContext(ctx);vm.runInContext(code,ctx);
+const ctx={DashboardRefresh:{register(){}},document:{getElementById(){return {addEventListener(){}};}}};vm.createContext(ctx);vm.runInContext(code,ctx);
 const svg=ctx.driverTimelineSVG([{date:'2026-10-01',value:1},{date:'2026-10-02',value:null},{date:'2026-10-03',value:2}],'pna');
 assert(svg.includes('Oct 1')&&svg.includes('Oct 3')&&svg.includes('2026'));
 assert(!svg.includes('stroke-width="2.5"')); // Missing samples must not become zero or connected lines.
