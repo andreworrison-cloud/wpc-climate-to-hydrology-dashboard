@@ -1,5 +1,7 @@
 # Climate presentation package — implementation checkpoint, 2026-10-24
 
+> Recovery update: the presentation was rebuilt from these verified inputs. See `PRESENTATION_REVIEW.md` for the working review package and current validation status. The outage-era record below is retained as history.
+
 Status: INITIAL RENDERS REVIEWED; FINAL TESTS AND IMPLEMENTATION SAVE BLOCKED BY EXECUTION-WORKSPACE OUTAGE.
 
 This checkpoint preserves the work specification and verified input identities. The corresponding new implementation files and derived assets were created in the execution workspace but have NOT yet been committed to this branch. The existing Q6 integration remains at commit 7662104b0669b30ee17b4ef61df0cd0d28713850. This document must not be interpreted as a completed feature release or numerical science closure.

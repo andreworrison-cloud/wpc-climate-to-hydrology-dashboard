@@ -1,0 +1,31 @@
+# Large-display climate presentation review
+
+This is the recovered, working visual-review package for the Climate → Hydrology dashboard. The earlier outage checkpoint remains a historical work record. This package is on the review branch and has no deployment or science activation step.
+
+Select **Situation display** to enter the monitor layout, then choose Ocean & ENSO, Forecast Context, Research Atlas or Historical Impacts. Full screen requires a user click. Views do not rotate; animations do not start. Preferences persist across reloads. The standard workbench remains available.
+
+The layouts were exercised at 1920×1080 and 3840×2160. The browser review also checks controls, dated hover/keyboard readouts, source-image integrity, MJO support masking, full GEFS membership, refresh/preset preservation, mobile overflow and invalid research activation. Existing Q6 source/contract and timeline tests continue to pass. Source figures retain complete frames, color legends and their own dates.
+
+## Scientific separation
+
+The top ribbon and Pacific diagnostics are observed/analyzed context. Weekly Niño-region SST anomalies are not RONI. The GEFS panel is a climate-driver forecast with date-only initialization precision; its 31-member percentiles are not calibrated precipitation confidence. CPC outlooks are independent, source-rendered forecasts of period-total precipitation and retain their native periods and categories. They are separate from the Q3 extreme-day targets.
+
+The research atlas is retrospective. RONI bars retain all 64 trusted-metric cells and original global96 inference; the two supported continuous associations do not turn the bar differences into pairwise significance tests. PNA/NAO curves and MJO surfaces retain their original descriptive role. The 5,120 curve points and 108,160 MJO grid cells come directly from the verified exports; the original minimum descriptive MJO kernel ESS is 30, with unsupported cells retained and visibly masked. The active-only view also masks the weak center. A fixed ±15-percentage-point color scale is a display choice, not an evidence threshold. Kernel ESS is not independent forecast verification.
+
+Q3/Q3A, original Q6 tiers, Q4/Q5 negative experiments, threshold policy, regularization and scientific activation are unchanged. Regional model guidance remains inactive. No FFW/LSR probabilities, causal driver shares or new predictive skill claims are generated.
+
+## Reproduction
+
+The ten frozen research files and SHA-256 identities are listed in `CLIMATE_PRESENTATION_IMPLEMENTATION_CHECKPOINT_20261024.md`. Download them to a local source directory and run:
+
+```sh
+python scripts/build_presentation_review.py --source /path/to/frozen/exports --live
+python -m unittest discover -s tests -p 'test_*.py'
+node tests/test_science_review.cjs
+node tests/test_driver_timeline.cjs
+python tests/check_presentation_browser.py
+```
+
+Research inputs fail closed on a hash mismatch. Raw scientific inputs stay in Drive. The derived research manifest supplies source identities, counts, limitations and per-file hashes. No model is fitted or Q6 cell rescored. Live review collection reads published CPC products and complete numerical GEFS CSVs; it verifies original static source figures and records hashes and retrieval metadata without inventing image valid times.
+
+This branch includes dated review snapshots, not a new production scheduler. Before deployment, the approved source-cache refresh must be connected to the existing daily collection, reusing the existing GEFS response and preserving conditional/no-op/failure behavior. No additional cron job or Colab run is required. The AI briefing stays deferred. Review the visual direction before normalizing it on the live site.

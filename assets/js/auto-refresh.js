@@ -25,6 +25,7 @@
     }));
     lastCheck=stamp();const failed=results.filter(r=>r.error).map(r=>r.name),changed=results.filter(r=>r.changed).map(r=>r.name);
     if(status())status().textContent=`Automatic updates · every 5 minutes · Last check: ${lastCheck} · ${failed.length?'Check incomplete; previous display retained for '+failed.join(', '):changed.length?'Updated '+changed.join(', '):'No new published data'}`;
+    document.dispatchEvent(new CustomEvent('dashboard:checked',{detail:{lastCheck,failed}}));
     busy=false;timer=setTimeout(checkNow,intervalMs);
   }
   window.DashboardRefresh={register(name,paths,apply){groups.push({name,paths,apply,signature:null});},checkNow,versioned,imageReady,intervalMs,get busy(){return busy;},get lastCheck(){return lastCheck;}};
