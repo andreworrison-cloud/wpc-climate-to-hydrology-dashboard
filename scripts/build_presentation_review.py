@@ -1,4 +1,4 @@
-"""Reproducible visual-review package. No model fitting, rescoring or activation.
+"""Reproducible presentation data. No model fitting, rescoring or activation.
 
 Research input identities are pinned by the committed implementation checkpoint.
 Live figures are original CPC products, never interpreted from chart pixels.
@@ -16,7 +16,9 @@ from pathlib import Path
 import re
 import statistics
 import urllib.request
-from PIL import Image
+import urllib.error
+import tempfile
+from concurrent.futures import ThreadPoolExecutor
 
 ROOT=Path(__file__).resolve().parents[1]
 CPC='https://www.cpc.ncep.noaa.gov'
@@ -39,9 +41,22 @@ def num(v):
  if v=='':return None
  f=float(v);return int(f) if math.isfinite(f) and f.is_integer() else f if math.isfinite(f) else None
 def encoded(v):return (json.dumps(v,ensure_ascii=False,allow_nan=False,separators=(',',':'))+'\n').encode()
-def write(p,b):p.parent.mkdir(exist_ok=True,parents=True);tmp=p.with_suffix('.tmp');tmp.write_bytes(b);tmp.replace(p)
-def fetch(url):
- with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'WPC-Climate-Visual-Review/1.0'}),timeout=40) as r:return r.read(),dict(r.headers)
+def write(p,b):
+ p.parent.mkdir(exist_ok=True,parents=True)
+ if p.is_file() and p.read_bytes()==b:return
+ with tempfile.NamedTemporaryFile(dir=p.parent,prefix=p.name+'.',suffix='.tmp',delete=False) as f:f.write(b);tmp=Path(f.name)
+ tmp.replace(p)
+def fetch(url,prior=None):
+ headers={'User-Agent':'WPC-Climate-Hydrology/1.0'}
+ if prior:
+  if prior.get('etag'):headers['If-None-Match']=prior['etag']
+  if prior.get('source_last_modified'):headers['If-Modified-Since']=prior['source_last_modified']
+ try:
+  with urllib.request.urlopen(urllib.request.Request(url,headers=headers),timeout=35) as r:
+   raw=r.read(12_000_001);need(len(raw)<=12_000_000,'Source exceeds size limit');return raw,{k.lower():v for k,v in r.headers.items()}
+ except urllib.error.HTTPError as e:
+  if e.code==304:return None,{}
+  raise
 
 def research(source):
  checkpoint=(ROOT/'docs/CLIMATE_PRESENTATION_IMPLEMENTATION_CHECKPOINT_20261024.md').read_text()
@@ -93,29 +108,97 @@ def trajectory(text,driver):
   need(len(members)==31,'Missing GEFS members');values=sorted(v for _,v in members)
   def q(p):a=30*p;l=math.floor(a);return values[l]+(values[math.ceil(a)]-values[l])*(a-l)
   days.append(dict(lead=lead,date=(init+timedelta(days=lead)).isoformat(),members=sorted(members),median=q(.5),p10=q(.1),p25=q(.25),p75=q(.75),p90=q(.9),positive=sum(v>0 for v in values)))
- return dict(initialization_date=latest,initialization_time=None,member_count=31,days=days,source_sha256=sha(text.encode()))
+ t=dict(initialization_date=latest,initialization_time=None,member_count=31,days=days,source_sha256=sha(text.encode()))
+ t['payload_sha256']=payload_hash(t);return t
 
-def live():
- products=[];now=datetime.now(timezone.utc).isoformat()
- for id,(title,path) in FIGURES.items():
-  r=dict(id=id,title=title,source_url=CPC+path,valid_time=None,initialization_time=None)
-  try:
-   raw,headers=fetch(CPC+path)
-   with Image.open(io.BytesIO(raw)) as image:
-    need(image.format in ['PNG','GIF'] and image.n_frames==1 and min(image.size)>=200,'Invalid/animated source figure');width,height=image.size;image.verify()
-   dest='data/presentation/'+id+Path(path).suffix;write(ROOT/dest,raw);r.update(status='available',path=dest,sha256=sha(raw),bytes=len(raw),width=width,height=height,retrieved_at=now,source_last_modified=headers.get('Last-Modified'))
-  except Exception as e:r.update(status='unavailable',error=str(e))
-  products.append(r);print(id,r['status'],flush=True)
- raw,headers=fetch(CPC+'/data/indices/wksst9120.for');text=raw.decode();need(all(s in text[:300] for s in ['Nino1+2','Nino3','Nino34','Nino4','SST SSTA']),'Weekly Niño schema');weekly=[]
+def payload_hash(value):
+ return sha(encoded({k:v for k,v in value.items() if k not in {'payload_sha256','status','error','retrieved_at','attempted_at','etag','source_last_modified','source_url'}}))
+
+def valid_payload(value):
+ try:return bool(value and value.get('payload_sha256')==payload_hash(value))
+ except (TypeError,ValueError):return False
+
+def validate_image(raw):
+ from PIL import Image
+ need(raw and len(raw)<=12_000_000,'Empty/oversize source figure')
+ with Image.open(io.BytesIO(raw)) as image:
+  need(image.format in ['PNG','GIF'] and image.n_frames==1 and min(image.size)>=200,'Invalid/animated source figure');size=image.size;image.verify()
+ return size
+
+def weekly_series(text):
+ need(all(s in text[:300] for s in ['Nino1+2','Nino3','Nino34','Nino4','SST SSTA']),'Weekly Niño schema');weekly=[]
  for line in text.splitlines():
   m=re.match(r'\s*(\d{2}[A-Z]{3}\d{4})\s+(.*)',line)
   if not m:continue
   values=[float(s) for s in re.findall(r'[-+]?\d+\.\d+',m[2])];need(len(values)==8,'Weekly Niño columns');weekly.append(dict(date=datetime.strptime(m[1],'%d%b%Y').date().isoformat(),**{k:values[2*i+1] if abs(values[2*i+1])<20 else None for i,k in enumerate(['nino12','nino3','nino34','nino4'])}))
  need(len(weekly)>=105 and len({r['date'] for r in weekly})==len(weekly),'Weekly coverage');weekly.sort(key=lambda r:r['date'])
+ return dict(values=weekly[-105:],date_role='week_centered_on')
+
+def live(root=ROOT,gefs_rows=None):
+ """Refresh independent products; reuse the daily GEFS response when supplied.
+
+ Retained caches keep their successful retrieval and source dates. Hash-addressed
+ figures prevent an old browser manifest from referring to newer source bytes.
+ """
+ target=root/'data/presentation/context.json'
+ try:previous=json.loads(target.read_text()) if target.exists() else {}
+ except (OSError,ValueError):previous={}
+ old={r['id']:r for r in previous.get('products',[])};now=datetime.now(timezone.utc).isoformat()
+ def product(item):
+  id,(title,path)=item;prior=old.get(id,{});cached=root/prior.get('path','missing')
+  cache_ok=bool(re.fullmatch(r'data/presentation/'+id+r'(?:_[a-f0-9]{16})?\.(?:gif|png)',prior.get('path','')) and cached.is_file() and sha(cached.read_bytes())==prior.get('sha256'))
+  r=dict(id=id,title=title,source_url=CPC+path,valid_time=None,initialization_time=None)
+  try:
+   raw,headers=fetch(CPC+path,prior if cache_ok else None)
+   if raw is None:
+    need(cache_ok,'304 without verified cache');r.update(prior,status='available');r.pop('error',None)
+   else:
+    width,height=validate_image(raw);digest=sha(raw);dest='data/presentation/'+id+'_'+digest[:16]+Path(path).suffix
+    write(root/dest,raw);r.update(status='available',path=dest,sha256=digest,bytes=len(raw),width=width,height=height,retrieved_at=now,source_last_modified=headers.get('last-modified'),etag=headers.get('etag'))
+  except Exception as e:
+   if cache_ok:r.update(prior,status='stale')
+   else:r['status']='unavailable'
+   r['error']=type(e).__name__+': '+str(e)
+  return r
+ with ThreadPoolExecutor(max_workers=4) as pool:products=list(pool.map(product,FIGURES.items()))
+ for r in products:print(r['id'],r['status'],flush=True)
+ prior=previous.get('weekly',{});cache_ok=valid_payload(prior)
+ try:
+  raw,headers=fetch(CPC+'/data/indices/wksst9120.for',prior if cache_ok else None)
+  if raw is None:
+   need(cache_ok,'304 without verified weekly series');weekly=dict(prior,status='available');weekly.pop('error',None)
+  else:
+   weekly=dict(weekly_series(raw.decode()),status='available',source_url=CPC+'/data/indices/wksst9120.for',source_sha256=sha(raw),retrieved_at=now,source_last_modified=headers.get('last-modified'),etag=headers.get('etag'))
+   weekly['payload_sha256']=payload_hash(weekly)
+ except Exception as e:
+  weekly=dict(prior,status='stale',error=str(e)) if cache_ok else dict(status='unavailable',source_url=CPC+'/data/indices/wksst9120.for',error=str(e))
  gefs={}
  for driver in ['pna','nao']:
-  url='https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.'+driver+'.gefs.z500.120days.csv';b,_=fetch(url);gefs[driver]=dict(trajectory(b.decode(),driver),source_url=url)
- return {'data/presentation/context.json':dict(schema_version='presentation-context-v1',active_prediction=False,retrieved_at=now,products=products,weekly=dict(values=weekly[-105:],source_url=CPC+'/data/indices/wksst9120.for',source_sha256=sha(raw),date_role='week_centered_on'),gefs=gefs)}
+  url='https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.'+driver+'.gefs.z500.120days.csv';prior=previous.get('gefs',{}).get(driver,{});cache_ok=valid_payload(prior)
+  try:
+   if gefs_rows is not None:
+    candidate=gefs_rows.get(driver,{}).get('presentation_trajectory',{})
+    need(candidate.get('status')=='available' and valid_payload(candidate),candidate.get('error','Latest GEFS trajectory unavailable'))
+    value=dict(candidate,source_url=url)
+   else:
+    raw,headers=fetch(url,prior if cache_ok else None)
+    if raw is None:
+     need(cache_ok,'304 without verified GEFS trajectory');value=dict(prior,status='available');value.pop('error',None)
+    else:value=dict(trajectory(raw.decode(),driver),status='available',source_url=url,retrieved_at=now,source_last_modified=headers.get('last-modified'),etag=headers.get('etag'))
+   gefs[driver]=value
+  except Exception as e:
+   gefs[driver]=dict(prior,status='stale',error=str(e)) if cache_ok else dict(status='unavailable',source_url=url,error=str(e))
+ return {'data/presentation/context.json':dict(schema_version='presentation-context-v1',active_prediction=False,retrieved_at=now,products=products,weekly=weekly,gefs=gefs)}
+
+def refresh_context(root=ROOT,gefs_rows=None):
+ outputs=live(root,gefs_rows)
+ for path,value in outputs.items():write(root/path,encoded(value))
+ # Keep old open-tab manifests usable; remove only old, unreferenced derived
+ # figures after sixty days. Stable legacy paths are deliberately retained.
+ current={r.get('path') for r in outputs['data/presentation/context.json']['products']}
+ cutoff=datetime.now(timezone.utc).timestamp()-60*86400
+ for p in (root/'data/presentation').iterdir():
+  if re.fullmatch(r'(?:'+'|'.join(FIGURES)+r')_[a-f0-9]{16}\.(?:png|gif)',p.name) and p.relative_to(root).as_posix() not in current and p.stat().st_mtime<cutoff:p.unlink()
 
 if __name__=='__main__':
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',type=Path);p.add_argument('--live',action='store_true');a=p.parse_args();outputs={}

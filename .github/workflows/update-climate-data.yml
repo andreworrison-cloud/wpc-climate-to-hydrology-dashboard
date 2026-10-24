@@ -27,6 +27,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install source-figure validator for the daily collection
+        if: ${{ inputs.collection == 'daily' || inputs.collection == 'all' || inputs.collection == '' }}
+        run: pip -q install Pillow==12.3.0
       - name: Check selected sources and refresh changed products
         env:
           COLLECTION: ${{ inputs.collection || 'all' }}

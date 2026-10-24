@@ -67,6 +67,23 @@ try:
   bad=b.new_page();m=json.loads((ROOT/'data/presentation/research_manifest.json').read_text());m['active_prediction']=True
   bad.route('**/data/presentation/research_manifest.json',lambda r:r.fulfill(json=m));bad.goto(base,wait_until='domcontentloaded');bad.wait_for_function("document.querySelector('#researchCanvas').textContent.includes('unavailable')")
   assert bad.locator('#researchCanvas svg').count()==0
+  # Independent unavailable/stale inputs must never become a neutral forecast
+  # or suppress unrelated, verified source products.
+  partial=b.new_page();partial.on('pageerror',lambda e:errors.append(str(e)))
+  context=json.loads((ROOT/'data/presentation/context.json').read_text())
+  context['gefs']['pna']={'status':'unavailable'};context['gefs']['nao']['status']='stale';context['weekly']={'status':'unavailable'}
+  context['products'][0]['status']='stale'
+  partial.route('**/data/presentation/context.json',lambda r:r.fulfill(json=context))
+  partial.goto(base,wait_until='domcontentloaded')
+  partial.wait_for_function("document.querySelector('#cpcCanvas img') && document.querySelector('#pacificCanvas img') && !DashboardRefresh.busy")
+  assert 'UNAVAILABLE' in partial.locator('#ensembleStatus').inner_text()
+  assert partial.locator('#ensembleCanvas svg').count()==0
+  assert 'STALE' in partial.locator('#pacificStatus').inner_text()
+  assert 'Check incomplete' not in partial.locator('#autoRefreshStatus').inner_text()
+  partial.locator('[data-trajectory="nao"]').click();assert 'STALE' in partial.locator('#ensembleStatus').inner_text()
+  partial.select_option('#pacificSelect','nino');assert 'UNAVAILABLE' in partial.locator('#pacificStatus').inner_text()
+  assert partial.locator('#pacificCanvas svg').count()==0
+  assert not errors,errors
   b.close()
-  print('PASS: 1080p/4K scenes, controls, support masking, tooltips, manual animation, refresh/preset preservation, mobile overflow, inactive-state rejection.')
+  print('PASS: 1080p/4K scenes, controls, support masking, tooltips, manual animation, refresh/preset preservation, mobile overflow, inactive-state rejection, independent stale/unavailable inputs.')
 finally:server.shutdown()

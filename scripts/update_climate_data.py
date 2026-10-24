@@ -974,6 +974,12 @@ def update_structured_gefs_teleconnections(retrieved_at: str) -> list[str]:
         try:
             src = fetch_text(url, referer=page)
             parsed = parse_gefs_teleconnection_csv(src, driver)
+            # Reuse the fetched CSV; the display does not request the source twice.
+            from build_presentation_review import trajectory
+            try:
+                parsed['presentation_trajectory'] = dict(trajectory(src, driver), status='available', retrieved_at=retrieved_at)
+            except Exception as exc:
+                parsed['presentation_trajectory'] = {'status': 'unavailable', 'error': f'{type(exc).__name__}: {exc}'}
             parsed.update({
                 "source_name": "NOAA Climate Prediction Center / NCEP GEFS",
                 "source_url": url, "retrieved_at": retrieved_at,

@@ -1,7 +1,7 @@
 name: Climate presentation review
 on:
   pull_request:
-    paths: ['assets/js/presentation.js', 'assets/css/presentation.css', 'assets/js/auto-refresh.js', 'index.html', 'data/presentation/**', 'scripts/build_presentation_review.py', 'tests/*presentation*', '.github/workflows/presentation-review-check.yml']
+    paths: ['assets/js/presentation.js', 'assets/css/presentation.css', 'assets/js/auto-refresh.js', 'index.html', 'data/presentation/**', 'scripts/build_presentation_review.py', 'scripts/refresh_dashboard.py', 'scripts/update_climate_data.py', 'tests/*presentation*', '.github/workflows/presentation-review-check.yml', '.github/workflows/update-climate-data.yml']
 permissions:
   contents: read
 jobs:
