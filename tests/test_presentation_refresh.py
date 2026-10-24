@@ -4,11 +4,9 @@ import csv
 from datetime import date, timedelta
 import io
 import json
-import os
 from pathlib import Path
 import sys
 import tempfile
-import time
 import unittest
 from unittest.mock import patch
 from PIL import Image
@@ -64,9 +62,9 @@ class PresentationRefreshTests(unittest.TestCase):
   first=self.seed();(self.root/first['products'][0]['path']).write_bytes(b'corrupt')
   first['weekly']['values'][0]['nino3']=99;first['gefs']['pna']['days'][0]['median']=99
   path=self.root/'data/presentation/context.json';path.write_bytes(p.encoded(first))
-  old=self.root/'data/presentation/upper_ocean_0000000000000000.png';old.write_bytes(self.image)
+  # File checkout times cannot establish product age in a fresh Actions clone.
+  old=self.root/'data/presentation/upper_ocean_20240101_0000000000000000.png';old.write_bytes(self.image)
   legacy=self.root/'data/presentation/upper_ocean.png';legacy.write_bytes(self.image)
-  for f in [old,legacy]:os.utime(f,(time.time()-61*86400,)*2)
   broken={'pna':{'presentation_trajectory':{'status':'unavailable'}}}
   with patch.object(p,'fetch',side_effect=OSError('Offline')):p.refresh_context(self.root,broken)
   result=json.loads(path.read_text())

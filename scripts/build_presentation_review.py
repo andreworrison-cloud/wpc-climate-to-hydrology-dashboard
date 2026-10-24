@@ -146,14 +146,14 @@ def live(root=ROOT,gefs_rows=None):
  old={r['id']:r for r in previous.get('products',[])};now=datetime.now(timezone.utc).isoformat()
  def product(item):
   id,(title,path)=item;prior=old.get(id,{});cached=root/prior.get('path','missing')
-  cache_ok=bool(re.fullmatch(r'data/presentation/'+id+r'(?:_[a-f0-9]{16})?\.(?:gif|png)',prior.get('path','')) and cached.is_file() and sha(cached.read_bytes())==prior.get('sha256'))
+  cache_ok=bool(re.fullmatch(r'data/presentation/'+id+r'(?:_(?:\d{8}_)?[a-f0-9]{16})?\.(?:gif|png)',prior.get('path','')) and cached.is_file() and sha(cached.read_bytes())==prior.get('sha256'))
   r=dict(id=id,title=title,source_url=CPC+path,valid_time=None,initialization_time=None)
   try:
    raw,headers=fetch(CPC+path,prior if cache_ok else None)
    if raw is None:
     need(cache_ok,'304 without verified cache');r.update(prior,status='available');r.pop('error',None)
    else:
-    width,height=validate_image(raw);digest=sha(raw);dest='data/presentation/'+id+'_'+digest[:16]+Path(path).suffix
+    width,height=validate_image(raw);digest=sha(raw);dest=prior['path'] if cache_ok and digest==prior['sha256'] else 'data/presentation/'+id+'_'+now[:10].replace('-','')+'_'+digest[:16]+Path(path).suffix
     write(root/dest,raw);r.update(status='available',path=dest,sha256=digest,bytes=len(raw),width=width,height=height,retrieved_at=now,source_last_modified=headers.get('last-modified'),etag=headers.get('etag'))
   except Exception as e:
    if cache_ok:r.update(prior,status='stale')
@@ -196,9 +196,10 @@ def refresh_context(root=ROOT,gefs_rows=None):
  # Keep old open-tab manifests usable; remove only old, unreferenced derived
  # figures after sixty days. Stable legacy paths are deliberately retained.
  current={r.get('path') for r in outputs['data/presentation/context.json']['products']}
- cutoff=datetime.now(timezone.utc).timestamp()-60*86400
+ cutoff=(datetime.now(timezone.utc)-timedelta(days=60)).strftime('%Y%m%d')
  for p in (root/'data/presentation').iterdir():
-  if re.fullmatch(r'(?:'+'|'.join(FIGURES)+r')_[a-f0-9]{16}\.(?:png|gif)',p.name) and p.relative_to(root).as_posix() not in current and p.stat().st_mtime<cutoff:p.unlink()
+  match=re.fullmatch(r'(?:'+'|'.join(FIGURES)+r')_(\d{8})_[a-f0-9]{16}\.(?:png|gif)',p.name)
+  if match and p.relative_to(root).as_posix() not in current and match[1]<cutoff:p.unlink()
 
 if __name__=='__main__':
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',type=Path);p.add_argument('--live',action='store_true');a=p.parse_args();outputs={}
