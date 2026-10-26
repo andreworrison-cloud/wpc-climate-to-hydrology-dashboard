@@ -1,4 +1,14 @@
-# Phase 2B.3.2 — ECMWF MJO RMMS discovery hotfix
+# Experimental Climate-to-Hydrology Situational Awareness Dashboard
+
+[Open the dashboard](https://andreworrison-cloud.github.io/wpc-climate-to-hydrology-dashboard/)
+
+Observed climate drivers, ocean conditions, source forecast guidance and historical precipitation/FFW/LSR research for forecaster situational awareness and evaluation. The on-screen heading remains **Climate → Hydrology**, with **Experimental Situational Awareness Dashboard** as its subtitle.
+
+Regional model guidance remains inactive pending scientific qualification. This is an experimental tool, not an official NWS/WPC forecast product. See [presentation and science boundaries](docs/PRESENTATION_REVIEW.md).
+
+## Archived implementation note
+
+### Phase 2B.3.2 — ECMWF MJO RMMS discovery hotfix
 
 The first 2B.3.2 run confirmed:
 - structured GEFS PNA/NAO: live
