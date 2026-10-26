@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-25T18:10:47Z",
+  "generated_at": "2026-10-26T00:10:52Z",
   "indicators": [
     {
       "id": "roni",
@@ -20,21 +20,21 @@
     {
       "id": "mjo_rmm",
       "display_name": "MJO / RMM",
-      "value": 0.85,
+      "value": 1.13,
       "units": null,
       "state": "Phase 2 \u2014 Indian Ocean",
-      "valid_time": "2026-10-23",
+      "valid_time": "2026-10-24",
       "source_name": "Australian Bureau of Meteorology \u2014 Wheeler-Hendon RMM",
       "source_url": "https://www.bom.gov.au/climate/mjo/",
-      "retrieved_at": "2026-10-25T00:10:55Z",
+      "retrieved_at": "2026-10-26T00:10:52Z",
       "freshness_hours": 72,
       "data_url": "https://www.bom.gov.au/clim_data/IDCKGEM000/rmm.74toRealtime.txt",
       "phase": 2,
-      "amplitude": 0.854,
-      "rmm1": -0.195,
-      "rmm2": -0.8311,
+      "amplitude": 1.133,
+      "rmm1": -0.2134,
+      "rmm2": -1.1123,
       "phase_region": "Indian Ocean",
-      "signal_strength": "Weak / incoherent RMM signal",
+      "signal_strength": "Active RMM signal",
       "provisional": false,
       "note": "Observed Wheeler-Hendon RMM state only; no precipitation or flash-flood implication is inferred."
     },
