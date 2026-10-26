@@ -1,6 +1,6 @@
 # Large-display climate presentation
 
-This is the approved presentation package for the Climate → Hydrology dashboard. The earlier outage checkpoint remains a historical work record. The frontend release does not activate regional model guidance.
+This is the approved presentation package for the **Experimental Climate-to-Hydrology Situational Awareness Dashboard**. The compact heading is **Climate → Hydrology**, with **Experimental Situational Awareness Dashboard** as the subtitle in both the standard workbench and Situation display. The earlier outage checkpoint remains a historical work record. The frontend release does not activate regional model guidance.
 
 Select **Situation display** to enter the monitor layout, then choose Ocean & ENSO, Forecast Context, Research Atlas or Historical Impacts. Full screen requires a user click. Views do not rotate; animations do not start. Preferences persist across reloads. The standard workbench remains available.
 

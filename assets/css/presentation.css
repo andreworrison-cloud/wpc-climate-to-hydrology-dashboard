@@ -10,3 +10,6 @@ html.wall-scale{font-size:clamp(18px,1.05vw,30px)}body.wall{overflow:hidden;back
 @media(max-width:1100px){.wall .presentation-scope{display:none}.wall .presentation-bar{flex-wrap:nowrap}.wall .research-layout{grid-template-columns:minmax(0,1fr) 240px}}
 @media(max-width:700px){body.wall{overflow:auto}.wall .app-shell{height:auto;min-height:100dvh}.wall .dashboard-grid{display:flex;flex-direction:column}.wall .driver-stack{grid-template-columns:repeat(2,minmax(0,1fr))}.wall .presentation-image{min-height:250px}.wall .presentation-chart{min-height:220px}.wall .research-layout{display:flex;flex-direction:column}.wall .presentation-bar{flex-wrap:wrap}.wall .driver-sparkline svg{height:70px}}
 @media(prefers-reduced-motion:reduce){.presentation-panel *,.presentation-bar *{transition:none!important;animation:none!important}}
+
+/* Shared short subtitle, retained in the explicitly selected monitor layout. */
+.topbar .dashboard-subtitle{margin:3px 0 0;font-size:clamp(.9rem,1.35vw,1.1rem);line-height:1.4;letter-spacing:.025em;font-weight:500;color:#bdd6e4}.topbar .dashboard-tagline{margin-top:8px}.wall .topbar .dashboard-subtitle{display:block;font-size:.58rem;line-height:1.3;margin:0;letter-spacing:.02em;color:#b7ccda}
