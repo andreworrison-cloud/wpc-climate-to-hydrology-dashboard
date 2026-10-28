@@ -2,7 +2,7 @@
 from pathlib import Path
 from datetime import date, datetime, timedelta, timezone
 from concurrent.futures import ThreadPoolExecutor
-import calendar, hashlib, json, math, re, struct, urllib.request, urllib.error, zlib
+import calendar, hashlib, json, math, re, struct, time, urllib.request, urllib.error, zlib
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'data/reanalyzer'
@@ -14,7 +14,9 @@ REGIONS={
  'gomex':('Gulf of Mexico','20–30°N, 98–82°W'),
 }
 DOMAINS={'global':'world-wt3','north_atlantic':'natlan-ced'}
-ATMOS_DOMAINS={'north_america':'nh-sat1','pacific':'pacific-sat','global':'world-wt'}
+ATMOS_DOMAINS={'global':'world-wt'}
+REGIONAL_DOMAINS={'north_america':'na-lc','pacific':'pacific-ced','atlantic':'natlan-ced'}
+REGIONAL_FIELDS=['pwtr','pwtr-anomsd','gph500-anomsd']
 VARIABLES=['pwtr','pwtr-anomsd','gph500-anomsd','ws250-mslp']
 
 def sha(b):return hashlib.sha256(b).hexdigest()
@@ -24,10 +26,16 @@ def atomic(path,b):
 def get(url,headers=None):
  if not url.startswith(BASE):raise ValueError('Unexpected source host')
  req=urllib.request.Request(url,headers={'User-Agent':'WPC-experimental-climate-dashboard/1.0',**(headers or {})})
- with urllib.request.urlopen(req,timeout=25) as r:
-  b=r.read(12_000_001)
-  if len(b)>12_000_000:raise ValueError('Source exceeds size limit')
-  return b,dict(r.headers)
+ for attempt in range(3):
+  try:
+   with urllib.request.urlopen(req,timeout=25) as r:
+    b=r.read(12_000_001)
+    if len(b)>12_000_000:raise ValueError('Source exceeds size limit')
+    return b,dict(r.headers)
+  except urllib.error.HTTPError as ex:
+   if ex.code not in (429,500,502,503,504) or attempt==2:raise
+   time.sleep(1+attempt)
+
 def numeric(v):return isinstance(v,(int,float)) and not isinstance(v,bool) and math.isfinite(v)
 def climatology_index(d):
  # Source climatology is a 366-day calendar. Actual annual series use real day-of-year.
@@ -95,22 +103,49 @@ def retained(previous,error,**defaults):
  print('::warning::Climate Reanalyzer: '+str(error))
  return {**defaults,**previous,'status':'retained' if previous else 'unavailable','error':str(error)[:240]}
 
-def atlantic_context(old,now):
- records=[]
- for variable in VARIABLES:
-  prior=next((m for m in old.get('atmosphere',{}).get('maps',[]) if m['domain']=='atlantic' and m['variable']==variable),{})
-  rec=dict(domain='atlantic',variable=variable,product_kind='forecast_snapshot',valid_time=None,initialization_time=None,source_page=BASE+'wx/fcst/?mdl_id=gfs&dm_id=natlan-ced&wm_id='+variable,time_basis='North Atlantic GFS forecast snapshot, not the daily-average product. Cycle and valid time are printed on the source map.')
-  try:
-   dates_raw,_=get(BASE+'wx/fcst/maps/gfs/dates/gfs_natlan-ced_'+variable+'_dates.json')
-   dates=json.loads(dates_raw);cycle=max(d for d in dates if re.fullmatch(r'\d{4}-\d{2}-\d{2}-\d{2}z',d))
-   folder=BASE+'wx/fcst/maps/gfs/'+cycle+'/natlan-ced/'+variable+'/'
-   inventory,_=get(folder+'flist.json');names=json.loads(inventory)
-   name=next(n for n in names if re.fullmatch(r'gfs_natlan-ced_'+re.escape(variable)+r'_\d{10}_000\.png',n))
-   rec.update(image(folder+name,'data/reanalyzer/maps/gfs_atlantic_'+variable+'.png',prior,now))
-   rec.update(initialization_time=datetime.strptime(cycle,'%Y-%m-%d-%Hz').replace(tzinfo=timezone.utc).isoformat(),lead_hours=0,inventory_sha256=sha(inventory),cycle_inventory_sha256=sha(dates_raw))
-   rec['valid_time']=rec['initialization_time']
-  except Exception as ex:rec=retained(prior,ex,**rec)
-  records.append(rec)
+def regional_context(old,now):
+ # Publish the shared regional family together; never mix cycles after partial failure.
+ keys=[(d,v) for d in REGIONAL_DOMAINS for v in REGIONAL_FIELDS]
+ def inventory(key):
+  d,v=key
+  raw,_=get(BASE+'wx/fcst/maps/gfs/dates/gfs_'+REGIONAL_DOMAINS[d]+'_'+v+'_dates.json')
+  dates=json.loads(raw)
+  if not isinstance(dates,list):raise ValueError('Invalid cycle inventory')
+  return key,(set(x for x in dates if isinstance(x,str) and re.fullmatch(r'\d{4}-\d{2}-\d{2}-\d{2}z',x)),sha(raw))
+ def fetch_map(key,cycle,cycle_hash):
+  d,v=key;native=REGIONAL_DOMAINS[d]
+  folder=BASE+'wx/fcst/maps/gfs/'+cycle+'/'+native+'/'+v+'/'
+  raw,_=get(folder+'flist.json');names=json.loads(raw)
+  stamp=datetime.strptime(cycle,'%Y-%m-%d-%Hz').strftime('%Y%m%d%H')
+  name='gfs_'+native+'_'+v+'_'+stamp+'_000.png'
+  if not isinstance(names,list) or name not in names:raise ValueError('Common-cycle f000 map absent: '+d+'/'+v)
+  payload,headers=get(folder+name);w,h=png_valid(payload);digest=sha(payload)
+  relative='data/reanalyzer/maps/gfs_'+d+'_'+v+'_'+digest[:16]+'.png'
+  atomic(ROOT/relative,payload)
+  valid=datetime.strptime(cycle,'%Y-%m-%d-%Hz').replace(tzinfo=timezone.utc).isoformat()
+  return dict(domain=d,variable=v,native_domain=native,product_kind='forecast_snapshot',alignment_policy='common-regional-f000-v1',
+   path=relative,source_url=folder+name,source_page=BASE+'wx/fcst/?mdl_id=gfs&dm_id='+native+'&wm_id='+v,
+   sha256=digest,width=w,height=h,retrieved_at=now,status='current',initialization_time=valid,valid_time=valid,lead_hours=0,
+   inventory_sha256=sha(raw),cycle_inventory_sha256=cycle_hash,time_basis='GFS initialization-time snapshot (f000), not a daily average.')
+ try:
+  with ThreadPoolExecutor(max_workers=4) as pool:inventories=dict(pool.map(inventory,keys))
+  common=set.intersection(*(inventories[k][0] for k in keys))
+  if not common:raise ValueError('No common regional GFS cycle')
+  cycle=max(common)
+  with ThreadPoolExecutor(max_workers=4) as pool:records=list(pool.map(lambda k:fetch_map(k,cycle,inventories[k][1]),keys))
+ except Exception as ex:
+  prior=[m for m in old.get('atmosphere',{}).get('maps',[]) if m.get('alignment_policy')=='common-regional-f000-v1' and (m['domain'],m['variable']) in keys]
+  complete=len(prior)==len(keys) and {(m['domain'],m['variable']) for m in prior}==set(keys) and len({(m['initialization_time'],m['valid_time'],m['lead_hours']) for m in prior})==1
+  records=[{**m,'status':'retained','error':str(ex)[:240]} for m in prior] if complete else [dict(domain=d,variable=v,status='unavailable',error=str(ex)[:240]) for d,v in keys]
+  cycle=None
+ # Native source does not offer the jet field for these two basin projections.
+ for d in ['pacific','atlantic']:
+  records.append(dict(domain=d,variable='ws250-mslp',status='unsupported',error='Not offered for this native regional map by Climate Reanalyzer.'))
+ if cycle:
+  try:records.append(fetch_map(('north_america','ws250-mslp'),cycle,None))
+  except Exception as ex:records.append(dict(domain='north_america',variable='ws250-mslp',status='unavailable',error=str(ex)[:240]))
+ else:
+  records.append(dict(domain='north_america',variable='ws250-mslp',status='unavailable',error='Regional refresh incomplete; jet withheld to preserve common cycle.'))
  return records
 
 def main():
@@ -169,7 +204,7 @@ def main():
    try:rec.update(image(BASE+f'wx/todays-weather/maps/gfs_{source_domain}_{variable}_d1.png',f'data/reanalyzer/maps/gfs_{domain}_{variable}.png',prior,now))
    except Exception as ex:rec=retained(prior,ex,**rec)
    result['atmosphere']['maps'].append(rec)
- result['atmosphere']['maps'].extend(atlantic_context(old,now))
+ result['atmosphere']['maps'].extend(regional_context(old,now))
  atomic(manifest,(json.dumps(result,indent=2,ensure_ascii=False,allow_nan=False)+'\n').encode())
  # Only prune this collector's dated image cache, after the new manifest is durable.
  keep={f['path'] for product in result['animation']['variables'].values() for group in product['domains'].values() for f in group.get('frames',[])}
@@ -181,4 +216,5 @@ def main():
  print('Climate Reanalyzer:',[(r['id'],r['status'],len(r['rows'])) for r in result['sst_regions']],'; frames',sum(len(v['frames']) for v in result['animation']['domains'].values()))
  return result
 if __name__=='__main__':main()
+
 
