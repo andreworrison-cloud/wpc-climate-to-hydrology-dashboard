@@ -78,10 +78,15 @@
     showFrame();
   }
 
-  async function showAtmosphere(){const item=(data.atmosphere?.maps||[]).find(m=>m.domain===$('crAtmosDomain').value&&m.variable===$('crAtmosVariable').value);$('crAtmosImage').hidden=true;
+  async function showAtmosphere(){
+    const available=(data.atmosphere?.maps||[]).filter(m=>m.domain===$('crAtmosDomain').value&&m.path);
+    for(const option of $('crAtmosVariable').options){option.dataset.sourceLabel ||= option.textContent;option.disabled=!available.some(m=>m.variable===option.value);option.textContent=option.dataset.sourceLabel+(option.disabled?' — unavailable':'');}
+    if(available.length&&!available.some(m=>m.variable===$('crAtmosVariable').value))$('crAtmosVariable').value=available[0].variable;
+    const item=(data.atmosphere?.maps||[]).find(m=>m.domain===$('crAtmosDomain').value&&m.variable===$('crAtmosVariable').value);$('crAtmosImage').hidden=true;
     if(!item?.path){$('crAtmosStatus').textContent='Selected forecast context unavailable.';return;}
     $('crAtmosStatus').textContent=`${item.status==='current'?'Cached source map':'RETAINED — latest retrieval failed'} · retrieval ${item.retrieved_at}. Valid date is printed on the map; model initialization is not supplied in the verified metadata. Retrieval is not valid time.`;
-    $('crAtmosImage').src=DashboardRefresh.versioned(item.path,item.sha256||item.retrieved_at);$('crAtmosImage').alt=`GFS forecast-based daily ${$('crAtmosVariable').selectedOptions[0].text}, ${$('crAtmosDomain').selectedOptions[0].text}`;$('crAtmosImage').hidden=false;
+    if(item.domain==='atlantic')$('crAtmosStatus').textContent='North Atlantic GFS forecast snapshot · cycle '+item.initialization_time+' · valid '+item.valid_time+' · lead '+item.lead_hours+' h · '+(item.status==='current'?'cached source':'retained source')+'. Not a daily average.';
+    $('crAtmosImage').src=DashboardRefresh.versioned(item.path,item.sha256||item.retrieved_at);$('crAtmosImage').alt=`GFS ${item.domain==='atlantic'?'forecast snapshot':'forecast-based daily'} ${$('crAtmosVariable').selectedOptions[0].text}, ${$('crAtmosDomain').selectedOptions[0].text}`;$('crAtmosImage').hidden=false;
     $('crAtmosImage').onerror=()=>{$('crAtmosImage').hidden=true;$('crAtmosStatus').textContent='Forecast map file unavailable.';};
   }
   DashboardRefresh.register('SST history and atmospheric context',['data/reanalyzer/manifest.json'],async ([next],{initial})=>{
@@ -97,6 +102,7 @@
       data=next;renderCards();
       $('crAtmosImage').src=image.src;$('crAtmosImage').hidden=false;
       $('crAtmosStatus').textContent=`${item.status==='current'?'Cached source map':'RETAINED — latest retrieval failed'} · retrieval ${item.retrieved_at}. Valid date is printed on the map; retrieval is not valid time.`;
+      if(item.domain==='atlantic')$('crAtmosStatus').textContent='North Atlantic GFS forecast snapshot · cycle '+item.initialization_time+' · valid '+item.valid_time+' · lead '+item.lead_hours+' h. Not a daily average.';
       // Keep the selected frame, playback state and frame list until explicit user engagement.
       if(newFrames)$('crMovieRefresh').hidden=false;
     }
@@ -112,3 +118,4 @@
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
   ['crAtmosDomain','crAtmosVariable'].forEach(id=>$(id).addEventListener('change',()=>data&&showAtmosphere()));
 })();
+

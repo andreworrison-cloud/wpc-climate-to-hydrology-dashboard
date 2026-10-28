@@ -95,6 +95,24 @@ def retained(previous,error,**defaults):
  print('::warning::Climate Reanalyzer: '+str(error))
  return {**defaults,**previous,'status':'retained' if previous else 'unavailable','error':str(error)[:240]}
 
+def atlantic_context(old,now):
+ records=[]
+ for variable in VARIABLES:
+  prior=next((m for m in old.get('atmosphere',{}).get('maps',[]) if m['domain']=='atlantic' and m['variable']==variable),{})
+  rec=dict(domain='atlantic',variable=variable,product_kind='forecast_snapshot',valid_time=None,initialization_time=None,source_page=BASE+'wx/fcst/?mdl_id=gfs&dm_id=natlan-ced&wm_id='+variable,time_basis='North Atlantic GFS forecast snapshot, not the daily-average product. Cycle and valid time are printed on the source map.')
+  try:
+   dates_raw,_=get(BASE+'wx/fcst/maps/gfs/dates/gfs_natlan-ced_'+variable+'_dates.json')
+   dates=json.loads(dates_raw);cycle=max(d for d in dates if re.fullmatch(r'\d{4}-\d{2}-\d{2}-\d{2}z',d))
+   folder=BASE+'wx/fcst/maps/gfs/'+cycle+'/natlan-ced/'+variable+'/'
+   inventory,_=get(folder+'flist.json');names=json.loads(inventory)
+   name=next(n for n in names if re.fullmatch(r'gfs_natlan-ced_'+re.escape(variable)+r'_\d{10}_000\.png',n))
+   rec.update(image(folder+name,'data/reanalyzer/maps/gfs_atlantic_'+variable+'.png',prior,now))
+   rec.update(initialization_time=datetime.strptime(cycle,'%Y-%m-%d-%Hz').replace(tzinfo=timezone.utc).isoformat(),lead_hours=0,inventory_sha256=sha(inventory),cycle_inventory_sha256=sha(dates_raw))
+   rec['valid_time']=rec['initialization_time']
+  except Exception as ex:rec=retained(prior,ex,**rec)
+  records.append(rec)
+ return records
+
 def main():
  now=datetime.now(timezone.utc).isoformat();today=datetime.now(timezone.utc).date()
  manifest=OUT/'manifest.json';old=json.loads(manifest.read_text()) if manifest.exists() else {}
@@ -151,6 +169,7 @@ def main():
    try:rec.update(image(BASE+f'wx/todays-weather/maps/gfs_{source_domain}_{variable}_d1.png',f'data/reanalyzer/maps/gfs_{domain}_{variable}.png',prior,now))
    except Exception as ex:rec=retained(prior,ex,**rec)
    result['atmosphere']['maps'].append(rec)
+ result['atmosphere']['maps'].extend(atlantic_context(old,now))
  atomic(manifest,(json.dumps(result,indent=2,ensure_ascii=False,allow_nan=False)+'\n').encode())
  # Only prune this collector's dated image cache, after the new manifest is durable.
  keep={f['path'] for product in result['animation']['variables'].values() for group in product['domains'].values() for f in group.get('frames',[])}
@@ -162,3 +181,4 @@ def main():
  print('Climate Reanalyzer:',[(r['id'],r['status'],len(r['rows'])) for r in result['sst_regions']],'; frames',sum(len(v['frames']) for v in result['animation']['domains'].values()))
  return result
 if __name__=='__main__':main()
+

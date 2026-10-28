@@ -1135,7 +1135,7 @@
         },
         {
           "date": "2025-04-03",
-          "sst_c": 21.0,
+          "sst_c": 21,
           "climatology_c": 20.541,
           "anomaly_c": 0.459,
           "preliminary": false
@@ -1191,7 +1191,7 @@
         },
         {
           "date": "2025-04-11",
-          "sst_c": 21.0,
+          "sst_c": 21,
           "climatology_c": 20.517,
           "anomaly_c": 0.483,
           "preliminary": false
@@ -6541,7 +6541,7 @@
           "date": "2025-05-11",
           "sst_c": 27.836,
           "climatology_c": 27.836,
-          "anomaly_c": 0.0,
+          "anomaly_c": 0,
           "preliminary": false
         },
         {
@@ -10137,7 +10137,7 @@
         },
         {
           "date": "2026-10-07",
-          "sst_c": 30.0,
+          "sst_c": 30,
           "climatology_c": 26.68,
           "anomaly_c": 3.32,
           "preliminary": false
@@ -16313,7 +16313,7 @@
           "date": "2025-02-28",
           "sst_c": 24.011,
           "climatology_c": 23.011,
-          "anomaly_c": 1.0,
+          "anomaly_c": 1,
           "preliminary": false
         },
         {
@@ -19006,14 +19006,14 @@
         },
         {
           "date": "2026-03-20",
-          "sst_c": 24.0,
+          "sst_c": 24,
           "climatology_c": 23.39,
           "anomaly_c": 0.61,
           "preliminary": false
         },
         {
           "date": "2026-03-21",
-          "sst_c": 24.0,
+          "sst_c": 24,
           "climatology_c": 23.432,
           "anomaly_c": 0.568,
           "preliminary": false
@@ -19127,7 +19127,7 @@
           "date": "2026-04-06",
           "sst_c": 25.106,
           "climatology_c": 24.106,
-          "anomaly_c": 1.0,
+          "anomaly_c": 1,
           "preliminary": false
         },
         {
@@ -24342,6 +24342,70 @@
         "last_modified": "Tue, 27 Oct 2026 05:26:30 GMT",
         "retrieved_at": "2026-10-27T21:36:29.800530+00:00",
         "status": "current"
+      },
+      {
+        "domain": "atlantic",
+        "variable": "pwtr",
+        "product_kind": "forecast_snapshot",
+        "valid_time": "2026-10-28T00:00:00+00:00",
+        "initialization_time": "2026-10-28T00:00:00+00:00",
+        "source_page": "https://climatereanalyzer.org/wx/fcst/?mdl_id=gfs&dm_id=natlan-ced&wm_id=pwtr",
+        "time_basis": "North Atlantic GFS forecast snapshot, not the daily-average product. Cycle and valid time are printed on the source map.",
+        "path": "data/reanalyzer/maps/gfs_atlantic_pwtr.png",
+        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-10-28-00z/natlan-ced/pwtr/gfs_natlan-ced_pwtr_2026102800_000.png",
+        "sha256": "6f1246fd1e772f3e82dde5d25045895acf9c86c784bb731687fd8eab0e051043",
+        "width": 1024,
+        "height": 788,
+        "etag": null,
+        "last_modified": null,
+        "retrieved_at": "2026-10-28T08:25:53.053894+00:00",
+        "status": "current",
+        "lead_hours": 0,
+        "inventory_sha256": "adda109c7778231bad2ed32d7edb7b98d45f4d4e75650bb69bed174326263bca",
+        "cycle_inventory_sha256": "f25f4c8b88cf57c61039dbce8d0f214d98fe625c39e93bd35cef0884e55dadbb"
+      },
+      {
+        "domain": "atlantic",
+        "variable": "pwtr-anomsd",
+        "product_kind": "forecast_snapshot",
+        "valid_time": null,
+        "initialization_time": null,
+        "source_page": "https://climatereanalyzer.org/wx/fcst/?mdl_id=gfs&dm_id=natlan-ced&wm_id=pwtr-anomsd",
+        "time_basis": "North Atlantic GFS forecast snapshot, not the daily-average product. Cycle and valid time are printed on the source map.",
+        "status": "unavailable",
+        "error": "HTTP Error 503: Service Unavailable"
+      },
+      {
+        "domain": "atlantic",
+        "variable": "gph500-anomsd",
+        "product_kind": "forecast_snapshot",
+        "valid_time": "2026-10-28T00:00:00+00:00",
+        "initialization_time": "2026-10-28T00:00:00+00:00",
+        "source_page": "https://climatereanalyzer.org/wx/fcst/?mdl_id=gfs&dm_id=natlan-ced&wm_id=gph500-anomsd",
+        "time_basis": "North Atlantic GFS forecast snapshot, not the daily-average product. Cycle and valid time are printed on the source map.",
+        "path": "data/reanalyzer/maps/gfs_atlantic_gph500-anomsd.png",
+        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-10-28-00z/natlan-ced/gph500-anomsd/gfs_natlan-ced_gph500-anomsd_2026102800_000.png",
+        "sha256": "0a4175e7f6f1f1fdea5e399f6cf949dbc75bffef4cbd1fbcded14a8fc95a6d10",
+        "width": 1024,
+        "height": 789,
+        "etag": null,
+        "last_modified": null,
+        "retrieved_at": "2026-10-28T08:25:53.053894+00:00",
+        "status": "current",
+        "lead_hours": 0,
+        "inventory_sha256": "378e5db50737df669c227a1c9eee77eeba6a26360bbd5b9b5c03d972b4a27aa4",
+        "cycle_inventory_sha256": "20c6dde12a9dfda21bb280d7eea69c8260574210703af564ba877141d70019f3"
+      },
+      {
+        "domain": "atlantic",
+        "variable": "ws250-mslp",
+        "product_kind": "forecast_snapshot",
+        "valid_time": null,
+        "initialization_time": null,
+        "source_page": "https://climatereanalyzer.org/wx/fcst/?mdl_id=gfs&dm_id=natlan-ced&wm_id=ws250-mslp",
+        "time_basis": "North Atlantic GFS forecast snapshot, not the daily-average product. Cycle and valid time are printed on the source map.",
+        "status": "unavailable",
+        "error": "HTTP Error 503: Service Unavailable"
       }
     ]
   }
