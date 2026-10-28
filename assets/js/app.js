@@ -126,6 +126,22 @@ function phaseSpaceSVG(rows){
 function statChip(label,value){ return `<span class="stat-chip">${label}: <b>${value}</b></span>`; }
 function sliceDaily(rows,days){ return HistoryView.select(rows || [],days); }
 
+
+function bindObservedReadouts(){
+ for(const id of ['roni','pna','nao','mjo']){
+ const host=document.getElementById(id+'Chart'),svg=host?.querySelector('svg');if(!svg)continue;
+ let box=document.getElementById(id+'Readout');if(!box){box=document.createElement('div');box.id=id+'Readout';box.className='presentation-readout';box.setAttribute('role','status');host.after(box);}
+ box.textContent='Hover or tap the chart for dated values. Focus the chart and use arrow keys.';
+ const dots=[...svg.querySelectorAll('circle')].filter(c=>c.querySelector('title'));if(!dots.length)continue;
+ svg.setAttribute('tabindex','0');svg.setAttribute('aria-describedby',box.id);
+ const marker=document.createElementNS('http://www.w3.org/2000/svg','circle');for(const [k,v] of Object.entries({r:6,fill:'none',stroke:'#ffffff','stroke-width':2,'pointer-events':'none'}))marker.setAttribute(k,v);marker.style.display='none';svg.append(marker);
+ let at=dots.length-1;
+ function show(i){at=Math.max(0,Math.min(dots.length-1,i));const c=dots[at];box.textContent=id.toUpperCase()+' · '+c.querySelector('title').textContent+(id==='roni'?' °C · overlapping season':id==='mjo'?'':' · standardized index');marker.setAttribute('cx',c.getAttribute('cx'));marker.setAttribute('cy',c.getAttribute('cy'));marker.style.display='';}
+ function point(e){const matrix=svg.getScreenCTM();if(!matrix)return;const pt=new DOMPoint(e.clientX,e.clientY).matrixTransform(matrix.inverse());let best=0,dist=Infinity;const phase=id==='mjo'&&document.getElementById('mjoView').value==='phase';dots.forEach((c,i)=>{const d=(Number(c.getAttribute('cx'))-pt.x)**2+(phase?(Number(c.getAttribute('cy'))-pt.y)**2:0);if(d<dist){dist=d;best=i;}});show(best);}
+ svg.addEventListener('pointermove',point);svg.addEventListener('pointerdown',point);svg.addEventListener('focus',()=>show(at));svg.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();show(e.key==='Home'?0:e.key==='End'?dots.length-1:at+(e.key==='ArrowLeft'?-1:1));}});
+ }
+}
+
 function renderObservedPatterns(histories, days="90"){
   const roniRows=HistoryView.select(histories.roni?.values || [],days);
   const pnaRows=sliceDaily(histories.pna?.values || [],days);
@@ -161,6 +177,7 @@ function renderObservedPatterns(histories, days="90"){
     document.getElementById('mjoLatest').textContent=`P${a.phase} • ${num(a.amplitude,2)}`; document.getElementById('mjoLatest').style.color=mjoStateColor(a.phase,a.amplitude);
     document.getElementById('mjoStats').innerHTML=statChip('Valid',a.date)+statChip('RMM1',signed(a.rmm1,2))+statChip('RMM2',signed(a.rmm2,2))+statChip('Shown max amp',num(maxAmp,2));
   }
+  bindObservedReadouts();
 }
 
 
@@ -255,3 +272,4 @@ DashboardRefresh.register('forecast guidance',['data/forecast_status.json'],asyn
   await Promise.all(forecast.products.filter(p=>p.status==='live'&&p.image_path).map(p=>DashboardRefresh.imageReady(DashboardRefresh.versioned(p.image_path,p.retrieved_at))));
   renderForwardGuidance(forecast);
 });
+
