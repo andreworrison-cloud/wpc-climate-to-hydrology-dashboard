@@ -1,7 +1,7 @@
 name: Climate presentation review
 on:
   pull_request:
-    paths: ['assets/js/presentation.js', 'assets/css/presentation.css', 'assets/js/auto-refresh.js', 'index.html', 'data/presentation/**', 'scripts/build_presentation_review.py', 'scripts/refresh_dashboard.py', 'scripts/update_climate_data.py', 'tests/*presentation*', '.github/workflows/presentation-review-check.yml', '.github/workflows/update-climate-data.yml']
+    paths: ['assets/js/presentation.js', 'assets/css/presentation.css', 'assets/js/auto-refresh.js', 'assets/js/section-navigation.js', 'index.html', 'data/presentation/**', 'scripts/build_presentation_review.py', 'scripts/refresh_dashboard.py', 'scripts/update_climate_data.py', 'tests/*presentation*', 'tests/test_section_navigation.cjs', '.github/workflows/presentation-review-check.yml', '.github/workflows/update-climate-data.yml']
 permissions:
   contents: read
 jobs:
@@ -20,6 +20,8 @@ jobs:
         run: |
           pip -q install Pillow==12.3.0 playwright==1.56.0
           node --check assets/js/presentation.js
+          node --check assets/js/section-navigation.js
+          node tests/test_section_navigation.cjs
           node tests/test_science_review.cjs
           node tests/test_driver_timeline.cjs
           python -m unittest discover -s tests -p 'test_*.py'
@@ -33,3 +35,4 @@ jobs:
         with:
           name: climate-presentation-review
           path: snapshots/Climate_Dashboard_*.png
+
