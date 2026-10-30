@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-29T18:10:56Z",
+  "generated_at": "2026-10-30T00:10:53Z",
   "indicators": [
     {
       "id": "roni",
@@ -20,19 +20,19 @@
     {
       "id": "mjo_rmm",
       "display_name": "MJO / RMM",
-      "value": 1.4,
+      "value": 1.39,
       "units": null,
       "state": "Phase 2 \u2014 Indian Ocean",
-      "valid_time": "2026-10-27",
+      "valid_time": "2026-10-28",
       "source_name": "Australian Bureau of Meteorology \u2014 Wheeler-Hendon RMM",
       "source_url": "https://www.bom.gov.au/climate/mjo/",
-      "retrieved_at": "2026-10-29T00:10:52Z",
+      "retrieved_at": "2026-10-30T00:10:53Z",
       "freshness_hours": 72,
       "data_url": "https://www.bom.gov.au/clim_data/IDCKGEM000/rmm.74toRealtime.txt",
       "phase": 2,
-      "amplitude": 1.404,
-      "rmm1": -0.2754,
-      "rmm2": -1.3771,
+      "amplitude": 1.393,
+      "rmm1": -0.105,
+      "rmm2": -1.389,
       "phase_region": "Indian Ocean",
       "signal_strength": "Active RMM signal",
       "provisional": false,
