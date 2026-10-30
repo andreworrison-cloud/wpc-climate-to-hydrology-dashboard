@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "phase": "2B.2",
-  "generated_at": "2026-10-29T21:35:40Z",
+  "generated_at": "2026-10-30T21:35:41Z",
   "overall_status": "current",
   "science_guardrail": "Authoritative climate-driver forecasts only; no precipitation or flash-flood inference is enabled.",
   "products": [
@@ -16,7 +16,7 @@
       "image_path": "data/forecasts/enso_probabilities.png",
       "image_source": "https://www.cpc.ncep.noaa.gov/archives/enso/roni/images/2026/enso-probs-102026.png",
       "issue_hint": "2026-10",
-      "retrieved_at": "2026-10-29T21:35:40Z",
+      "retrieved_at": "2026-10-30T21:35:41Z",
       "last_modified": "Thu, 08 Oct 2026 13:00:13 GMT",
       "note": "Official CPC ENSO probabilities based on ERSSTv6 RONI thresholds."
     },
@@ -30,8 +30,8 @@
       "source_page": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/MJO/foregfs.shtml",
       "image_path": "data/forecasts/mjo_gefs.png",
       "image_source": "https://www.cpc.ncep.noaa.gov/products/precip/mjo/img/GEFS_BC.png",
-      "retrieved_at": "2026-10-29T21:35:40Z",
-      "last_modified": "Thu, 29 Oct 2026 14:19:51 GMT",
+      "retrieved_at": "2026-10-30T21:35:41Z",
+      "last_modified": "Fri, 30 Oct 2026 14:19:33 GMT",
       "note": "CPC Wheeler-Hendon RMM ensemble forecast."
     },
     {
@@ -44,8 +44,8 @@
       "source_page": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna_index_ensm.shtml",
       "image_path": "data/forecasts/pna_gefs.png",
       "image_source": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna.gefs.sprd2.png",
-      "retrieved_at": "2026-10-29T21:35:40Z",
-      "last_modified": "Thu, 29 Oct 2026 14:06:00 GMT",
+      "retrieved_at": "2026-10-30T21:35:41Z",
+      "last_modified": "Fri, 30 Oct 2026 14:06:08 GMT",
       "note": "CPC standardized PNA ensemble outlook with 3-day running mean."
     },
     {
@@ -58,8 +58,8 @@
       "source_page": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao_index_ensm.shtml",
       "image_path": "data/forecasts/nao_gefs.png",
       "image_source": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.gefs.sprd2.png",
-      "retrieved_at": "2026-10-29T21:35:40Z",
-      "last_modified": "Thu, 29 Oct 2026 14:06:00 GMT",
+      "retrieved_at": "2026-10-30T21:35:41Z",
+      "last_modified": "Fri, 30 Oct 2026 14:06:08 GMT",
       "note": "CPC standardized NAO ensemble outlook with 3-day running mean."
     },
     {
@@ -71,9 +71,9 @@
       "source_name": "ECMWF OpenCharts",
       "source_page": "https://charts.ecmwf.int/products/mofc_multi_mjo_family_index",
       "image_path": "data/forecasts/mjo_ecmwf_ifs_subseasonal_ens.png",
-      "image_source": "https://charts.ecmwf.int/content/20261029200449-d4f2f9a3c5123d40d8badda9c78c36905b57f347.png",
-      "retrieved_at": "2026-10-29T21:35:40Z",
-      "last_modified": "Thu, 29 Oct 2026 20:04:49 GMT",
+      "image_source": "https://charts.ecmwf.int/content/20261030200513-c17e99d55c92a72d43b6b94fda1c009409626584.png",
+      "retrieved_at": "2026-10-30T21:35:41Z",
+      "last_modified": "Fri, 30 Oct 2026 20:05:13 GMT",
       "issue_hint": null,
       "note": "ECMWF Wheeler\u2013Hendon MJO guidance from the IFS sub-seasonal ensemble. This is probabilistic ensemble guidance, not the standalone IFS Control Forecast."
     },
@@ -86,10 +86,10 @@
       "source_name": "ECMWF OpenCharts",
       "source_page": "https://charts.ecmwf.int/products/extended-anomaly-z500?projection=opencharts_pacific",
       "image_path": "data/forecasts/pna_context_ecmwf_z500_pacific.png",
-      "image_source": "https://charts.ecmwf.int/content/20261029213548-f700843ffcd4cb51f62b636e7d9a900237241baf.png",
-      "retrieved_at": "2026-10-29T21:35:40Z",
-      "last_modified": "Thu, 29 Oct 2026 21:35:48 GMT",
-      "issue_hint": "Base time: Thu 29 Oct 2026 Valid time: Mon 02 Nov 2026 - Mon 09 Nov 2026 (+264h) Area : Pacific",
+      "image_source": "https://charts.ecmwf.int/content/20261030213549-ff7e23a125df32c7d32ed2453a88d873d07e61a1.png",
+      "retrieved_at": "2026-10-30T21:35:41Z",
+      "last_modified": "Fri, 30 Oct 2026 21:35:49 GMT",
+      "issue_hint": "Base time: Fri 30 Oct 2026 Valid time: Mon 02 Nov 2026 - Mon 09 Nov 2026 (+240h) Area : Pacific",
       "note": "ECMWF weekly-mean 500-hPa height anomalies over the Pacific sector. This provides circulation context for PNA evolution; it is not a standardized ECMWF PNA-index forecast."
     },
     {
@@ -101,9 +101,9 @@
       "source_name": "ECMWF OpenCharts",
       "source_page": "https://charts.ecmwf.int/products/extended-regime-probabilities",
       "image_path": "data/forecasts/nao_context_ecmwf_regime_probabilities.png",
-      "image_source": "https://charts.ecmwf.int/content/20261029200423-bc574d1d5cd064a711cb7e368747150fced8d1f5.png",
-      "retrieved_at": "2026-10-29T21:35:40Z",
-      "last_modified": "Thu, 29 Oct 2026 20:04:23 GMT",
+      "image_source": "https://charts.ecmwf.int/content/20261030200509-f5a4ee2d0463d7e016d575b7fc37c1ca8b2e3067.png",
+      "retrieved_at": "2026-10-30T21:35:41Z",
+      "last_modified": "Fri, 30 Oct 2026 20:05:09 GMT",
       "issue_hint": null,
       "note": "ECMWF ensemble probabilities for NAO+, NAO\u2212, Scandinavian Blocking, Atlantic Ridge, and no clear regime. This is regime guidance, not a standardized ECMWF NAO-index forecast."
     }
