@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-30T00:10:53Z",
+  "generated_at": "2026-10-30T18:10:54Z",
   "indicators": [
     {
       "id": "roni",
@@ -41,13 +41,13 @@
     {
       "id": "pna",
       "display_name": "PNA",
-      "value": -0.59,
+      "value": -0.576,
       "units": "\u03c3",
       "state": "Negative PNA index",
-      "valid_time": "2026-10-27",
+      "valid_time": "2026-10-28",
       "source_name": "NOAA Climate Prediction Center \u2014 Daily PNA Index (CDAS 500-hPa)",
       "source_url": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/pna.shtml",
-      "retrieved_at": "2026-10-29T18:10:56Z",
+      "retrieved_at": "2026-10-30T18:10:54Z",
       "freshness_hours": 72,
       "data_url": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.pna.cdas.z500.19500101_current.csv",
       "provisional": false,
@@ -56,13 +56,13 @@
     {
       "id": "nao",
       "display_name": "NAO",
-      "value": 0.526,
+      "value": 0.406,
       "units": "\u03c3",
       "state": "Positive NAO index",
-      "valid_time": "2026-10-27",
+      "valid_time": "2026-10-28",
       "source_name": "NOAA Climate Prediction Center \u2014 Daily NAO Index (CDAS 500-hPa)",
       "source_url": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.shtml",
-      "retrieved_at": "2026-10-29T18:10:56Z",
+      "retrieved_at": "2026-10-30T18:10:54Z",
       "freshness_hours": 72,
       "data_url": "https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.nao.cdas.z500.19500101_current.csv",
       "provisional": false,
