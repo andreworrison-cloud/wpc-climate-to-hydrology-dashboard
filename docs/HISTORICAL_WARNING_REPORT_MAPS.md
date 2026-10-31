@@ -12,7 +12,7 @@ Climate states: original archived ENSO labels; active MJO phases 1–8 at amplit
 
 `days with >=1 record / qualifying days * 100` is a historical event-day percentage. `records / qualifying days * 100` measures event burden and may exceed 100. A difference is selected-state rate minus matched seasonal background; event-day differences are percentage points. Multiple independent warning/report rows may occur on one day. States with zero days retain null rates. Every cell remains in the payload.
 
-Hatching warns when there are fewer than 30 days or 5 represented calendar years. This is an explicitly selected display convention, not a statistical significance criterion, independent effective sample size, forecast-confidence tier or Q6 qualification threshold. No new intervals, p-values or FDR results are generated. Daily samples are temporally dependent. Color scales are shared across regions; event-day percentage uses 0–100%, and differences use +/-30 percentage points with saturation. Event-burden scales are shared across all retained states for the selected cohort.
+Hatching warns when there are fewer than 30 days or 5 represented calendar years. This is an explicitly selected display convention, not a statistical significance criterion, independent effective sample size, forecast-confidence tier or Q6 qualification threshold. No new intervals, p-values or FDR results are generated. Daily samples are temporally dependent. FFW activity uses a red sequential palette and LSR activity a green palette. Differences use cool blue for lower activity, a neutral zero and the event-family red/green for higher activity. The scale includes all seven regions and every retained climate state for the selected season, metric, precipitation-day sample and event type. It remains fixed when switching climate states or between background and composite, and uses a rounded upper limit shown with numeric ticks. Differences have a symmetric zero-centered scale; percentages and percentage-point differences cannot exceed 100 in magnitude. The separately displayed CONUS summary does not set the regional color scale. Color represents historical activity, not confidence.
 
 ## Authoritative lineage and checks
 
@@ -25,6 +25,8 @@ The pinned source identities are in `scripts/build_historical_maps.py` and the g
 - The complete descriptive family has 4,416 rows, 18 columns and 7 geographic regions plus a separate national summary.
 - Region shading follows exact, disjoint archived CPC masks; the separate national mask equals their union. It represents regional sampling domains, not verified individual warning footprints. Contextual state lines derive from Census 2017 cartographic boundaries via us-atlas v3 (source hash retained).
 
+For rendering, shared quarter-degree cell edges are canceled and the exposed edges traced into closed rings, including holes and disconnected components. Every exposed grid edge is retained before projection. This removes internal strip/chord seams without smoothing, expanding, resampling or otherwise changing any sampling mask or map-data file. Hatching is clipped to the same dissolved rings.
+
 Warnings are issuances and LSRs are reports, not a complete flood census. Differences can reflect precipitation distribution and warning/reporting practices. Climate-state composites do not establish residual climate effects after precipitation severity, causality or issued flood probabilities. Do not multiply these rates by Q3 probabilities.
 
 ## Reproduction and release
@@ -34,3 +36,4 @@ Warnings are issuances and LSRs are reports, not a complete flood census. Differ
 The browser validates hashes, row shapes, complete state partitions, integer counts, sample denominators and inactive flags before display. A failed initial update leaves the map unavailable; later failures retain the previously verified map. Background refresh checks the small map manifest every five minutes and reuses unchanged hashed payloads. User choices persist, and no animation starts automatically.
 
 No private issuance notebook, scheduler, freeze, Q3/Q3A architecture, Q4/Q5 conclusion, calibration, evidence tier or public prediction flag is modified by this release.
+
