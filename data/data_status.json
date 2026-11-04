@@ -1,20 +1,20 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-03T18:11:19Z",
+  "generated_at": "2026-11-04T00:10:56Z",
   "overall_status": "current",
   "datasets": [
     {
       "name": "RONI / ENSO",
       "status": "live",
-      "checked_at": "2026-10-18T15:49:07Z",
-      "message": "Live \u2014 latest JAS 2026: +1.69 \u00b0C",
+      "checked_at": "2026-11-04T00:10:56Z",
+      "message": "Live \u2014 latest ASO 2026: +1.97 \u00b0C",
       "source": "NOAA/CPC RONI (ERSSTv6)"
     },
     {
       "name": "MJO / RMM",
       "status": "live",
-      "checked_at": "2026-11-03T00:10:57Z",
-      "message": "Live \u2014 2026-11-01: phase 2, amplitude 1.57",
+      "checked_at": "2026-11-04T00:10:56Z",
+      "message": "Live \u2014 2026-11-02: phase 2, amplitude 1.79",
       "source": "Australian Bureau of Meteorology Wheeler-Hendon RMM"
     },
     {

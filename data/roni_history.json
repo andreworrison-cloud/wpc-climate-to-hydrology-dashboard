@@ -4,7 +4,7 @@
   "source_name": "NOAA Climate Prediction Center \u2014 RONI (ERSSTv6)",
   "source_url": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/",
   "data_url": "https://www.cpc.ncep.noaa.gov/data/indices/RONI.ascii.txt",
-  "retrieved_at": "2026-10-18T15:49:07Z",
+  "retrieved_at": "2026-11-04T00:10:56Z",
   "provisional_latest": true,
   "values": [
     {
@@ -4606,6 +4606,11 @@
       "season": "JAS",
       "year": 2026,
       "value": 1.69
+    },
+    {
+      "season": "ASO",
+      "year": 2026,
+      "value": 1.97
     }
   ]
 }
