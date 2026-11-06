@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-05T22:45:43.821034+00:00",
+  "generated_at": "2026-11-06T08:45:47.553660+00:00",
   "active_prediction": false,
   "scientific_role": "observed_ocean_context",
   "products": [
@@ -117,7 +117,7 @@
       "version": "SPoRT enhanced SST composite",
       "resolution_km": 2,
       "attempted_at": "2026-11-03T22:46:00.961594+00:00",
-      "status": "available",
+      "status": "stale",
       "image_path": "data/ocean/sport_ssta_pacific.png",
       "image_url": "https://weather.ndc.nasa.gov/sport/dynamic/enhanced_sst/0600/east_pacific/20261103_0600_East_Pacific_sst_anomaly.png",
       "inventory_url": "https://weather.ndc.nasa.gov/cgi-bin/live-data/DynamicData.py?dataset=esst06&product=anomaly&location=east_pacific&mode=nrt",
