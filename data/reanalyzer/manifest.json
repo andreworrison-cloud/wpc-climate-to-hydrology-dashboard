@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-05T21:37:32.546141+00:00",
+  "checked_at": "2026-11-06T21:36:39.910079+00:00",
   "attribution": "ClimateReanalyzer.org / Climate Change Institute, University of Maine; NOAA OISST v2.1 and NOAA/NCEP GFS",
   "license": "CC BY 4.0",
   "science_role": "display_context_only",
@@ -13,13 +13,6 @@
       "source_page": "https://climatereanalyzer.org/clim/sst_daily/?dm_id=world2",
       "baseline": "1991–2020; source 5-day smoothed daily climatology",
       "rows": [
-        {
-          "date": "2024-11-02",
-          "sst_c": 20.728,
-          "climatology_c": 20.153,
-          "anomaly_c": 0.575,
-          "preliminary": false
-        },
         {
           "date": "2024-11-03",
           "sst_c": 20.716,
@@ -5041,10 +5034,10 @@
         },
         {
           "date": "2026-10-21",
-          "sst_c": 21.024,
+          "sst_c": 21.032,
           "climatology_c": 20.2,
-          "anomaly_c": 0.824,
-          "preliminary": true
+          "anomaly_c": 0.832,
+          "preliminary": false
         },
         {
           "date": "2026-10-22",
@@ -5136,11 +5129,18 @@
           "climatology_c": 20.15,
           "anomaly_c": 0.875,
           "preliminary": true
+        },
+        {
+          "date": "2026-11-04",
+          "sst_c": 21.032,
+          "climatology_c": 20.148,
+          "anomaly_c": 0.884,
+          "preliminary": true
         }
       ],
       "source_url": "https://climatereanalyzer.org/clim/sst_daily/json_2clim/oisst2.1_world2_sst_day.json",
-      "source_sha256": "f8993aee86238bdf732effe16f3443c299901f64650a268e1a25cfa859b4b1bd",
-      "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+      "source_sha256": "a6260f482d9b5bd076e4eb712777120a13b538a58cd92fe0dc4b0a5b33a4f2a2",
+      "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
       "status": "current",
       "preliminary_year": 2026
     },
@@ -5151,13 +5151,6 @@
       "source_page": "https://climatereanalyzer.org/clim/sst_daily/?dm_id=nino3.4",
       "baseline": "1991–2020; source 5-day smoothed daily climatology",
       "rows": [
-        {
-          "date": "2024-11-02",
-          "sst_c": 26.549,
-          "climatology_c": 26.762,
-          "anomaly_c": -0.213,
-          "preliminary": false
-        },
         {
           "date": "2024-11-03",
           "sst_c": 26.518,
@@ -10179,10 +10172,10 @@
         },
         {
           "date": "2026-10-21",
-          "sst_c": 30.047,
+          "sst_c": 30.065,
           "climatology_c": 26.712,
-          "anomaly_c": 3.335,
-          "preliminary": true
+          "anomaly_c": 3.353,
+          "preliminary": false
         },
         {
           "date": "2026-10-22",
@@ -10274,11 +10267,18 @@
           "climatology_c": 26.764,
           "anomaly_c": 3.38,
           "preliminary": true
+        },
+        {
+          "date": "2026-11-04",
+          "sst_c": 30.087,
+          "climatology_c": 26.768,
+          "anomaly_c": 3.319,
+          "preliminary": true
         }
       ],
       "source_url": "https://climatereanalyzer.org/clim/sst_daily/json_2clim/oisst2.1_nino3.4_sst_day.json",
-      "source_sha256": "c7c075b86930ff1b8ccc3fd755db8c0a421f278f9edd328bda7caabd301800a4",
-      "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+      "source_sha256": "dffa2212642523b489340de5557102a05602cbe23b0133524ec52543d67d4144",
+      "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
       "status": "current",
       "preliminary_year": 2026
     },
@@ -10289,13 +10289,6 @@
       "source_page": "https://climatereanalyzer.org/clim/sst_daily/?dm_id=natlan",
       "baseline": "1991–2020; source 5-day smoothed daily climatology",
       "rows": [
-        {
-          "date": "2024-11-02",
-          "sst_c": 23.348,
-          "climatology_c": 22.566,
-          "anomaly_c": 0.782,
-          "preliminary": false
-        },
         {
           "date": "2024-11-03",
           "sst_c": 23.314,
@@ -15317,10 +15310,10 @@
         },
         {
           "date": "2026-10-21",
-          "sst_c": 23.966,
+          "sst_c": 23.903,
           "climatology_c": 23.069,
-          "anomaly_c": 0.897,
-          "preliminary": true
+          "anomaly_c": 0.834,
+          "preliminary": false
         },
         {
           "date": "2026-10-22",
@@ -15412,11 +15405,18 @@
           "climatology_c": 22.523,
           "anomaly_c": 0.827,
           "preliminary": true
+        },
+        {
+          "date": "2026-11-04",
+          "sst_c": 23.338,
+          "climatology_c": 22.481,
+          "anomaly_c": 0.857,
+          "preliminary": true
         }
       ],
       "source_url": "https://climatereanalyzer.org/clim/sst_daily/json_2clim/oisst2.1_natlan_sst_day.json",
-      "source_sha256": "2dbbcf09f9291e94a99b44b8e7e4c08f721415a0ab543a215b7882423cd60470",
-      "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+      "source_sha256": "f3d820c8957608d606b193c1ec9bf0d8586c6ab71a6c480d5568428bcf4d7572",
+      "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
       "status": "current",
       "preliminary_year": 2026
     },
@@ -15427,13 +15427,6 @@
       "source_page": "https://climatereanalyzer.org/clim/sst_daily/?dm_id=gomex",
       "baseline": "1991–2020; source 5-day smoothed daily climatology",
       "rows": [
-        {
-          "date": "2024-11-02",
-          "sst_c": 27.767,
-          "climatology_c": 26.757,
-          "anomaly_c": 1.01,
-          "preliminary": false
-        },
         {
           "date": "2024-11-03",
           "sst_c": 27.765,
@@ -20455,10 +20448,10 @@
         },
         {
           "date": "2026-10-21",
-          "sst_c": 28.273,
+          "sst_c": 28.286,
           "climatology_c": 27.638,
-          "anomaly_c": 0.635,
-          "preliminary": true
+          "anomaly_c": 0.648,
+          "preliminary": false
         },
         {
           "date": "2026-10-22",
@@ -20550,11 +20543,18 @@
           "climatology_c": 26.692,
           "anomaly_c": 1.277,
           "preliminary": true
+        },
+        {
+          "date": "2026-11-04",
+          "sst_c": 27.995,
+          "climatology_c": 26.627,
+          "anomaly_c": 1.368,
+          "preliminary": true
         }
       ],
       "source_url": "https://climatereanalyzer.org/clim/sst_daily/json_2clim/oisst2.1_gomex_sst_day.json",
-      "source_sha256": "f0f17356adcb391ffd2e31db8ebdaf22a390ff376239e19b70be8f55f694a2db",
-      "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+      "source_sha256": "074502fdb02c7dd7508e18c9b09f90d7dd768b89cac141691522cae1a9395969",
+      "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
       "status": "current",
       "preliminary_year": 2026
     }
@@ -20563,19 +20563,6 @@
     "domains": {
       "global": {
         "frames": [
-          {
-            "path": "data/reanalyzer/maps/ssta_global_2026-10-05.png",
-            "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d278.png",
-            "sha256": "175aff0c4108bbf55685b001a6051dd09d2b22c9c3bb77296db6608591823e36",
-            "width": 1100,
-            "height": 794,
-            "etag": "\"28b3d-65e5afd01c46d\"",
-            "last_modified": "Wed, 21 Oct 2026 14:59:05 GMT",
-            "retrieved_at": "2026-10-21T21:36:16.831948+00:00",
-            "status": "current",
-            "valid_date": "2026-10-05",
-            "error": null
-          },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-06.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d279.png",
@@ -20768,32 +20755,32 @@
             "last_modified": "Thu, 05 Nov 2026 14:59:04 GMT",
             "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
             "status": "current",
-            "valid_date": "2026-10-20"
+            "valid_date": "2026-10-20",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-21.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d294.png",
-            "sha256": "355ec583f21fa6620f3d5c9d29527a2215e9613f88fae5e5d2601c17a4255201",
+            "sha256": "1a3508d629994a0766020ba4f65849b0363bc1300fc37ebfcb56be64520b1f92",
             "width": 1100,
             "height": 794,
-            "etag": "\"293fa-65f88bcf573b3\"",
-            "last_modified": "Thu, 05 Nov 2026 14:59:10 GMT",
-            "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+            "etag": "\"28a9a-65f9cda8bd4c8\"",
+            "last_modified": "Fri, 06 Nov 2026 14:59:06 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
             "status": "current",
             "valid_date": "2026-10-21"
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-22.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d295.png",
-            "sha256": "37d13fca9fe4359a9b000e12b2ccab0cdd38ecd2ddefb913b5fb04213146b659",
+            "sha256": "0686fbec7cb03b841a15bfaeb68659f4b87ef4406bf74c45350fb7b6667de52a",
             "width": 1100,
             "height": 794,
-            "etag": "\"2932e-65eab70efa2b3\"",
-            "last_modified": "Sun, 25 Oct 2026 14:58:07 GMT",
-            "retrieved_at": "2026-10-25T21:36:14.902692+00:00",
+            "etag": "\"2932e-65f9cdae54f33\"",
+            "last_modified": "Fri, 06 Nov 2026 14:59:12 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
             "status": "current",
-            "valid_date": "2026-10-22",
-            "error": null
+            "valid_date": "2026-10-22"
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-23.png",
@@ -20922,54 +20909,54 @@
             "last_modified": "Thu, 05 Nov 2026 14:58:07 GMT",
             "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
             "status": "current",
-            "valid_date": "2026-11-01"
+            "valid_date": "2026-11-01",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-11-02.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d306.png",
-            "sha256": "096caf7e735150ea47875adbe610376b8a9cb75c2a8863c882f99fe14d74a028",
+            "sha256": "190f6bb3c7b5bafd57c971a8316f941328ee76f705a6701e61986fdcc3074f89",
             "width": 1100,
             "height": 794,
-            "etag": "\"28f95-65f88b979c863\"",
-            "last_modified": "Thu, 05 Nov 2026 14:58:12 GMT",
-            "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+            "etag": "\"28f95-65f9cd70c9f32\"",
+            "last_modified": "Fri, 06 Nov 2026 14:58:07 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
             "status": "current",
             "valid_date": "2026-11-02"
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-11-03.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d307.png",
-            "sha256": "b036246729c6ce92babbd4992a45a9ad1aadd65d7e011a3738fb83dff1cbd4f4",
+            "sha256": "da0c3c3ecc86b4bab5c5f60898a10fd36d7a47bd4e9f199a5510da0116edfa3f",
             "width": 1100,
             "height": 794,
-            "etag": "\"28d44-65f88b9c26a46\"",
-            "last_modified": "Thu, 05 Nov 2026 14:58:16 GMT",
-            "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+            "etag": "\"28d44-65f9cd755dd56\"",
+            "last_modified": "Fri, 06 Nov 2026 14:58:12 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
             "status": "current",
             "valid_date": "2026-11-03"
+          },
+          {
+            "path": "data/reanalyzer/maps/ssta_global_2026-11-04.png",
+            "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d308.png",
+            "sha256": "c58434e84ae92809877f628876e6234f4fc9257fa7e5b670bb293e455cd0b13a",
+            "width": 1100,
+            "height": 794,
+            "etag": "\"28db3-65f9cd79f59fa\"",
+            "last_modified": "Fri, 06 Nov 2026 14:58:17 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
+            "status": "current",
+            "valid_date": "2026-11-04"
           }
         ],
         "status": "current",
         "source_page": "https://climatereanalyzer.org/clim/daily_maps/?wm_id=sstanom&dm_id=world-wt3",
         "baseline": "1991–2020",
         "units": "°C",
-        "inventory_sha256": "a06f28b1a455042bb8216823e014c26694611fe4e76da52e3edd0b834750b2cb"
+        "inventory_sha256": "697bd498283b1f1288c9fe743fc8f48891184b098731ddb28090c82de86a4e3f"
       },
       "north_atlantic": {
         "frames": [
-          {
-            "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-05.png",
-            "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/natlan-ced/2026/sstanom_natlan-ced_2026_d278.png",
-            "sha256": "6e9a44e565aeeeaadbd46b3c723c40bb4d8da30e065c3b48c09fde0b203cf738",
-            "width": 1024,
-            "height": 788,
-            "etag": "\"174ed-65e5afd8e83f7\"",
-            "last_modified": "Wed, 21 Oct 2026 14:59:14 GMT",
-            "retrieved_at": "2026-10-21T21:36:16.831948+00:00",
-            "status": "current",
-            "valid_date": "2026-10-05",
-            "error": null
-          },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-06.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/natlan-ced/2026/sstanom_natlan-ced_2026_d279.png",
@@ -21162,32 +21149,32 @@
             "last_modified": "Thu, 05 Nov 2026 14:59:14 GMT",
             "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
             "status": "current",
-            "valid_date": "2026-10-20"
+            "valid_date": "2026-10-20",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-21.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/natlan-ced/2026/sstanom_natlan-ced_2026_d294.png",
-            "sha256": "0e53d8a5863b86468d343c25d023520a376d6e08c8ad6e0ca7032b076e14087e",
+            "sha256": "d8cbdfd0e42b7aaa3edf45e81a8fad54227058224e58ac5b3e88b140a9a19f95",
             "width": 1024,
             "height": 788,
-            "etag": "\"186fb-65f88bd6544e9\"",
-            "last_modified": "Thu, 05 Nov 2026 14:59:17 GMT",
-            "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+            "etag": "\"186fd-65f9cdb1e704f\"",
+            "last_modified": "Fri, 06 Nov 2026 14:59:16 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
             "status": "current",
             "valid_date": "2026-10-21"
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-22.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/natlan-ced/2026/sstanom_natlan-ced_2026_d295.png",
-            "sha256": "6986d2627621c2b99fdf4f2f20e78f2555f0bd96dea694fbc9a1832df4e2f1c6",
+            "sha256": "814717811ec133052e2ba3905fd3aff1fa1dc296abb0604f70efe6156f702760",
             "width": 1024,
             "height": 788,
-            "etag": "\"18836-65eab71bf957a\"",
-            "last_modified": "Sun, 25 Oct 2026 14:58:21 GMT",
-            "retrieved_at": "2026-10-25T21:36:14.902692+00:00",
+            "etag": "\"18836-65f9cdb569760\"",
+            "last_modified": "Fri, 06 Nov 2026 14:59:19 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
             "status": "current",
-            "valid_date": "2026-10-22",
-            "error": null
+            "valid_date": "2026-10-22"
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-23.png",
@@ -21316,54 +21303,54 @@
             "last_modified": "Thu, 05 Nov 2026 14:58:20 GMT",
             "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
             "status": "current",
-            "valid_date": "2026-11-01"
+            "valid_date": "2026-11-01",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-11-02.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/natlan-ced/2026/sstanom_natlan-ced_2026_d306.png",
-            "sha256": "06e3388fe3fbe76e4e39cc3c9e30f1e9b61141fc1665d8dcbbee620229d90120",
+            "sha256": "6a48eb42b14120bb65058af41e10f54d86dbb037016be31cc7732a17f9d1bb3d",
             "width": 1024,
             "height": 788,
-            "etag": "\"18ceb-65f88ba252bb6\"",
-            "last_modified": "Thu, 05 Nov 2026 14:58:23 GMT",
-            "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+            "etag": "\"18ceb-65f9cd7d59cb4\"",
+            "last_modified": "Fri, 06 Nov 2026 14:58:20 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
             "status": "current",
             "valid_date": "2026-11-02"
           },
           {
             "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-11-03.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/natlan-ced/2026/sstanom_natlan-ced_2026_d307.png",
-            "sha256": "ae30a57b63479a811a32dfe912f35893e78736cc89d0f0985d530f71ee7da801",
+            "sha256": "50bb12e316499f689b210f2ee95c8bed55a66be418651ee1f009e1885cdd6188",
             "width": 1024,
             "height": 788,
-            "etag": "\"18e6c-65f88ba52a46c\"",
-            "last_modified": "Thu, 05 Nov 2026 14:58:26 GMT",
-            "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+            "etag": "\"18e6c-65f9cd802c74a\"",
+            "last_modified": "Fri, 06 Nov 2026 14:58:23 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
             "status": "current",
             "valid_date": "2026-11-03"
+          },
+          {
+            "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-11-04.png",
+            "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/natlan-ced/2026/sstanom_natlan-ced_2026_d308.png",
+            "sha256": "20911f1b176e9532e54b734044c3642708d8cc83250f254f2da3a85b4a22e86c",
+            "width": 1024,
+            "height": 788,
+            "etag": "\"18c5b-65f9cd8313a01\"",
+            "last_modified": "Fri, 06 Nov 2026 14:58:26 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
+            "status": "current",
+            "valid_date": "2026-11-04"
           }
         ],
         "status": "current",
         "source_page": "https://climatereanalyzer.org/clim/daily_maps/?wm_id=sstanom&dm_id=natlan-ced",
         "baseline": "1991–2020",
         "units": "°C",
-        "inventory_sha256": "a06f28b1a455042bb8216823e014c26694611fe4e76da52e3edd0b834750b2cb"
+        "inventory_sha256": "697bd498283b1f1288c9fe743fc8f48891184b098731ddb28090c82de86a4e3f"
       },
       "north_pacific": {
         "frames": [
-          {
-            "path": "data/reanalyzer/maps/ssta_global_2026-10-05.png",
-            "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d278.png",
-            "sha256": "175aff0c4108bbf55685b001a6051dd09d2b22c9c3bb77296db6608591823e36",
-            "width": 1100,
-            "height": 794,
-            "etag": "\"28b3d-65e5afd01c46d\"",
-            "last_modified": "Wed, 21 Oct 2026 14:59:05 GMT",
-            "retrieved_at": "2026-10-21T21:36:16.831948+00:00",
-            "status": "current",
-            "valid_date": "2026-10-05",
-            "error": null
-          },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-06.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d279.png",
@@ -21556,32 +21543,32 @@
             "last_modified": "Thu, 05 Nov 2026 14:59:04 GMT",
             "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
             "status": "current",
-            "valid_date": "2026-10-20"
+            "valid_date": "2026-10-20",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-21.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d294.png",
-            "sha256": "355ec583f21fa6620f3d5c9d29527a2215e9613f88fae5e5d2601c17a4255201",
+            "sha256": "1a3508d629994a0766020ba4f65849b0363bc1300fc37ebfcb56be64520b1f92",
             "width": 1100,
             "height": 794,
-            "etag": "\"293fa-65f88bcf573b3\"",
-            "last_modified": "Thu, 05 Nov 2026 14:59:10 GMT",
-            "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+            "etag": "\"28a9a-65f9cda8bd4c8\"",
+            "last_modified": "Fri, 06 Nov 2026 14:59:06 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
             "status": "current",
             "valid_date": "2026-10-21"
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-22.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d295.png",
-            "sha256": "37d13fca9fe4359a9b000e12b2ccab0cdd38ecd2ddefb913b5fb04213146b659",
+            "sha256": "0686fbec7cb03b841a15bfaeb68659f4b87ef4406bf74c45350fb7b6667de52a",
             "width": 1100,
             "height": 794,
-            "etag": "\"2932e-65eab70efa2b3\"",
-            "last_modified": "Sun, 25 Oct 2026 14:58:07 GMT",
-            "retrieved_at": "2026-10-25T21:36:14.902692+00:00",
+            "etag": "\"2932e-65f9cdae54f33\"",
+            "last_modified": "Fri, 06 Nov 2026 14:59:12 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
             "status": "current",
-            "valid_date": "2026-10-22",
-            "error": null
+            "valid_date": "2026-10-22"
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-10-23.png",
@@ -21710,38 +21697,51 @@
             "last_modified": "Thu, 05 Nov 2026 14:58:07 GMT",
             "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
             "status": "current",
-            "valid_date": "2026-11-01"
+            "valid_date": "2026-11-01",
+            "error": null
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-11-02.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d306.png",
-            "sha256": "096caf7e735150ea47875adbe610376b8a9cb75c2a8863c882f99fe14d74a028",
+            "sha256": "190f6bb3c7b5bafd57c971a8316f941328ee76f705a6701e61986fdcc3074f89",
             "width": 1100,
             "height": 794,
-            "etag": "\"28f95-65f88b979c863\"",
-            "last_modified": "Thu, 05 Nov 2026 14:58:12 GMT",
-            "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+            "etag": "\"28f95-65f9cd70c9f32\"",
+            "last_modified": "Fri, 06 Nov 2026 14:58:07 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
             "status": "current",
             "valid_date": "2026-11-02"
           },
           {
             "path": "data/reanalyzer/maps/ssta_global_2026-11-03.png",
             "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d307.png",
-            "sha256": "b036246729c6ce92babbd4992a45a9ad1aadd65d7e011a3738fb83dff1cbd4f4",
+            "sha256": "da0c3c3ecc86b4bab5c5f60898a10fd36d7a47bd4e9f199a5510da0116edfa3f",
             "width": 1100,
             "height": 794,
-            "etag": "\"28d44-65f88b9c26a46\"",
-            "last_modified": "Thu, 05 Nov 2026 14:58:16 GMT",
-            "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+            "etag": "\"28d44-65f9cd755dd56\"",
+            "last_modified": "Fri, 06 Nov 2026 14:58:12 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
             "status": "current",
             "valid_date": "2026-11-03"
+          },
+          {
+            "path": "data/reanalyzer/maps/ssta_global_2026-11-04.png",
+            "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d308.png",
+            "sha256": "c58434e84ae92809877f628876e6234f4fc9257fa7e5b670bb293e455cd0b13a",
+            "width": 1100,
+            "height": 794,
+            "etag": "\"28db3-65f9cd79f59fa\"",
+            "last_modified": "Fri, 06 Nov 2026 14:58:17 GMT",
+            "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
+            "status": "current",
+            "valid_date": "2026-11-04"
           }
         ],
         "status": "current",
         "source_page": "https://climatereanalyzer.org/clim/daily_maps/?wm_id=sstanom&dm_id=world-wt3",
         "baseline": "1991–2020",
         "units": "°C",
-        "inventory_sha256": "a06f28b1a455042bb8216823e014c26694611fe4e76da52e3edd0b834750b2cb",
+        "inventory_sha256": "697bd498283b1f1288c9fe743fc8f48891184b098731ddb28090c82de86a4e3f",
         "render_view": "north_pacific_crop",
         "view_note": "Display crop of the global source map; original projection retained. Not a separately computed regional field."
       }
@@ -21751,19 +21751,6 @@
         "domains": {
           "global": {
             "frames": [
-              {
-                "path": "data/reanalyzer/maps/sst_global_2026-10-05.png",
-                "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/world-wt3/2026/sst_world-wt3_2026_d278.png",
-                "sha256": "bedbe5ddf03191274c6808bc1ffc3bc5167affc1c5caa5199929e057b03a29be",
-                "width": 1100,
-                "height": 794,
-                "etag": "\"269f3-65e5afd01d40d\"",
-                "last_modified": "Wed, 21 Oct 2026 14:59:05 GMT",
-                "retrieved_at": "2026-10-21T21:36:16.831948+00:00",
-                "status": "current",
-                "valid_date": "2026-10-05",
-                "error": null
-              },
               {
                 "path": "data/reanalyzer/maps/sst_global_2026-10-06.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/world-wt3/2026/sst_world-wt3_2026_d279.png",
@@ -21956,32 +21943,32 @@
                 "last_modified": "Thu, 05 Nov 2026 14:59:05 GMT",
                 "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
                 "status": "current",
-                "valid_date": "2026-10-20"
+                "valid_date": "2026-10-20",
+                "error": null
               },
               {
                 "path": "data/reanalyzer/maps/sst_global_2026-10-21.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/world-wt3/2026/sst_world-wt3_2026_d294.png",
-                "sha256": "d4c8ecaef3ec04a7d09dc4736deedff90e7f1e8bfdd10d95d74d3c86a9b055ec",
+                "sha256": "b258ceb891810d7eb611095d91cdceee67f55cd7981c88a71dfea25f0b094691",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"27bd8-65f88bcf68cf3\"",
-                "last_modified": "Thu, 05 Nov 2026 14:59:10 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"26ed6-65f9cda8adac7\"",
+                "last_modified": "Fri, 06 Nov 2026 14:59:06 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-10-21"
               },
               {
                 "path": "data/reanalyzer/maps/sst_global_2026-10-22.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/world-wt3/2026/sst_world-wt3_2026_d295.png",
-                "sha256": "e5b284aec28f881a7ba4905c60e5556a426a05097eea868f1b6d8e37c41f9aee",
+                "sha256": "3c1bf7103782f8c4d29c6642df818b64121bb37361a07ce9f9ffcb74b2a5d51a",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"2758e-65eab70f1e4d4\"",
-                "last_modified": "Sun, 25 Oct 2026 14:58:07 GMT",
-                "retrieved_at": "2026-10-25T21:36:14.902692+00:00",
+                "etag": "\"2758e-65f9cdae3b8f2\"",
+                "last_modified": "Fri, 06 Nov 2026 14:59:12 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
-                "valid_date": "2026-10-22",
-                "error": null
+                "valid_date": "2026-10-22"
               },
               {
                 "path": "data/reanalyzer/maps/sst_global_2026-10-23.png",
@@ -22110,54 +22097,54 @@
                 "last_modified": "Thu, 05 Nov 2026 14:58:07 GMT",
                 "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
                 "status": "current",
-                "valid_date": "2026-11-01"
+                "valid_date": "2026-11-01",
+                "error": null
               },
               {
                 "path": "data/reanalyzer/maps/sst_global_2026-11-02.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/world-wt3/2026/sst_world-wt3_2026_d306.png",
-                "sha256": "c45e252fb978893fac9cbdd012176d9bd588d9e45216d3863b3dafeac54864bc",
+                "sha256": "80c62bc942b6692b0e02fcf1d2d28b5cc06ce826c2fcc5c44b22c66257aa2705",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"27a32-65f88b9797a42\"",
-                "last_modified": "Thu, 05 Nov 2026 14:58:12 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"27a32-65f9cd709efb1\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:07 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-11-02"
               },
               {
                 "path": "data/reanalyzer/maps/sst_global_2026-11-03.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/world-wt3/2026/sst_world-wt3_2026_d307.png",
-                "sha256": "ca51d36e24e05f20163be9cf0b80c6e0a1d5eaa717e03804fc2e80871b26898f",
+                "sha256": "b4201a2b172c606d2a189fb1b3490917d9b5596a5f9e668b39e5dfe077c35493",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"279b9-65f88b9c1fce6\"",
-                "last_modified": "Thu, 05 Nov 2026 14:58:16 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"279b9-65f9cd7541835\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:12 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-11-03"
+              },
+              {
+                "path": "data/reanalyzer/maps/sst_global_2026-11-04.png",
+                "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/world-wt3/2026/sst_world-wt3_2026_d308.png",
+                "sha256": "be8d06a1484f38db5873b84c0095870b5178b9eac302b9c5199a5b898bbbb739",
+                "width": 1100,
+                "height": 794,
+                "etag": "\"27335-65f9cd79f3aba\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:17 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
+                "status": "current",
+                "valid_date": "2026-11-04"
               }
             ],
             "status": "current",
             "source_page": "https://climatereanalyzer.org/clim/daily_maps/?wm_id=sst&dm_id=world-wt3",
             "baseline": null,
             "units": "°C",
-            "inventory_sha256": "a06f28b1a455042bb8216823e014c26694611fe4e76da52e3edd0b834750b2cb"
+            "inventory_sha256": "697bd498283b1f1288c9fe743fc8f48891184b098731ddb28090c82de86a4e3f"
           },
           "north_atlantic": {
             "frames": [
-              {
-                "path": "data/reanalyzer/maps/sst_north_atlantic_2026-10-05.png",
-                "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/natlan-ced/2026/sst_natlan-ced_2026_d278.png",
-                "sha256": "963a606e63caec340e8b393f0afa4090881adb93e025c1d3239f6796bb329f95",
-                "width": 1024,
-                "height": 789,
-                "etag": "\"16ae3-65e5afd8facd7\"",
-                "last_modified": "Wed, 21 Oct 2026 14:59:14 GMT",
-                "retrieved_at": "2026-10-21T21:36:16.831948+00:00",
-                "status": "current",
-                "valid_date": "2026-10-05",
-                "error": null
-              },
               {
                 "path": "data/reanalyzer/maps/sst_north_atlantic_2026-10-06.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/natlan-ced/2026/sst_natlan-ced_2026_d279.png",
@@ -22350,32 +22337,32 @@
                 "last_modified": "Thu, 05 Nov 2026 14:59:14 GMT",
                 "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
                 "status": "current",
-                "valid_date": "2026-10-20"
+                "valid_date": "2026-10-20",
+                "error": null
               },
               {
                 "path": "data/reanalyzer/maps/sst_north_atlantic_2026-10-21.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/natlan-ced/2026/sst_natlan-ced_2026_d294.png",
-                "sha256": "4591a01d00fa3909ea59577b224a21f1ad82ffe68dcf08bb5310f6f9731678e6",
+                "sha256": "397a5caacb05fb44ab8a29cdde9cb6e30d230bdf20962173e802705fedc222e4",
                 "width": 1024,
                 "height": 789,
-                "etag": "\"17f5c-65f88bd65c1e9\"",
-                "last_modified": "Thu, 05 Nov 2026 14:59:18 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"17a4e-65f9cdb1e222f\"",
+                "last_modified": "Fri, 06 Nov 2026 14:59:15 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-10-21"
               },
               {
                 "path": "data/reanalyzer/maps/sst_north_atlantic_2026-10-22.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/natlan-ced/2026/sst_natlan-ced_2026_d295.png",
-                "sha256": "8f8170ca8ca2acc8b5235b5252010eb4d2e9bca8b808cca844d1fd9f228dbf72",
+                "sha256": "e833e72ab5297c472db46e74ce81d461306988d5d1caa10233ec17569900f188",
                 "width": 1024,
                 "height": 789,
-                "etag": "\"18017-65eab71bff33a\"",
-                "last_modified": "Sun, 25 Oct 2026 14:58:21 GMT",
-                "retrieved_at": "2026-10-25T21:36:14.902692+00:00",
+                "etag": "\"18017-65f9cdb56a701\"",
+                "last_modified": "Fri, 06 Nov 2026 14:59:19 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
-                "valid_date": "2026-10-22",
-                "error": null
+                "valid_date": "2026-10-22"
               },
               {
                 "path": "data/reanalyzer/maps/sst_north_atlantic_2026-10-23.png",
@@ -22504,54 +22491,54 @@
                 "last_modified": "Thu, 05 Nov 2026 14:58:20 GMT",
                 "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
                 "status": "current",
-                "valid_date": "2026-11-01"
+                "valid_date": "2026-11-01",
+                "error": null
               },
               {
                 "path": "data/reanalyzer/maps/sst_north_atlantic_2026-11-02.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/natlan-ced/2026/sst_natlan-ced_2026_d306.png",
-                "sha256": "fa10ae924a384d60b2acf61356cd36963f293fff55f3233e4c450e87594db410",
+                "sha256": "ff0473816e86f3397892b5c36664fa3bccdee514db4fea2d125d8761e95f7809",
                 "width": 1024,
                 "height": 789,
-                "etag": "\"17c61-65f88ba25b856\"",
-                "last_modified": "Thu, 05 Nov 2026 14:58:23 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"17c61-65f9cd7d45494\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:20 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-11-02"
               },
               {
                 "path": "data/reanalyzer/maps/sst_north_atlantic_2026-11-03.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/natlan-ced/2026/sst_natlan-ced_2026_d307.png",
-                "sha256": "4e0c82f5356010bd5cb0abac7e0a106cfc1db39d59f624fc17c33e7a2627b5cd",
+                "sha256": "48182b969c9fef3ff9a5654d1bc4848a8058bc5154d2ee8d7c4c8e53773da85a",
                 "width": 1024,
                 "height": 789,
-                "etag": "\"17a4d-65f88ba5246ab\"",
-                "last_modified": "Thu, 05 Nov 2026 14:58:26 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"17a4d-65f9cd801216a\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:23 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-11-03"
+              },
+              {
+                "path": "data/reanalyzer/maps/sst_north_atlantic_2026-11-04.png",
+                "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/natlan-ced/2026/sst_natlan-ced_2026_d308.png",
+                "sha256": "5c654f3639d5f02dd21c8e1c0603d36083c93a2101d0647996d1c25eed11bc39",
+                "width": 1024,
+                "height": 789,
+                "etag": "\"178f8-65f9cd82e9a20\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:26 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
+                "status": "current",
+                "valid_date": "2026-11-04"
               }
             ],
             "status": "current",
             "source_page": "https://climatereanalyzer.org/clim/daily_maps/?wm_id=sst&dm_id=natlan-ced",
             "baseline": null,
             "units": "°C",
-            "inventory_sha256": "a06f28b1a455042bb8216823e014c26694611fe4e76da52e3edd0b834750b2cb"
+            "inventory_sha256": "697bd498283b1f1288c9fe743fc8f48891184b098731ddb28090c82de86a4e3f"
           },
           "north_pacific": {
             "frames": [
-              {
-                "path": "data/reanalyzer/maps/sst_global_2026-10-05.png",
-                "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/world-wt3/2026/sst_world-wt3_2026_d278.png",
-                "sha256": "bedbe5ddf03191274c6808bc1ffc3bc5167affc1c5caa5199929e057b03a29be",
-                "width": 1100,
-                "height": 794,
-                "etag": "\"269f3-65e5afd01d40d\"",
-                "last_modified": "Wed, 21 Oct 2026 14:59:05 GMT",
-                "retrieved_at": "2026-10-21T21:36:16.831948+00:00",
-                "status": "current",
-                "valid_date": "2026-10-05",
-                "error": null
-              },
               {
                 "path": "data/reanalyzer/maps/sst_global_2026-10-06.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/world-wt3/2026/sst_world-wt3_2026_d279.png",
@@ -22744,32 +22731,32 @@
                 "last_modified": "Thu, 05 Nov 2026 14:59:05 GMT",
                 "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
                 "status": "current",
-                "valid_date": "2026-10-20"
+                "valid_date": "2026-10-20",
+                "error": null
               },
               {
                 "path": "data/reanalyzer/maps/sst_global_2026-10-21.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/world-wt3/2026/sst_world-wt3_2026_d294.png",
-                "sha256": "d4c8ecaef3ec04a7d09dc4736deedff90e7f1e8bfdd10d95d74d3c86a9b055ec",
+                "sha256": "b258ceb891810d7eb611095d91cdceee67f55cd7981c88a71dfea25f0b094691",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"27bd8-65f88bcf68cf3\"",
-                "last_modified": "Thu, 05 Nov 2026 14:59:10 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"26ed6-65f9cda8adac7\"",
+                "last_modified": "Fri, 06 Nov 2026 14:59:06 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-10-21"
               },
               {
                 "path": "data/reanalyzer/maps/sst_global_2026-10-22.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/world-wt3/2026/sst_world-wt3_2026_d295.png",
-                "sha256": "e5b284aec28f881a7ba4905c60e5556a426a05097eea868f1b6d8e37c41f9aee",
+                "sha256": "3c1bf7103782f8c4d29c6642df818b64121bb37361a07ce9f9ffcb74b2a5d51a",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"2758e-65eab70f1e4d4\"",
-                "last_modified": "Sun, 25 Oct 2026 14:58:07 GMT",
-                "retrieved_at": "2026-10-25T21:36:14.902692+00:00",
+                "etag": "\"2758e-65f9cdae3b8f2\"",
+                "last_modified": "Fri, 06 Nov 2026 14:59:12 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
-                "valid_date": "2026-10-22",
-                "error": null
+                "valid_date": "2026-10-22"
               },
               {
                 "path": "data/reanalyzer/maps/sst_global_2026-10-23.png",
@@ -22898,38 +22885,51 @@
                 "last_modified": "Thu, 05 Nov 2026 14:58:07 GMT",
                 "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
                 "status": "current",
-                "valid_date": "2026-11-01"
+                "valid_date": "2026-11-01",
+                "error": null
               },
               {
                 "path": "data/reanalyzer/maps/sst_global_2026-11-02.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/world-wt3/2026/sst_world-wt3_2026_d306.png",
-                "sha256": "c45e252fb978893fac9cbdd012176d9bd588d9e45216d3863b3dafeac54864bc",
+                "sha256": "80c62bc942b6692b0e02fcf1d2d28b5cc06ce826c2fcc5c44b22c66257aa2705",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"27a32-65f88b9797a42\"",
-                "last_modified": "Thu, 05 Nov 2026 14:58:12 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"27a32-65f9cd709efb1\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:07 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-11-02"
               },
               {
                 "path": "data/reanalyzer/maps/sst_global_2026-11-03.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/world-wt3/2026/sst_world-wt3_2026_d307.png",
-                "sha256": "ca51d36e24e05f20163be9cf0b80c6e0a1d5eaa717e03804fc2e80871b26898f",
+                "sha256": "b4201a2b172c606d2a189fb1b3490917d9b5596a5f9e668b39e5dfe077c35493",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"279b9-65f88b9c1fce6\"",
-                "last_modified": "Thu, 05 Nov 2026 14:58:16 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"279b9-65f9cd7541835\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:12 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-11-03"
+              },
+              {
+                "path": "data/reanalyzer/maps/sst_global_2026-11-04.png",
+                "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sst/world-wt3/2026/sst_world-wt3_2026_d308.png",
+                "sha256": "be8d06a1484f38db5873b84c0095870b5178b9eac302b9c5199a5b898bbbb739",
+                "width": 1100,
+                "height": 794,
+                "etag": "\"27335-65f9cd79f3aba\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:17 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
+                "status": "current",
+                "valid_date": "2026-11-04"
               }
             ],
             "status": "current",
             "source_page": "https://climatereanalyzer.org/clim/daily_maps/?wm_id=sst&dm_id=world-wt3",
             "baseline": null,
             "units": "°C",
-            "inventory_sha256": "a06f28b1a455042bb8216823e014c26694611fe4e76da52e3edd0b834750b2cb",
+            "inventory_sha256": "697bd498283b1f1288c9fe743fc8f48891184b098731ddb28090c82de86a4e3f",
             "render_view": "north_pacific_crop",
             "view_note": "Display crop of the global source map; original projection retained. Not a separately computed regional field."
           }
@@ -22939,19 +22939,6 @@
         "domains": {
           "global": {
             "frames": [
-              {
-                "path": "data/reanalyzer/maps/ssta_global_2026-10-05.png",
-                "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d278.png",
-                "sha256": "175aff0c4108bbf55685b001a6051dd09d2b22c9c3bb77296db6608591823e36",
-                "width": 1100,
-                "height": 794,
-                "etag": "\"28b3d-65e5afd01c46d\"",
-                "last_modified": "Wed, 21 Oct 2026 14:59:05 GMT",
-                "retrieved_at": "2026-10-21T21:36:16.831948+00:00",
-                "status": "current",
-                "valid_date": "2026-10-05",
-                "error": null
-              },
               {
                 "path": "data/reanalyzer/maps/ssta_global_2026-10-06.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d279.png",
@@ -23144,32 +23131,32 @@
                 "last_modified": "Thu, 05 Nov 2026 14:59:04 GMT",
                 "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
                 "status": "current",
-                "valid_date": "2026-10-20"
+                "valid_date": "2026-10-20",
+                "error": null
               },
               {
                 "path": "data/reanalyzer/maps/ssta_global_2026-10-21.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d294.png",
-                "sha256": "355ec583f21fa6620f3d5c9d29527a2215e9613f88fae5e5d2601c17a4255201",
+                "sha256": "1a3508d629994a0766020ba4f65849b0363bc1300fc37ebfcb56be64520b1f92",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"293fa-65f88bcf573b3\"",
-                "last_modified": "Thu, 05 Nov 2026 14:59:10 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"28a9a-65f9cda8bd4c8\"",
+                "last_modified": "Fri, 06 Nov 2026 14:59:06 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-10-21"
               },
               {
                 "path": "data/reanalyzer/maps/ssta_global_2026-10-22.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d295.png",
-                "sha256": "37d13fca9fe4359a9b000e12b2ccab0cdd38ecd2ddefb913b5fb04213146b659",
+                "sha256": "0686fbec7cb03b841a15bfaeb68659f4b87ef4406bf74c45350fb7b6667de52a",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"2932e-65eab70efa2b3\"",
-                "last_modified": "Sun, 25 Oct 2026 14:58:07 GMT",
-                "retrieved_at": "2026-10-25T21:36:14.902692+00:00",
+                "etag": "\"2932e-65f9cdae54f33\"",
+                "last_modified": "Fri, 06 Nov 2026 14:59:12 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
-                "valid_date": "2026-10-22",
-                "error": null
+                "valid_date": "2026-10-22"
               },
               {
                 "path": "data/reanalyzer/maps/ssta_global_2026-10-23.png",
@@ -23298,54 +23285,54 @@
                 "last_modified": "Thu, 05 Nov 2026 14:58:07 GMT",
                 "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
                 "status": "current",
-                "valid_date": "2026-11-01"
+                "valid_date": "2026-11-01",
+                "error": null
               },
               {
                 "path": "data/reanalyzer/maps/ssta_global_2026-11-02.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d306.png",
-                "sha256": "096caf7e735150ea47875adbe610376b8a9cb75c2a8863c882f99fe14d74a028",
+                "sha256": "190f6bb3c7b5bafd57c971a8316f941328ee76f705a6701e61986fdcc3074f89",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"28f95-65f88b979c863\"",
-                "last_modified": "Thu, 05 Nov 2026 14:58:12 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"28f95-65f9cd70c9f32\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:07 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-11-02"
               },
               {
                 "path": "data/reanalyzer/maps/ssta_global_2026-11-03.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d307.png",
-                "sha256": "b036246729c6ce92babbd4992a45a9ad1aadd65d7e011a3738fb83dff1cbd4f4",
+                "sha256": "da0c3c3ecc86b4bab5c5f60898a10fd36d7a47bd4e9f199a5510da0116edfa3f",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"28d44-65f88b9c26a46\"",
-                "last_modified": "Thu, 05 Nov 2026 14:58:16 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"28d44-65f9cd755dd56\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:12 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-11-03"
+              },
+              {
+                "path": "data/reanalyzer/maps/ssta_global_2026-11-04.png",
+                "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d308.png",
+                "sha256": "c58434e84ae92809877f628876e6234f4fc9257fa7e5b670bb293e455cd0b13a",
+                "width": 1100,
+                "height": 794,
+                "etag": "\"28db3-65f9cd79f59fa\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:17 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
+                "status": "current",
+                "valid_date": "2026-11-04"
               }
             ],
             "status": "current",
             "source_page": "https://climatereanalyzer.org/clim/daily_maps/?wm_id=sstanom&dm_id=world-wt3",
             "baseline": "1991–2020",
             "units": "°C",
-            "inventory_sha256": "a06f28b1a455042bb8216823e014c26694611fe4e76da52e3edd0b834750b2cb"
+            "inventory_sha256": "697bd498283b1f1288c9fe743fc8f48891184b098731ddb28090c82de86a4e3f"
           },
           "north_atlantic": {
             "frames": [
-              {
-                "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-05.png",
-                "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/natlan-ced/2026/sstanom_natlan-ced_2026_d278.png",
-                "sha256": "6e9a44e565aeeeaadbd46b3c723c40bb4d8da30e065c3b48c09fde0b203cf738",
-                "width": 1024,
-                "height": 788,
-                "etag": "\"174ed-65e5afd8e83f7\"",
-                "last_modified": "Wed, 21 Oct 2026 14:59:14 GMT",
-                "retrieved_at": "2026-10-21T21:36:16.831948+00:00",
-                "status": "current",
-                "valid_date": "2026-10-05",
-                "error": null
-              },
               {
                 "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-06.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/natlan-ced/2026/sstanom_natlan-ced_2026_d279.png",
@@ -23538,32 +23525,32 @@
                 "last_modified": "Thu, 05 Nov 2026 14:59:14 GMT",
                 "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
                 "status": "current",
-                "valid_date": "2026-10-20"
+                "valid_date": "2026-10-20",
+                "error": null
               },
               {
                 "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-21.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/natlan-ced/2026/sstanom_natlan-ced_2026_d294.png",
-                "sha256": "0e53d8a5863b86468d343c25d023520a376d6e08c8ad6e0ca7032b076e14087e",
+                "sha256": "d8cbdfd0e42b7aaa3edf45e81a8fad54227058224e58ac5b3e88b140a9a19f95",
                 "width": 1024,
                 "height": 788,
-                "etag": "\"186fb-65f88bd6544e9\"",
-                "last_modified": "Thu, 05 Nov 2026 14:59:17 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"186fd-65f9cdb1e704f\"",
+                "last_modified": "Fri, 06 Nov 2026 14:59:16 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-10-21"
               },
               {
                 "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-22.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/natlan-ced/2026/sstanom_natlan-ced_2026_d295.png",
-                "sha256": "6986d2627621c2b99fdf4f2f20e78f2555f0bd96dea694fbc9a1832df4e2f1c6",
+                "sha256": "814717811ec133052e2ba3905fd3aff1fa1dc296abb0604f70efe6156f702760",
                 "width": 1024,
                 "height": 788,
-                "etag": "\"18836-65eab71bf957a\"",
-                "last_modified": "Sun, 25 Oct 2026 14:58:21 GMT",
-                "retrieved_at": "2026-10-25T21:36:14.902692+00:00",
+                "etag": "\"18836-65f9cdb569760\"",
+                "last_modified": "Fri, 06 Nov 2026 14:59:19 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
-                "valid_date": "2026-10-22",
-                "error": null
+                "valid_date": "2026-10-22"
               },
               {
                 "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-10-23.png",
@@ -23692,54 +23679,54 @@
                 "last_modified": "Thu, 05 Nov 2026 14:58:20 GMT",
                 "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
                 "status": "current",
-                "valid_date": "2026-11-01"
+                "valid_date": "2026-11-01",
+                "error": null
               },
               {
                 "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-11-02.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/natlan-ced/2026/sstanom_natlan-ced_2026_d306.png",
-                "sha256": "06e3388fe3fbe76e4e39cc3c9e30f1e9b61141fc1665d8dcbbee620229d90120",
+                "sha256": "6a48eb42b14120bb65058af41e10f54d86dbb037016be31cc7732a17f9d1bb3d",
                 "width": 1024,
                 "height": 788,
-                "etag": "\"18ceb-65f88ba252bb6\"",
-                "last_modified": "Thu, 05 Nov 2026 14:58:23 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"18ceb-65f9cd7d59cb4\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:20 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-11-02"
               },
               {
                 "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-11-03.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/natlan-ced/2026/sstanom_natlan-ced_2026_d307.png",
-                "sha256": "ae30a57b63479a811a32dfe912f35893e78736cc89d0f0985d530f71ee7da801",
+                "sha256": "50bb12e316499f689b210f2ee95c8bed55a66be418651ee1f009e1885cdd6188",
                 "width": 1024,
                 "height": 788,
-                "etag": "\"18e6c-65f88ba52a46c\"",
-                "last_modified": "Thu, 05 Nov 2026 14:58:26 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"18e6c-65f9cd802c74a\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:23 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-11-03"
+              },
+              {
+                "path": "data/reanalyzer/maps/ssta_north_atlantic_2026-11-04.png",
+                "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/natlan-ced/2026/sstanom_natlan-ced_2026_d308.png",
+                "sha256": "20911f1b176e9532e54b734044c3642708d8cc83250f254f2da3a85b4a22e86c",
+                "width": 1024,
+                "height": 788,
+                "etag": "\"18c5b-65f9cd8313a01\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:26 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
+                "status": "current",
+                "valid_date": "2026-11-04"
               }
             ],
             "status": "current",
             "source_page": "https://climatereanalyzer.org/clim/daily_maps/?wm_id=sstanom&dm_id=natlan-ced",
             "baseline": "1991–2020",
             "units": "°C",
-            "inventory_sha256": "a06f28b1a455042bb8216823e014c26694611fe4e76da52e3edd0b834750b2cb"
+            "inventory_sha256": "697bd498283b1f1288c9fe743fc8f48891184b098731ddb28090c82de86a4e3f"
           },
           "north_pacific": {
             "frames": [
-              {
-                "path": "data/reanalyzer/maps/ssta_global_2026-10-05.png",
-                "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d278.png",
-                "sha256": "175aff0c4108bbf55685b001a6051dd09d2b22c9c3bb77296db6608591823e36",
-                "width": 1100,
-                "height": 794,
-                "etag": "\"28b3d-65e5afd01c46d\"",
-                "last_modified": "Wed, 21 Oct 2026 14:59:05 GMT",
-                "retrieved_at": "2026-10-21T21:36:16.831948+00:00",
-                "status": "current",
-                "valid_date": "2026-10-05",
-                "error": null
-              },
               {
                 "path": "data/reanalyzer/maps/ssta_global_2026-10-06.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d279.png",
@@ -23932,32 +23919,32 @@
                 "last_modified": "Thu, 05 Nov 2026 14:59:04 GMT",
                 "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
                 "status": "current",
-                "valid_date": "2026-10-20"
+                "valid_date": "2026-10-20",
+                "error": null
               },
               {
                 "path": "data/reanalyzer/maps/ssta_global_2026-10-21.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d294.png",
-                "sha256": "355ec583f21fa6620f3d5c9d29527a2215e9613f88fae5e5d2601c17a4255201",
+                "sha256": "1a3508d629994a0766020ba4f65849b0363bc1300fc37ebfcb56be64520b1f92",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"293fa-65f88bcf573b3\"",
-                "last_modified": "Thu, 05 Nov 2026 14:59:10 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"28a9a-65f9cda8bd4c8\"",
+                "last_modified": "Fri, 06 Nov 2026 14:59:06 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-10-21"
               },
               {
                 "path": "data/reanalyzer/maps/ssta_global_2026-10-22.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d295.png",
-                "sha256": "37d13fca9fe4359a9b000e12b2ccab0cdd38ecd2ddefb913b5fb04213146b659",
+                "sha256": "0686fbec7cb03b841a15bfaeb68659f4b87ef4406bf74c45350fb7b6667de52a",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"2932e-65eab70efa2b3\"",
-                "last_modified": "Sun, 25 Oct 2026 14:58:07 GMT",
-                "retrieved_at": "2026-10-25T21:36:14.902692+00:00",
+                "etag": "\"2932e-65f9cdae54f33\"",
+                "last_modified": "Fri, 06 Nov 2026 14:59:12 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
-                "valid_date": "2026-10-22",
-                "error": null
+                "valid_date": "2026-10-22"
               },
               {
                 "path": "data/reanalyzer/maps/ssta_global_2026-10-23.png",
@@ -24086,38 +24073,51 @@
                 "last_modified": "Thu, 05 Nov 2026 14:58:07 GMT",
                 "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
                 "status": "current",
-                "valid_date": "2026-11-01"
+                "valid_date": "2026-11-01",
+                "error": null
               },
               {
                 "path": "data/reanalyzer/maps/ssta_global_2026-11-02.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d306.png",
-                "sha256": "096caf7e735150ea47875adbe610376b8a9cb75c2a8863c882f99fe14d74a028",
+                "sha256": "190f6bb3c7b5bafd57c971a8316f941328ee76f705a6701e61986fdcc3074f89",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"28f95-65f88b979c863\"",
-                "last_modified": "Thu, 05 Nov 2026 14:58:12 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"28f95-65f9cd70c9f32\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:07 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-11-02"
               },
               {
                 "path": "data/reanalyzer/maps/ssta_global_2026-11-03.png",
                 "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d307.png",
-                "sha256": "b036246729c6ce92babbd4992a45a9ad1aadd65d7e011a3738fb83dff1cbd4f4",
+                "sha256": "da0c3c3ecc86b4bab5c5f60898a10fd36d7a47bd4e9f199a5510da0116edfa3f",
                 "width": 1100,
                 "height": 794,
-                "etag": "\"28d44-65f88b9c26a46\"",
-                "last_modified": "Thu, 05 Nov 2026 14:58:16 GMT",
-                "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+                "etag": "\"28d44-65f9cd755dd56\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:12 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
                 "status": "current",
                 "valid_date": "2026-11-03"
+              },
+              {
+                "path": "data/reanalyzer/maps/ssta_global_2026-11-04.png",
+                "source_url": "https://climatereanalyzer.org/clim/daily_maps/maps/sstanom_1991-2020/world-wt3/2026/sstanom_world-wt3_2026_d308.png",
+                "sha256": "c58434e84ae92809877f628876e6234f4fc9257fa7e5b670bb293e455cd0b13a",
+                "width": 1100,
+                "height": 794,
+                "etag": "\"28db3-65f9cd79f59fa\"",
+                "last_modified": "Fri, 06 Nov 2026 14:58:17 GMT",
+                "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
+                "status": "current",
+                "valid_date": "2026-11-04"
               }
             ],
             "status": "current",
             "source_page": "https://climatereanalyzer.org/clim/daily_maps/?wm_id=sstanom&dm_id=world-wt3",
             "baseline": "1991–2020",
             "units": "°C",
-            "inventory_sha256": "a06f28b1a455042bb8216823e014c26694611fe4e76da52e3edd0b834750b2cb",
+            "inventory_sha256": "697bd498283b1f1288c9fe743fc8f48891184b098731ddb28090c82de86a4e3f",
             "render_view": "north_pacific_crop",
             "view_note": "Display crop of the global source map; original projection retained. Not a separately computed regional field."
           }
@@ -24137,12 +24137,12 @@
         "source_page": "https://climatereanalyzer.org/wx/todays-weather/?var_id=pwtr",
         "path": "data/reanalyzer/maps/gfs_global_pwtr.png",
         "source_url": "https://climatereanalyzer.org/wx/todays-weather/maps/gfs_world-wt_pwtr_d1.png",
-        "sha256": "420786b9d58ac76d8605dd9339738d1e57550bb6a054bba36588191adb41dd00",
+        "sha256": "809cc46d3a0959e2976b199cc234188a39eb27053748d4825abe55ad39e55d05",
         "width": 1100,
         "height": 795,
-        "etag": "\"28bbf-65f80a5f84fb2\"",
-        "last_modified": "Thu, 05 Nov 2026 05:20:05 GMT",
-        "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+        "etag": "\"2a0b3-65f94c3c53969\"",
+        "last_modified": "Fri, 06 Nov 2026 05:20:04 GMT",
+        "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
         "status": "current"
       },
       {
@@ -24155,12 +24155,12 @@
         "source_page": "https://climatereanalyzer.org/wx/todays-weather/?var_id=pwtr-anomsd",
         "path": "data/reanalyzer/maps/gfs_global_pwtr-anomsd.png",
         "source_url": "https://climatereanalyzer.org/wx/todays-weather/maps/gfs_world-wt_pwtr-anomsd_d1.png",
-        "sha256": "527b45171afc48a2c9022c89f71ee58dbc142c52823a80779b6a2932405bea4b",
+        "sha256": "3092b0d7329ee36446fd0e939bf701af3d342eae70c1e6d3901065fc53f76cbe",
         "width": 1100,
         "height": 796,
-        "etag": "\"238f9-65f80ab6b961d\"",
-        "last_modified": "Thu, 05 Nov 2026 05:21:36 GMT",
-        "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+        "etag": "\"22ab0-65f94c97d68d7\"",
+        "last_modified": "Fri, 06 Nov 2026 05:21:40 GMT",
+        "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
         "status": "current"
       },
       {
@@ -24173,12 +24173,12 @@
         "source_page": "https://climatereanalyzer.org/wx/todays-weather/?var_id=gph500-anomsd",
         "path": "data/reanalyzer/maps/gfs_global_gph500-anomsd.png",
         "source_url": "https://climatereanalyzer.org/wx/todays-weather/maps/gfs_world-wt_gph500-anomsd_d1.png",
-        "sha256": "0935ae29c2e97c398d3afb79185c2834e98221c22794e247fd9bc75d2933efa2",
+        "sha256": "1461c93bd111fa634bb8f597ea7efcda392d7bb248398b14ff2bbb606410fd3a",
         "width": 1100,
         "height": 796,
-        "etag": "\"21d37-65f80b94ca783\"",
-        "last_modified": "Thu, 05 Nov 2026 05:25:29 GMT",
-        "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+        "etag": "\"2215a-65f94d980234c\"",
+        "last_modified": "Fri, 06 Nov 2026 05:26:09 GMT",
+        "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
         "status": "current"
       },
       {
@@ -24191,12 +24191,12 @@
         "source_page": "https://climatereanalyzer.org/wx/todays-weather/?var_id=ws250-mslp",
         "path": "data/reanalyzer/maps/gfs_global_ws250-mslp.png",
         "source_url": "https://climatereanalyzer.org/wx/todays-weather/maps/gfs_world-wt_ws250-mslp_d1.png",
-        "sha256": "110bd00b6c5d3717359df66c19c16f842952b43a67b9729ea14e2134a6edf514",
+        "sha256": "dd29e20999229c2b4733263e6a360f4bd7b70d3cea57dd670c0aa9364e32927c",
         "width": 1100,
         "height": 796,
-        "etag": "\"39621-65f80bce53144\"",
-        "last_modified": "Thu, 05 Nov 2026 05:26:29 GMT",
-        "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+        "etag": "\"3b097-65f94dd18bd18\"",
+        "last_modified": "Fri, 06 Nov 2026 05:27:09 GMT",
+        "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
         "status": "current"
       },
       {
@@ -24205,19 +24205,19 @@
         "native_domain": "na-lc",
         "product_kind": "forecast_snapshot",
         "alignment_policy": "common-regional-f000-v1",
-        "path": "data/reanalyzer/maps/gfs_north_america_pwtr_438eac55c8b6bc2e.png",
-        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-05-12z/na-lc/pwtr/gfs_na-lc_pwtr_2026110512_000.png",
+        "path": "data/reanalyzer/maps/gfs_north_america_pwtr_446c844ba7700cac.png",
+        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-06-12z/na-lc/pwtr/gfs_na-lc_pwtr_2026110612_000.png",
         "source_page": "https://climatereanalyzer.org/wx/fcst/?mdl_id=gfs&dm_id=na-lc&wm_id=pwtr",
-        "sha256": "438eac55c8b6bc2e12934a894454b6fca75d313df3a25de056601db91038835a",
+        "sha256": "446c844ba7700caceb2fa27dba2563282cf7842b5aa653482084f52da6cd68be",
         "width": 1024,
         "height": 829,
-        "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+        "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
         "status": "current",
-        "initialization_time": "2026-11-05T12:00:00+00:00",
-        "valid_time": "2026-11-05T12:00:00+00:00",
+        "initialization_time": "2026-11-06T12:00:00+00:00",
+        "valid_time": "2026-11-06T12:00:00+00:00",
         "lead_hours": 0,
-        "inventory_sha256": "f86474205339d1b63187385d40440bb6ff88e61a92cc8a790a92395dab1b0ef7",
-        "cycle_inventory_sha256": "3ba5b32160b4b697ed6c8120f2b5a5e215f0212706b30d2ec01ca31715508c81",
+        "inventory_sha256": "3b2e01e1dd566051edb37dce3f2e9c0bc88103a7809b04b9232d94e8946009bc",
+        "cycle_inventory_sha256": "bacb613b3f79e950f1fdd8c08f29ee998141a7e4657bfff140819796fd7d41b3",
         "time_basis": "GFS initialization-time snapshot (f000), not a daily average."
       },
       {
@@ -24226,19 +24226,19 @@
         "native_domain": "na-lc",
         "product_kind": "forecast_snapshot",
         "alignment_policy": "common-regional-f000-v1",
-        "path": "data/reanalyzer/maps/gfs_north_america_pwtr-anomsd_3bdb834653602d18.png",
-        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-05-12z/na-lc/pwtr-anomsd/gfs_na-lc_pwtr-anomsd_2026110512_000.png",
+        "path": "data/reanalyzer/maps/gfs_north_america_pwtr-anomsd_4e208b9d1fa56bc8.png",
+        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-06-12z/na-lc/pwtr-anomsd/gfs_na-lc_pwtr-anomsd_2026110612_000.png",
         "source_page": "https://climatereanalyzer.org/wx/fcst/?mdl_id=gfs&dm_id=na-lc&wm_id=pwtr-anomsd",
-        "sha256": "3bdb834653602d18d1d26423e08796c09cadb26c77ade212449f00d3b51ce1aa",
+        "sha256": "4e208b9d1fa56bc82ff4c2abcba46ccbcc3866d296561ebd0508814df1bd979e",
         "width": 1024,
         "height": 830,
-        "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+        "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
         "status": "current",
-        "initialization_time": "2026-11-05T12:00:00+00:00",
-        "valid_time": "2026-11-05T12:00:00+00:00",
+        "initialization_time": "2026-11-06T12:00:00+00:00",
+        "valid_time": "2026-11-06T12:00:00+00:00",
         "lead_hours": 0,
-        "inventory_sha256": "bae90c6f1a7f983131636a773af2986e921bed5bdc040c98b8ceda7f18626a9b",
-        "cycle_inventory_sha256": "e7ed34c54a6779922b4380e894f3ee5fed033932724f9cc2f8ed174327b80d60",
+        "inventory_sha256": "97d2eec1b63f239f4a0b968134a789d856856855285eea4cf8a6afc21a9fe253",
+        "cycle_inventory_sha256": "c9476097b5c2ebf4fd8292c64e9082d440f00f4a78dd157f6d1890f601cd93cb",
         "time_basis": "GFS initialization-time snapshot (f000), not a daily average."
       },
       {
@@ -24247,19 +24247,19 @@
         "native_domain": "na-lc",
         "product_kind": "forecast_snapshot",
         "alignment_policy": "common-regional-f000-v1",
-        "path": "data/reanalyzer/maps/gfs_north_america_gph500-anomsd_bdf22c5116bcf001.png",
-        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-05-12z/na-lc/gph500-anomsd/gfs_na-lc_gph500-anomsd_2026110512_000.png",
+        "path": "data/reanalyzer/maps/gfs_north_america_gph500-anomsd_95c68c67e7a865c7.png",
+        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-06-12z/na-lc/gph500-anomsd/gfs_na-lc_gph500-anomsd_2026110612_000.png",
         "source_page": "https://climatereanalyzer.org/wx/fcst/?mdl_id=gfs&dm_id=na-lc&wm_id=gph500-anomsd",
-        "sha256": "bdf22c5116bcf001729c265457db36b2d74d706105d1a06b6a54d3386aa4af2f",
+        "sha256": "95c68c67e7a865c7e1069ecfe1729d5bad31857f92fe5865a5888ba6dcba3123",
         "width": 1024,
         "height": 830,
-        "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+        "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
         "status": "current",
-        "initialization_time": "2026-11-05T12:00:00+00:00",
-        "valid_time": "2026-11-05T12:00:00+00:00",
+        "initialization_time": "2026-11-06T12:00:00+00:00",
+        "valid_time": "2026-11-06T12:00:00+00:00",
         "lead_hours": 0,
-        "inventory_sha256": "3247e270cf41b94bce7ef5b668b8152c91c915a234f575c9f8bc32b9f43bd265",
-        "cycle_inventory_sha256": "dc2ebd5bfdd890c4f960dc3bade548cd4555c1cbf2c4a291ec42d1da9d2baf7b",
+        "inventory_sha256": "41d66cb90ab565ca4bf075b484bdc2fa8d428dd8be4ea2b6450e97667a0a2628",
+        "cycle_inventory_sha256": "1f332414c5f8c4ba151a6c38a5a9732e42637dbea78fb05c189b58db463a2d46",
         "time_basis": "GFS initialization-time snapshot (f000), not a daily average."
       },
       {
@@ -24268,19 +24268,19 @@
         "native_domain": "pacific-ced",
         "product_kind": "forecast_snapshot",
         "alignment_policy": "common-regional-f000-v1",
-        "path": "data/reanalyzer/maps/gfs_pacific_pwtr_5f6d38a6aa07a198.png",
-        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-05-12z/pacific-ced/pwtr/gfs_pacific-ced_pwtr_2026110512_000.png",
+        "path": "data/reanalyzer/maps/gfs_pacific_pwtr_6a561e26eb93a531.png",
+        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-06-12z/pacific-ced/pwtr/gfs_pacific-ced_pwtr_2026110612_000.png",
         "source_page": "https://climatereanalyzer.org/wx/fcst/?mdl_id=gfs&dm_id=pacific-ced&wm_id=pwtr",
-        "sha256": "5f6d38a6aa07a198164b646a3ba886ef6c852c4e878146b5b0b90ec3b0c7d796",
+        "sha256": "6a561e26eb93a531367e1af69f905e83d9f96f98ab85e35ae2a2ea3dcc845e59",
         "width": 1101,
         "height": 862,
-        "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+        "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
         "status": "current",
-        "initialization_time": "2026-11-05T12:00:00+00:00",
-        "valid_time": "2026-11-05T12:00:00+00:00",
+        "initialization_time": "2026-11-06T12:00:00+00:00",
+        "valid_time": "2026-11-06T12:00:00+00:00",
         "lead_hours": 0,
-        "inventory_sha256": "1796aa18924403be730da2b9af00900a8dc5272262028c9c787f4c39c60a17f7",
-        "cycle_inventory_sha256": "7498b9a7b3db908e30f3e029218cc51e2002e65469bc765445301a01e6814181",
+        "inventory_sha256": "d6e34210f8a36cfa32f58e689bf6f6cdb64ec78d2eac63225367da501af53a16",
+        "cycle_inventory_sha256": "5f96be22ec32b873cc4ea1b29d9dbf04230e2476ec0119bf01e21a43841a0597",
         "time_basis": "GFS initialization-time snapshot (f000), not a daily average."
       },
       {
@@ -24289,19 +24289,19 @@
         "native_domain": "pacific-ced",
         "product_kind": "forecast_snapshot",
         "alignment_policy": "common-regional-f000-v1",
-        "path": "data/reanalyzer/maps/gfs_pacific_pwtr-anomsd_9b9a1b645432bb20.png",
-        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-05-12z/pacific-ced/pwtr-anomsd/gfs_pacific-ced_pwtr-anomsd_2026110512_000.png",
+        "path": "data/reanalyzer/maps/gfs_pacific_pwtr-anomsd_f482d8845b6dd7fc.png",
+        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-06-12z/pacific-ced/pwtr-anomsd/gfs_pacific-ced_pwtr-anomsd_2026110612_000.png",
         "source_page": "https://climatereanalyzer.org/wx/fcst/?mdl_id=gfs&dm_id=pacific-ced&wm_id=pwtr-anomsd",
-        "sha256": "9b9a1b645432bb203fb232ced67a618c02a251a3c593d8539caa2438e517870c",
+        "sha256": "f482d8845b6dd7fc2ef25a0e448026fc77e3641ede6e1a2e4a5ef3c316382b86",
         "width": 1101,
         "height": 864,
-        "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+        "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
         "status": "current",
-        "initialization_time": "2026-11-05T12:00:00+00:00",
-        "valid_time": "2026-11-05T12:00:00+00:00",
+        "initialization_time": "2026-11-06T12:00:00+00:00",
+        "valid_time": "2026-11-06T12:00:00+00:00",
         "lead_hours": 0,
-        "inventory_sha256": "3debd51bef42a472cb3d4ef3a755f0ca046532996a200d178810a38cef582dd1",
-        "cycle_inventory_sha256": "476770d09b24feb0fbb47ac160a9a823ff4ceb666b019d0d0937783b7d732196",
+        "inventory_sha256": "b984eaeb3d9aebc443e7a2b689ca371e8eca797a023670844c84e5e53249b3e3",
+        "cycle_inventory_sha256": "b05f3c9e8ce5a89c5668fefdf846860e4339a41c5b6b71b1ba21f1c23ec2610e",
         "time_basis": "GFS initialization-time snapshot (f000), not a daily average."
       },
       {
@@ -24310,19 +24310,19 @@
         "native_domain": "pacific-ced",
         "product_kind": "forecast_snapshot",
         "alignment_policy": "common-regional-f000-v1",
-        "path": "data/reanalyzer/maps/gfs_pacific_gph500-anomsd_989377bf3f73621f.png",
-        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-05-12z/pacific-ced/gph500-anomsd/gfs_pacific-ced_gph500-anomsd_2026110512_000.png",
+        "path": "data/reanalyzer/maps/gfs_pacific_gph500-anomsd_ccda533741333dde.png",
+        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-06-12z/pacific-ced/gph500-anomsd/gfs_pacific-ced_gph500-anomsd_2026110612_000.png",
         "source_page": "https://climatereanalyzer.org/wx/fcst/?mdl_id=gfs&dm_id=pacific-ced&wm_id=gph500-anomsd",
-        "sha256": "989377bf3f73621f596429a71d577cb99cd198d71f17f21a6e63629fa2fcde3b",
+        "sha256": "ccda533741333dde7a69d4fed9d387ee5e97e6639e249cb4133763751686e5f9",
         "width": 1101,
         "height": 864,
-        "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+        "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
         "status": "current",
-        "initialization_time": "2026-11-05T12:00:00+00:00",
-        "valid_time": "2026-11-05T12:00:00+00:00",
+        "initialization_time": "2026-11-06T12:00:00+00:00",
+        "valid_time": "2026-11-06T12:00:00+00:00",
         "lead_hours": 0,
-        "inventory_sha256": "aef60fddf224a681fda5f24e234de769c3998da8b08de36de38415451010e9e7",
-        "cycle_inventory_sha256": "791bedb7250c1206c78f4463d07ebc85d75ef28b9b6431f3d3db822e357ee6d1",
+        "inventory_sha256": "3adb246af050842f5c5d81a5257bd4d9a0238f599abf85199ce520e9e6d7f518",
+        "cycle_inventory_sha256": "235fbee46f94f5732243d70e77ee151823297eb0e26237d454342905a5376ab0",
         "time_basis": "GFS initialization-time snapshot (f000), not a daily average."
       },
       {
@@ -24331,19 +24331,19 @@
         "native_domain": "natlan-ced",
         "product_kind": "forecast_snapshot",
         "alignment_policy": "common-regional-f000-v1",
-        "path": "data/reanalyzer/maps/gfs_atlantic_pwtr_a46f88e89590a0dc.png",
-        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-05-12z/natlan-ced/pwtr/gfs_natlan-ced_pwtr_2026110512_000.png",
+        "path": "data/reanalyzer/maps/gfs_atlantic_pwtr_56361b5f80c994db.png",
+        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-06-12z/natlan-ced/pwtr/gfs_natlan-ced_pwtr_2026110612_000.png",
         "source_page": "https://climatereanalyzer.org/wx/fcst/?mdl_id=gfs&dm_id=natlan-ced&wm_id=pwtr",
-        "sha256": "a46f88e89590a0dc2d19572f59011c37aaade8f0f938aa79ce299e7f04b14f8b",
+        "sha256": "56361b5f80c994dbba21a375f8ed5faf330d56f3f174c543e25a65e6a56f83cc",
         "width": 1024,
         "height": 788,
-        "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+        "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
         "status": "current",
-        "initialization_time": "2026-11-05T12:00:00+00:00",
-        "valid_time": "2026-11-05T12:00:00+00:00",
+        "initialization_time": "2026-11-06T12:00:00+00:00",
+        "valid_time": "2026-11-06T12:00:00+00:00",
         "lead_hours": 0,
-        "inventory_sha256": "76c1c63be9550e86945328dc6a33ad3febb01b956497c8ae96405c92c5dc9ab1",
-        "cycle_inventory_sha256": "3ba5b32160b4b697ed6c8120f2b5a5e215f0212706b30d2ec01ca31715508c81",
+        "inventory_sha256": "76a306f2def1c0244d28f66688196ea26c74de78f4cd03dfcb99ec105153f940",
+        "cycle_inventory_sha256": "bacb613b3f79e950f1fdd8c08f29ee998141a7e4657bfff140819796fd7d41b3",
         "time_basis": "GFS initialization-time snapshot (f000), not a daily average."
       },
       {
@@ -24352,19 +24352,19 @@
         "native_domain": "natlan-ced",
         "product_kind": "forecast_snapshot",
         "alignment_policy": "common-regional-f000-v1",
-        "path": "data/reanalyzer/maps/gfs_atlantic_pwtr-anomsd_d081420491e32baa.png",
-        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-05-12z/natlan-ced/pwtr-anomsd/gfs_natlan-ced_pwtr-anomsd_2026110512_000.png",
+        "path": "data/reanalyzer/maps/gfs_atlantic_pwtr-anomsd_b353a0d0f8324fe8.png",
+        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-06-12z/natlan-ced/pwtr-anomsd/gfs_natlan-ced_pwtr-anomsd_2026110612_000.png",
         "source_page": "https://climatereanalyzer.org/wx/fcst/?mdl_id=gfs&dm_id=natlan-ced&wm_id=pwtr-anomsd",
-        "sha256": "d081420491e32baad318c01db5cc72b089ca4865b1cc9bf5bc355eb8a337048a",
+        "sha256": "b353a0d0f8324fe8b13c3e1e3b6ae5f27e5dc7307f400e32f3410908f527b82d",
         "width": 1024,
         "height": 789,
-        "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+        "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
         "status": "current",
-        "initialization_time": "2026-11-05T12:00:00+00:00",
-        "valid_time": "2026-11-05T12:00:00+00:00",
+        "initialization_time": "2026-11-06T12:00:00+00:00",
+        "valid_time": "2026-11-06T12:00:00+00:00",
         "lead_hours": 0,
-        "inventory_sha256": "3720e02263e7e4444ab88b81267c0b789f31035aa811dee46d92c099b6510101",
-        "cycle_inventory_sha256": "c0945873791c598fbd2abcf0a8312c8770db73b8aaa4ce197d69828cae54aefb",
+        "inventory_sha256": "64b588998a3c7e7e53aecd398c2604846d3269fd309c3e9c63d1a8f1c11e8454",
+        "cycle_inventory_sha256": "0fbe3e00b0287c07fb101be6b3d7f307025142ccbf5a154f0cbac5c443fc47ca",
         "time_basis": "GFS initialization-time snapshot (f000), not a daily average."
       },
       {
@@ -24373,19 +24373,19 @@
         "native_domain": "natlan-ced",
         "product_kind": "forecast_snapshot",
         "alignment_policy": "common-regional-f000-v1",
-        "path": "data/reanalyzer/maps/gfs_atlantic_gph500-anomsd_49d70e29314f4f1c.png",
-        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-05-12z/natlan-ced/gph500-anomsd/gfs_natlan-ced_gph500-anomsd_2026110512_000.png",
+        "path": "data/reanalyzer/maps/gfs_atlantic_gph500-anomsd_3b7119ebe148a5d4.png",
+        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-06-12z/natlan-ced/gph500-anomsd/gfs_natlan-ced_gph500-anomsd_2026110612_000.png",
         "source_page": "https://climatereanalyzer.org/wx/fcst/?mdl_id=gfs&dm_id=natlan-ced&wm_id=gph500-anomsd",
-        "sha256": "49d70e29314f4f1c5db2665865a9041490303f9c73b0fdd09c655d7e92380536",
+        "sha256": "3b7119ebe148a5d4e79dff5b7f6222067d75e76e3defab392aa92300d21cfbab",
         "width": 1024,
         "height": 789,
-        "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+        "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
         "status": "current",
-        "initialization_time": "2026-11-05T12:00:00+00:00",
-        "valid_time": "2026-11-05T12:00:00+00:00",
+        "initialization_time": "2026-11-06T12:00:00+00:00",
+        "valid_time": "2026-11-06T12:00:00+00:00",
         "lead_hours": 0,
-        "inventory_sha256": "a540be765e1f0bb9c0afa00144179f9b8af4d8c7d9630f53f424f4ca1a66e8ae",
-        "cycle_inventory_sha256": "c0945873791c598fbd2abcf0a8312c8770db73b8aaa4ce197d69828cae54aefb",
+        "inventory_sha256": "74f5279711d5cab6e69a50e0823032283c1df3a365ee8e0b46575aac570050e0",
+        "cycle_inventory_sha256": "0fbe3e00b0287c07fb101be6b3d7f307025142ccbf5a154f0cbac5c443fc47ca",
         "time_basis": "GFS initialization-time snapshot (f000), not a daily average."
       },
       {
@@ -24406,18 +24406,18 @@
         "native_domain": "na-lc",
         "product_kind": "forecast_snapshot",
         "alignment_policy": "common-regional-f000-v1",
-        "path": "data/reanalyzer/maps/gfs_north_america_ws250-mslp_27dea054a9d3bc6e.png",
-        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-05-12z/na-lc/ws250-mslp/gfs_na-lc_ws250-mslp_2026110512_000.png",
+        "path": "data/reanalyzer/maps/gfs_north_america_ws250-mslp_570de256c0d29bc1.png",
+        "source_url": "https://climatereanalyzer.org/wx/fcst/maps/gfs/2026-11-06-12z/na-lc/ws250-mslp/gfs_na-lc_ws250-mslp_2026110612_000.png",
         "source_page": "https://climatereanalyzer.org/wx/fcst/?mdl_id=gfs&dm_id=na-lc&wm_id=ws250-mslp",
-        "sha256": "27dea054a9d3bc6eb3d909c196551b49df5e254b33bc49ffbb0bd3eeaf27be33",
+        "sha256": "570de256c0d29bc1f7f21371074831a24bf395efd5a3dd3b7c618e5821f87a03",
         "width": 1024,
         "height": 830,
-        "retrieved_at": "2026-11-05T21:37:32.546141+00:00",
+        "retrieved_at": "2026-11-06T21:36:39.910079+00:00",
         "status": "current",
-        "initialization_time": "2026-11-05T12:00:00+00:00",
-        "valid_time": "2026-11-05T12:00:00+00:00",
+        "initialization_time": "2026-11-06T12:00:00+00:00",
+        "valid_time": "2026-11-06T12:00:00+00:00",
         "lead_hours": 0,
-        "inventory_sha256": "faa240ef671ac77cd60729fb3135e5c424f9938db73e9accc9b7fb74136d9c63",
+        "inventory_sha256": "1a5e71a289f3fa16115f5e4992135c9f493e894a11ec197d69a6c54f4875537b",
         "cycle_inventory_sha256": null,
         "time_basis": "GFS initialization-time snapshot (f000), not a daily average."
       }
