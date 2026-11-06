@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-06T10:45:48.000117+00:00",
+  "generated_at": "2026-11-06T20:45:43.802463+00:00",
   "active_prediction": false,
   "scientific_role": "observed_ocean_context",
   "products": [
@@ -142,7 +142,7 @@
       "version": "SPoRT enhanced SST composite",
       "resolution_km": 2,
       "attempted_at": "2026-11-04T10:45:54.687622+00:00",
-      "status": "available",
+      "status": "stale",
       "image_path": "data/ocean/sport_ssta_atlantic.png",
       "image_url": "https://weather.ndc.nasa.gov/sport/dynamic/enhanced_sst/1800/west_atlantic/20261103_1800_West_Atlantic_sst_anomaly.png",
       "inventory_url": "https://weather.ndc.nasa.gov/cgi-bin/live-data/DynamicData.py?dataset=esst18&product=anomaly&location=west_atlantic&mode=nrt",
