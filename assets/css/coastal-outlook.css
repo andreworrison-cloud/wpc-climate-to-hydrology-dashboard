@@ -1,0 +1,8 @@
+/* Scoped coastal research card; existing dashboard layout is preserved. */
+.coastal-outlook .coastal-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:20px 0}
+.coastal-outlook .coastal-metrics>div{border:1px solid #377da4;border-radius:10px;padding:16px;background:rgba(20,100,150,.08)}
+.coastal-outlook .coastal-metrics h3{font-size:1rem;margin:0 0 8px}
+.coastal-outlook .coastal-metrics strong{font-size:1.8rem;color:inherit}
+.coastal-outlook .coastal-metrics p{font-size:.9rem;line-height:1.5}
+.coastal-outlook .coastal-result{border-left:4px solid #df9c29;padding-left:14px}
+@media(max-width:700px){.coastal-outlook .coastal-metrics{grid-template-columns:1fr}}
