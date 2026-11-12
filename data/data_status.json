@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-12T00:10:50Z",
+  "generated_at": "2026-11-12T18:10:48Z",
   "overall_status": "current",
   "datasets": [
     {
@@ -20,15 +20,15 @@
     {
       "name": "PNA",
       "status": "live",
-      "checked_at": "2026-11-11T18:12:51Z",
-      "message": "Live \u2014 2026-11-09: +1.501 \u03c3",
+      "checked_at": "2026-11-12T18:10:48Z",
+      "message": "Live \u2014 2026-11-10: +1.688 \u03c3",
       "source": "NOAA/CPC daily PNA index"
     },
     {
       "name": "NAO",
       "status": "live",
-      "checked_at": "2026-11-11T18:12:51Z",
-      "message": "Live \u2014 2026-11-09: -0.470 \u03c3",
+      "checked_at": "2026-11-12T18:10:48Z",
+      "message": "Live \u2014 2026-11-10: -0.854 \u03c3",
       "source": "NOAA/CPC daily NAO index"
     },
     {
