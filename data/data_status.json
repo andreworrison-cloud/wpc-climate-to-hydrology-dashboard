@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-12T18:10:48Z",
+  "generated_at": "2026-11-13T00:10:52Z",
   "overall_status": "current",
   "datasets": [
     {
@@ -13,8 +13,8 @@
     {
       "name": "MJO / RMM",
       "status": "live",
-      "checked_at": "2026-11-12T00:10:50Z",
-      "message": "Live \u2014 2026-11-10: phase 2, amplitude 2.97",
+      "checked_at": "2026-11-13T00:10:52Z",
+      "message": "Live \u2014 2026-11-11: phase 3, amplitude 2.59",
       "source": "Australian Bureau of Meteorology Wheeler-Hendon RMM"
     },
     {
