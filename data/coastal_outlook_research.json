@@ -1,0 +1,242 @@
+{
+  "analysis_date": "2026-11-11",
+  "status": "research_hindcast",
+  "active_forecast": false,
+  "archive": "October 1979\u2013April 2024; 45 cool seasons",
+  "test_winters": "2000\u20132024",
+  "target": "At least one archived qualifying coastal-cyclone signature date within the specified window",
+  "metrics": [
+    {
+      "window": "D1_7",
+      "n": 5130,
+      "positive_windows": 1737,
+      "observed_rate": 0.3385964912280702,
+      "mean_climate_probability": 0.3278007529880596,
+      "brier": 0.2207957765783826,
+      "seasonal_brier": 0.2240456126820376,
+      "brier_skill": 0.014505243217001,
+      "log_loss": 0.6351652113982371,
+      "seasonal_log_loss": 0.6407027635356274
+    },
+    {
+      "window": "D8_14",
+      "n": 4955,
+      "positive_windows": 1701,
+      "observed_rate": 0.3432896064581231,
+      "mean_climate_probability": 0.3329291700624039,
+      "brier": 0.2234849302408044,
+      "seasonal_brier": 0.2261719579316378,
+      "brier_skill": 0.011880463499571,
+      "log_loss": 0.6401933030935262,
+      "seasonal_log_loss": 0.6453836851426715
+    }
+  ],
+  "blocks": [
+    {
+      "window": "D1_7",
+      "test_block": "2000-2004",
+      "n": 1027,
+      "positive_windows": 362,
+      "observed_rate": 0.3524829600778968,
+      "mean_climate_probability": 0.3344827613305757,
+      "brier": 0.208538325676286,
+      "seasonal_brier": 0.2196958295692237,
+      "brier_skill": 0.0507861433456208,
+      "log_loss": 0.6041973634910164,
+      "seasonal_log_loss": 0.6276785532484221
+    },
+    {
+      "window": "D1_7",
+      "test_block": "2005-2009",
+      "n": 1024,
+      "positive_windows": 331,
+      "observed_rate": 0.3232421875,
+      "mean_climate_probability": 0.3286615919852079,
+      "brier": 0.2248967448512283,
+      "seasonal_brier": 0.2150641926481511,
+      "brier_skill": -0.0457191505568916,
+      "log_loss": 0.6464132689205564,
+      "seasonal_log_loss": 0.6199740278422188
+    },
+    {
+      "window": "D1_7",
+      "test_block": "2010-2014",
+      "n": 1026,
+      "positive_windows": 348,
+      "observed_rate": 0.3391812865497076,
+      "mean_climate_probability": 0.3262348849301334,
+      "brier": 0.2127934829288569,
+      "seasonal_brier": 0.2215990826129153,
+      "brier_skill": 0.039736625171142,
+      "log_loss": 0.6175650124069981,
+      "seasonal_log_loss": 0.636457330991873
+    },
+    {
+      "window": "D1_7",
+      "test_block": "2015-2019",
+      "n": 1026,
+      "positive_windows": 367,
+      "observed_rate": 0.3576998050682261,
+      "mean_climate_probability": 0.3274566153423029,
+      "brier": 0.2326924021450678,
+      "seasonal_brier": 0.2316068671723478,
+      "brier_skill": -0.0046869723077431,
+      "log_loss": 0.662271615426503,
+      "seasonal_log_loss": 0.6574154843202241
+    },
+    {
+      "window": "D1_7",
+      "test_block": "2020-2024",
+      "n": 1027,
+      "positive_windows": 329,
+      "observed_rate": 0.3203505355404089,
+      "mean_climate_probability": 0.3221685661829327,
+      "brier": 0.2250736986991748,
+      "seasonal_brier": 0.2322408357739759,
+      "brier_skill": 0.0308607960822893,
+      "log_loss": 0.645420910064129,
+      "seasonal_log_loss": 0.661940009475166
+    },
+    {
+      "window": "D8_14",
+      "test_block": "2000-2004",
+      "n": 992,
+      "positive_windows": 361,
+      "observed_rate": 0.3639112903225806,
+      "mean_climate_probability": 0.3347089195803914,
+      "brier": 0.2200625499935345,
+      "seasonal_brier": 0.2256988339163214,
+      "brier_skill": 0.0249725876956746,
+      "log_loss": 0.6330492814343074,
+      "seasonal_log_loss": 0.6417199649476062
+    },
+    {
+      "window": "D8_14",
+      "test_block": "2005-2009",
+      "n": 989,
+      "positive_windows": 323,
+      "observed_rate": 0.326592517694641,
+      "mean_climate_probability": 0.3309387352476683,
+      "brier": 0.2173603370049854,
+      "seasonal_brier": 0.2161960180451805,
+      "brier_skill": -0.0053854782818505,
+      "log_loss": 0.6247081764917025,
+      "seasonal_log_loss": 0.6220365529806597
+    },
+    {
+      "window": "D8_14",
+      "test_block": "2010-2014",
+      "n": 991,
+      "positive_windows": 344,
+      "observed_rate": 0.3471241170534813,
+      "mean_climate_probability": 0.3301779680814369,
+      "brier": 0.2148013574017993,
+      "seasonal_brier": 0.2262510948668258,
+      "brier_skill": 0.0506063295373925,
+      "log_loss": 0.6224603459325064,
+      "seasonal_log_loss": 0.6478038754888221
+    },
+    {
+      "window": "D8_14",
+      "test_block": "2015-2019",
+      "n": 991,
+      "positive_windows": 357,
+      "observed_rate": 0.3602421796165489,
+      "mean_climate_probability": 0.3406134164304212,
+      "brier": 0.2371543808768847,
+      "seasonal_brier": 0.2319717324955685,
+      "brier_skill": -0.0223417238193675,
+      "log_loss": 0.6684928253784861,
+      "seasonal_log_loss": 0.6575589006850117
+    },
+    {
+      "window": "D8_14",
+      "test_block": "2020-2024",
+      "n": 992,
+      "positive_windows": 316,
+      "observed_rate": 0.3185483870967742,
+      "mean_climate_probability": 0.3282057643389791,
+      "brier": 0.2280325300579569,
+      "seasonal_brier": 0.2307178674833249,
+      "brier_skill": 0.0116390527298977,
+      "log_loss": 0.6522197079900223,
+      "seasonal_log_loss": 0.6577432384755751
+    }
+  ],
+  "calibration": [
+    {
+      "window": "D1_7",
+      "probability_bin": "0.0-0.2",
+      "n": 788,
+      "mean_probability": 0.1521923587764606,
+      "observed_frequency": 0.2423857868020304
+    },
+    {
+      "window": "D1_7",
+      "probability_bin": "0.2-0.4",
+      "n": 2980,
+      "mean_probability": 0.3090588877257233,
+      "observed_frequency": 0.3214765100671141
+    },
+    {
+      "window": "D1_7",
+      "probability_bin": "0.4-0.6",
+      "n": 1301,
+      "mean_probability": 0.4634380011433353,
+      "observed_frequency": 0.420445810914681
+    },
+    {
+      "window": "D1_7",
+      "probability_bin": "0.6-0.8",
+      "n": 61,
+      "mean_probability": 0.6190485115206588,
+      "observed_frequency": 0.6721311475409836
+    },
+    {
+      "window": "D8_14",
+      "probability_bin": "0.0-0.2",
+      "n": 539,
+      "mean_probability": 0.1573616652356898,
+      "observed_frequency": 0.2337662337662337
+    },
+    {
+      "window": "D8_14",
+      "probability_bin": "0.2-0.4",
+      "n": 3199,
+      "mean_probability": 0.3138485556026739,
+      "observed_frequency": 0.3304157549234136
+    },
+    {
+      "window": "D8_14",
+      "probability_bin": "0.4-0.6",
+      "n": 1199,
+      "mean_probability": 0.4584299310444363,
+      "observed_frequency": 0.4195162635529608
+    },
+    {
+      "window": "D8_14",
+      "probability_bin": "0.6-0.8",
+      "n": 18,
+      "mean_probability": 0.6215046334411829,
+      "observed_frequency": 0.8333333333333334
+    }
+  ],
+  "uncertainty": [
+    {
+      "window": "D1_7",
+      "mean_brier_improvement": 0.0032498361036549,
+      "lower_2_5_percentile": -0.00254157854738,
+      "upper_97_5_percentile": 0.0079738129025969,
+      "scheme": "contiguous three-winter moving-block bootstrap",
+      "repetitions": 2000
+    },
+    {
+      "window": "D8_14",
+      "mean_brier_improvement": 0.0026870276908333,
+      "lower_2_5_percentile": -0.0018868354399517,
+      "upper_97_5_percentile": 0.0075423536931677,
+      "scheme": "contiguous three-winter moving-block bootstrap",
+      "repetitions": 2000
+    }
+  ]
+}

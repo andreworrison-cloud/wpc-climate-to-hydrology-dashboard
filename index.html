@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="assets/css/science.css?v=20261023-1" />
   <link rel="stylesheet" href="assets/css/presentation.css?v=20261028-1" />
   <link rel="stylesheet" href="assets/css/historical-maps.css?v=20261031-1" />
+  <link rel="stylesheet" href="assets/css/coastal-outlook.css?v=20261111-1">
 </head>
 <body>
   <a class="skip-link" href="#ocean">Skip to ocean viewer</a>
@@ -137,6 +138,25 @@
 <article id="atmospheric-context" class="panel cr-panel"><div class="section-kicker">02 / FORECAST MOISTURE &amp; CIRCULATION</div><h2>The atmospheric setting</h2><p class="panel-subtitle">NOAA/NCEP GFS · Climate Reanalyzer GFS regional snapshots and global daily maps</p><span class="badge forecast">FORECAST-BASED · NOT OBSERVATIONS</span>
 <div class="cr-toolbar"><label>View <select id="crAtmosDomain"><option value="north_america">North America centered</option><option value="pacific">Pacific centered</option><option value="atlantic">Atlantic centered</option><option value="global">Global</option></select></label><label>Field <select id="crAtmosVariable"><option value="pwtr-anomsd">Precipitable-water standardized anomaly</option><option value="pwtr">Precipitable water</option><option value="gph500-anomsd">500-hPa height standardized anomaly</option><option value="ws250-mslp">250-hPa jet / sea-level pressure</option></select></label></div>
 <div class="cr-image-wrap"><img id="crAtmosImage" hidden alt="GFS atmospheric context"></div><p id="crAtmosStatus" class="cr-meta" role="status">Loading forecast context…</p><p class="cr-note">North America, Pacific and Atlantic use native flat regional GFS maps at a common initialization and valid time (f000); these are model snapshots, not observations or daily averages. North America uses Lambert conformal geometry; the basin maps use latitude/longitude geometry. The three shared fields update together. The 250-hPa jet field is offered only for North America and Global. Global retains its daily average of eight three-hourly forecast times beginning at 00Z and is not directly time-equivalent to the regional snapshots. Anomaly reference: 1991–2020. Use the cycle and valid time below and the date printed on each map. Retrieval time is never treated as valid time. Moisture and circulation patterns do not establish a calibrated heavy-rainfall or flash-flood probability.</p><a class="cr-source" href="https://climatereanalyzer.org/wx/todays-weather/" target="_blank" rel="noopener">Climate Reanalyzer / University of Maine · NOAA/NCEP GFS · source methodology ↗</a></article>
+<article id="coastal-outlook" class="panel coastal-outlook" aria-labelledby="coastalTitle">
+<div class="panel-title-row"><div><div class="section-kicker">EAST COAST / COASTAL STORM RESEARCH</div>
+<h2 id="coastalTitle">Toward a climate-linked coastal-storm outlook</h2>
+<p class="panel-subtitle">45 cool seasons · October 1979–April 2024 · historical tests through winter 2024</p></div>
+<span class="badge research">RESEARCH HINDCAST</span></div>
+<p>Testing whether ENSO, MJO, PNA and NAO improve the probability of a coastal-cyclone signature occurring anywhere along the East Coast during a seven-day window.</p>
+<div class="coastal-metrics">
+<div><h3>Days 1–7</h3><strong>+1.5%</strong><p>Brier skill over seasonality<br>5,130 historical outlooks</p></div>
+<div><h3>Days 8–14</h3><strong>+1.2%</strong><p>Brier skill over seasonality<br>4,955 historical outlooks</p></div>
+<div><h3>Later-winter testing</h3><strong>25 winters</strong><p>Models fit on earlier winters<br>2000–2024 evaluated in order</p></div>
+</div>
+<p class="coastal-result">The average improvement is modest. Two of five test blocks lose skill in each window; uncertainty intervals include no improvement. Low predicted probabilities underforecast occurrence.</p>
+<details class="evidence-details"><summary>What this outlook target and test mean</summary>
+<p>The target is the presence of at least one qualifying archived coastal-cyclone signature on any date in the window. Multiple low centers on one date share the same yes/no outcome, accommodating secondary development without inflating this occurrence target. This measures occurrence, with storm severity and local impacts requiring separate targets.</p>
+<p>The archive contains 501 supported components on 489 source paths across 45 cool seasons. These are numerical detections within the source inventory; physical storm identities and census completeness still need independent evaluation. The original 38 reviewed primary cases are a subset of the research record.</p>
+<p>Fixed logistic models use seasonal harmonics plus RONI, RMM1/RMM2, PNA and NAO. Daily drivers are lagged two days; RONI uses the season centered two calendar months earlier. Training expands from 1980–1999 into five successive five-winter test blocks. Retrospective input revisions remain possible; historical publication vintages are unverified.</p>
+<p>Results describe historical tests of the current detection definition. No current coastal-storm forecast has been issued. Analysis: November 11, 2026.</p>
+<a href="data/coastal_outlook_research.json">Download numerical research results</a>
+</details></article>
 <article id="research-view" class="panel presentation-panel research-view"><div class="panel-title-row"><div><div class="section-kicker">03 / CLIMATE → PRECIPITATION RESEARCH</div><h2>The historical relationship atlas</h2><p class="panel-subtitle">2004–2025 · preserved Phase 4B / Phase 7B research</p></div><span id="researchBadge" class="science-status">RETROSPECTIVE ASSOCIATION</span></div><div class="presentation-controls research-controls"><label>Domain<select id="researchDomain"><option>West Coast</option><option>Southwest</option><option>Interior Mountain West</option><option>Northern Plains</option><option>Southern Plains</option><option selected>Southeast</option><option>Northeast</option><option>National CONUS</option></select></label><label>Anchor season<select id="researchSeason"><option>DJF</option><option>MAM</option><option>JJA</option><option>SON</option></select></label><label>Climate driver<select id="researchDriver"><option value="RONI">RONI / ENSO</option><option value="MJO">MJO phase space</option><option value="PNA">PNA</option><option value="NAO">NAO</option></select></label><label>Precipitation target<select id="researchTarget"><option value="AreaMeanExtreme_Any">Regional mean extremes</option><option value="AreaFrac25Extreme_Any">Extreme coverage of ≥25 mm</option></select></label><label id="researchLeadLabel" hidden>Response window<select id="researchLead"><option value="D0">Same ending day</option><option value="D1_7" selected>Days 1–7</option><option value="D8_14">Days 8–14</option><option value="D15_21">Days 15–21</option><option value="D22_28">Days 22–28</option></select></label><label id="researchPopulationLabel" hidden>MJO observations<select id="researchPopulation"><option value="ACTIVE_GE1">Active · amplitude ≥1</option><option value="ALL">All · includes weak states</option></select></label></div>
 <p class="research-definition"><strong>What counts as an extreme day?</strong> The selected daily precipitation metric is <strong>at or above its regional, seasonal 95th percentile</strong> in the <strong>1991–2020 reference</strong>. The atlas shows historical frequencies for 2004–2025.</p>
 <details id="researchDefinitions" class="evidence-details research-definitions">
@@ -192,6 +212,7 @@
   <script src="assets/js/section-navigation.js?v=20261028-1"></script>
 </body>
 </html>
+
 
 
 
