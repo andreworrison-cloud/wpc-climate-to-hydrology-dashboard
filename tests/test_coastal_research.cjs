@@ -22,7 +22,9 @@ rejected(x=>x.events[1].id=x.events[0].id);
 rejected(x=>x.events.find(e=>e.annotation==='scoped_positive').annotation='not_reviewed'); // first case has a documented region
 rejected(x=>x.comparisons[0].uncertainty_kind='confidence_interval');
 rejected(x=>x.comparisons[0].lower=Infinity);
-const html=fs.readFileSync('index.html','utf8');assert.equal((html.match(/id="coastal-storms"/g)||[]).length,1);
-assert(html.indexOf('assets/js/coastal-contract.js')<html.indexOf('assets/js/coastal.js'));
-assert(html.includes('href="#coastal-storms"'));
-console.log('Coastal research: inventory reconciliation, filtering, date precision, inactive outlook and invalid-input checks passed.');
+const html=fs.readFileSync('index.html','utf8');
+assert(!html.includes('id="coastal-storms"'));
+assert(!html.includes('href="#coastal-storms"'));
+assert(!html.includes('assets/js/coastal.js'));
+assert(!html.includes('assets/js/coastal-contract.js'));
+console.log('Coastal research archive checks passed; unfinished public section remains withdrawn.');

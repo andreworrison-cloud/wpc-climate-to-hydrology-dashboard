@@ -34,4 +34,4 @@ Then rerun `Actions -> Update climate data`.
 
 ## Coastal storm research
 
-The Coastal storms workbench presents the 1979–2024 reviewed occurrence archive and frozen combined-indicator timing evidence. It does not issue calibrated storm probabilities. See [data scope and qualification requirements](docs/COASTAL_RESEARCH.md).
+The unfinished coastal research section has been withdrawn from the public dashboard. Its implementation and dated research snapshot are retained for development. A replacement must explain all four indicators, the target, axes and uncertainty before publication. See [data scope and qualification requirements](docs/COASTAL_RESEARCH.md).

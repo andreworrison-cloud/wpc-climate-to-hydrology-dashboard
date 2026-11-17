@@ -1,4 +1,8 @@
-# Coastal storm research workbench
+# Coastal storm research workbench — withdrawn from public display
+
+**November 17, 2026 correction:** This interface was published before the scientific presentation was ready. Navigation, panel and assets have been disconnected from the public entry point. Retain the code and snapshot as development material; no public coastal relationship/threat panel is currently offered.
+
+Before any replacement publication, explain RONI, MJO, PNA and NAO individually and jointly; define the scientific question and target; distinguish inventory counts from climate effects; label every axis and unit; show uncertainty and source completeness. Review the proposed presentation with Andrew before publishing it. RONI main effects cancel in winter/month-conditioned timing models when constant within strata; this does not establish ENSO irrelevance. Added RONI/NAO terms did not establish a consistent improvement in the cited season-varying timing comparison; neither is scientifically excluded. No new model result is created by this withdrawal.
 
 This adds a read-only historical archive and combined-driver evidence to the existing Climate Dashboard. It introduces no new collector, scheduler, model fit or issued outlook. Its independent data contract rejects forecast activation, issued probabilities/times, uncertified census promotion, inconsistent case totals and date-precision errors.
 
