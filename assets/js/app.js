@@ -264,6 +264,8 @@ DashboardRefresh.register('observed drivers',[
   driverCards.replaceChildren(fragment);document.getElementById('dataHealth').replaceChildren(health);
   document.getElementById('lastUpdated').textContent=`Last updated: ${status.generated_at||'—'}`;
   const badge=document.getElementById('liveBadge');badge.textContent=status.overall_status==='current'?'DATA INTERFACES ONLINE':'CHECK DATA';badge.className=`badge ${status.overall_status==='current'?'live':'research'}`;
+  const alignment=window.ClimateObservation;
+  if(alignment)alignment.show(document.getElementById('observationAlignment'),alignment.snapshot(histories));
   displayedHistories=histories;renderObservedPatterns(histories,document.getElementById('observedHistoryWindow').value);
 });
 for(const id of ['mjoView','observedHistoryWindow'])document.getElementById(id).addEventListener('change',()=>{if(displayedHistories)renderObservedPatterns(displayedHistories,document.getElementById('observedHistoryWindow').value);});

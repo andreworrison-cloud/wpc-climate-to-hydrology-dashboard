@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="assets/css/science.css?v=20261023-1" />
   <link rel="stylesheet" href="assets/css/presentation.css?v=20261028-1" />
   <link rel="stylesheet" href="assets/css/historical-maps.css?v=20261031-1" />
+  <link rel="stylesheet" href="assets/css/climate-observation.css?v=20261121-1" />
 </head>
 <body>
   <a class="skip-link" href="#ocean">Skip to ocean viewer</a>
@@ -81,6 +82,21 @@
               <label class="cr-toolbar">History <select id="observedHistoryWindow"><option value="30">30 days</option><option value="90" selected>90 days</option><option value="180">180 days</option><option value="1y">1 year</option><option value="2y">2 years</option></select></label>
             </div>
           </div>
+          <section id="observationAlignment" class="observation-alignment" aria-labelledby="observationAlignmentTitle">
+            <div class="alignment-heading">
+              <h3 id="observationAlignmentTitle">Shared observation date</h3>
+              <p data-alignment-status role="status">Checking published daily indices…</p>
+            </div>
+            <dl class="alignment-values" data-alignment-values hidden>
+              <div><dt>MJO</dt><dd data-mjo-value>—</dd></div>
+              <div><dt>PNA · standardized</dt><dd data-pna-value>—</dd></div>
+              <div><dt>NAO · standardized</dt><dd data-nao-value>—</dd></div>
+            </dl>
+            <div class="alignment-foot">
+              <p data-alignment-note></p>
+              <p data-alignment-roni></p>
+            </div>
+          </section>
           <div class="pattern-chart-grid">
             <section class="chart-card">
               <div class="chart-title-row"><div><b>RONI / ENSO</b><span id="roniWindowLabel">Overlapping seasons</span></div><strong id="roniLatest">—</strong></div>
@@ -181,7 +197,8 @@
   </div>
   <script src="assets/js/auto-refresh.js?v=20261024-3"></script>
   <script src="assets/js/history.js?v=20261020-5"></script>
-  <script src="assets/js/app.js?v=20261028-hover1"></script>
+  <script src="assets/js/climate-observation.js?v=20261121-1"></script>
+  <script src="assets/js/app.js?v=20261121-observations"></script>
   <script src="assets/js/ocean-basin.js?v=20261020-5"></script>
   <script src="assets/js/workbench.js?v=20261023-1"></script>
   <script src="assets/js/science-contract.js?v=20261023-1"></script>
