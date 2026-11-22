@@ -1,4 +1,19 @@
-# Coastal storm research workbench — withdrawn from public display
+# East Coast coastal storm research
+
+## Public historical summary · November 21, 2026
+
+The dashboard's [East Coast coastal storm history](https://andreworrison-cloud.github.io/wpc-climate-to-hydrology-dashboard/#coastal-storm-history) summarizes the reviewed inventory and the impact-cohort climate analysis. The [winter counts](../data/coastal/coastal_counts_by_winter_1979_2024.csv) cover October–April winters 1979–80 through 2023–24. The three columns of counts are nested: 621 coastal episodes, 135 reviewed nor’easters and 115 with consequential U.S. East Coast impacts supported by the case record. A zero is a zero count in the reviewed inventory. Source completeness varies by period and location.
+
+The impact cohort admits a reviewed coastal low or redevelopment with source-supported coastal circulation and consequential effects attributed to that phase. Qualifying effects include significant snow or ice, inland or coastal flooding, erosion, damage, documented damaging winds or a coastal gust of at least 50 kt, and material transport or utility disruption. Cases are reconciled against source reports and pressure analyses. Reviewed direct transitions carry separate flags in the case evidence and were excluded in a sensitivity test.
+
+The count target is the number of first reviewed coastal references in a fixed seven-day window. Eligibility requires a defensible date allocation, coverage and climate predictors. There are 107 entries in 1,321 eligible weeks. Daily MJO, PNA and NAO predictors use a three-day lag. The historical RONI availability convention is the 15th of the following month at 12 UTC for a completed three-month season. Historical publication vintages are approximated. Support is sparse across many four-indicator combinations.
+
+The seasonal-plus-trend Poisson reference uses two annual harmonics and a winter-year term. The regularized count models add RONI, the two MJO RMM components, PNA and NAO. The nonlinear fit includes their squares and pairwise products. Forward evaluation trains on earlier winters and scores 882 nonoverlapping weeks across the final 30 test winters. Percentage skill is the reduction in held-out Poisson deviance. Full-model intervals use paired winter-block resampling. Individual added-last intervals adjust for the four indicator families. The fitted NAO rate contrast is averaged across the eligible sample with the other predictors held at their observed values.
+
+- Occurrence and impact sources include [WPC surface analyses](https://www.wpc.ncep.noaa.gov/html/sfc_archive.shtml), [NOAA Storm Events](https://www.ncei.noaa.gov/stormevents/), [ERA5 pressure analyses](https://doi.org/10.24381/cds.adbb2d47), WFO case reports and published case compilations.
+- Climate inputs are [CPC RONI](https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/roni.shtml), [BoM RMM](https://www.bom.gov.au/climate/mjo/) and [CPC daily PNA and NAO](https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/teleconnections.shtml).
+
+## Archived workbench · November 17, 2026
 
 **November 17, 2026 correction:** This interface was published before the scientific presentation was ready. Navigation, panel and assets have been disconnected from the public entry point. Retain the code and snapshot as development material; no public coastal relationship/threat panel is currently offered.
 
