@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-22T18:10:54Z",
+  "generated_at": "2026-11-23T00:10:51Z",
   "indicators": [
     {
       "id": "roni",
@@ -20,19 +20,19 @@
     {
       "id": "mjo_rmm",
       "display_name": "MJO / RMM",
-      "value": 1.49,
+      "value": 1.29,
       "units": null,
       "state": "Phase 4 \u2014 Maritime Continent",
-      "valid_time": "2026-11-20",
+      "valid_time": "2026-11-21",
       "source_name": "Australian Bureau of Meteorology \u2014 Wheeler-Hendon RMM",
       "source_url": "https://www.bom.gov.au/climate/mjo/",
-      "retrieved_at": "2026-11-22T00:10:48Z",
+      "retrieved_at": "2026-11-23T00:10:51Z",
       "freshness_hours": 72,
       "data_url": "https://www.bom.gov.au/clim_data/IDCKGEM000/rmm.74toRealtime.txt",
       "phase": 4,
-      "amplitude": 1.486,
-      "rmm1": 1.1285,
-      "rmm2": -0.9671,
+      "amplitude": 1.293,
+      "rmm1": 1.0204,
+      "rmm2": -0.7937,
       "phase_region": "Maritime Continent",
       "signal_strength": "Active RMM signal",
       "provisional": false,
