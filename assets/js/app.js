@@ -254,7 +254,9 @@ DashboardRefresh.register('observed drivers',[
   const driverCards=document.getElementById('driverCards'),fragment=document.createDocumentFragment();
   const expanded=new Set([...driverCards.querySelectorAll('[data-driver]')].filter(el=>el.querySelector('details')?.open).map(el=>el.dataset.driver));
   climate.indicators.forEach(d=>{
-    const el=document.createElement('div');el.className='driver-card';el.dataset.driver=d.id;el.innerHTML=driverMarkup(d);
+    const observation = d.id === 'mjo_rmm' && mjo.values.find(row => row.date === d.valid_time && row.phase === d.phase);
+    const card = observation && Number.isFinite(observation.amplitude) ? {...d, amplitude: observation.amplitude} : d;
+    const el=document.createElement('div');el.className='driver-card';el.dataset.driver=d.id;el.innerHTML=driverMarkup(card);
     if(el.querySelector('details'))el.querySelector('details').open=expanded.has(d.id);
     const key=d.id==='mjo_rmm'?'mjo':d.id,rows=(histories[key]?.values||[]).slice(d.id==='roni'?-24:-30);
     const mini=document.createElement('div');mini.className='driver-sparkline';mini.innerHTML=driverTimelineSVG(rows,d.id);el.append(mini);fragment.append(el);
