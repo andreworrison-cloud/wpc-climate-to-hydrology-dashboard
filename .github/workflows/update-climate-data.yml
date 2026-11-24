@@ -54,23 +54,4 @@ jobs:
   deploy:
     needs: update
     if: needs.update.outputs.changed == 'true'
-    concurrency:
-      group: pages
-      cancel-in-progress: false
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: main
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: '.'
-          name: github-pages-${{ github.run_attempt }}
-      - uses: actions/deploy-pages@v4
-        id: deployment
-        with:
-          artifact_name: github-pages-${{ github.run_attempt }}
+    uses: ./.github/workflows/pages.yml
