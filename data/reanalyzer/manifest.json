@@ -14,41 +14,6 @@
       "baseline": "1991–2020; source 5-day smoothed daily climatology",
       "rows": [
         {
-          "date": "2024-11-17",
-          "sst_c": 20.667,
-          "climatology_c": 20.148,
-          "anomaly_c": 0.519,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-18",
-          "sst_c": 20.652,
-          "climatology_c": 20.148,
-          "anomaly_c": 0.504,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-19",
-          "sst_c": 20.645,
-          "climatology_c": 20.149,
-          "anomaly_c": 0.496,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-20",
-          "sst_c": 20.655,
-          "climatology_c": 20.151,
-          "anomaly_c": 0.504,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-21",
-          "sst_c": 20.676,
-          "climatology_c": 20.153,
-          "anomaly_c": 0.523,
-          "preliminary": false
-        },
-        {
           "date": "2024-11-22",
           "sst_c": 20.704,
           "climatology_c": 20.154,
@@ -5136,11 +5101,46 @@
           "climatology_c": 20.148,
           "anomaly_c": 0.868,
           "preliminary": true
+        },
+        {
+          "date": "2026-11-19",
+          "sst_c": 20.988,
+          "climatology_c": 20.149,
+          "anomaly_c": 0.839,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-20",
+          "sst_c": 20.981,
+          "climatology_c": 20.151,
+          "anomaly_c": 0.83,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-21",
+          "sst_c": 20.982,
+          "climatology_c": 20.153,
+          "anomaly_c": 0.829,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-22",
+          "sst_c": 20.987,
+          "climatology_c": 20.154,
+          "anomaly_c": 0.833,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-23",
+          "sst_c": 21.035,
+          "climatology_c": 20.156,
+          "anomaly_c": 0.879,
+          "preliminary": true
         }
       ],
       "source_url": "https://climatereanalyzer.org/clim/sst_daily/json_2clim/oisst2.1_world2_sst_day.json",
-      "source_sha256": "9cb7f17e75660afb8086c2154a870c1ff5790fcd7b4c52cda27fe8b945393079",
-      "retrieved_at": "2026-11-23T21:36:33.155350+00:00",
+      "source_sha256": "61973732046eebd18af5d736a9ffc675fbe3ae8dc15d3d639fd4b61cfcb97dc3",
+      "retrieved_at": "2026-11-24T18:46:22.414103+00:00",
       "status": "current",
       "preliminary_year": 2026
     },
@@ -5151,41 +5151,6 @@
       "source_page": "https://climatereanalyzer.org/clim/sst_daily/?dm_id=nino3.4",
       "baseline": "1991–2020; source 5-day smoothed daily climatology",
       "rows": [
-        {
-          "date": "2024-11-17",
-          "sst_c": 26.727,
-          "climatology_c": 26.798,
-          "anomaly_c": -0.071,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-18",
-          "sst_c": 26.726,
-          "climatology_c": 26.779,
-          "anomaly_c": -0.053,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-19",
-          "sst_c": 26.741,
-          "climatology_c": 26.755,
-          "anomaly_c": -0.014,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-20",
-          "sst_c": 26.747,
-          "climatology_c": 26.735,
-          "anomaly_c": 0.012,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-21",
-          "sst_c": 26.708,
-          "climatology_c": 26.719,
-          "anomaly_c": -0.011,
-          "preliminary": false
-        },
         {
           "date": "2024-11-22",
           "sst_c": 26.655,
@@ -10274,11 +10239,46 @@
           "climatology_c": 26.779,
           "anomaly_c": 3.301,
           "preliminary": true
+        },
+        {
+          "date": "2026-11-19",
+          "sst_c": 30.115,
+          "climatology_c": 26.755,
+          "anomaly_c": 3.36,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-20",
+          "sst_c": 30.158,
+          "climatology_c": 26.735,
+          "anomaly_c": 3.423,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-21",
+          "sst_c": 30.156,
+          "climatology_c": 26.719,
+          "anomaly_c": 3.437,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-22",
+          "sst_c": 30.106,
+          "climatology_c": 26.708,
+          "anomaly_c": 3.398,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-23",
+          "sst_c": 30.223,
+          "climatology_c": 26.699,
+          "anomaly_c": 3.524,
+          "preliminary": true
         }
       ],
       "source_url": "https://climatereanalyzer.org/clim/sst_daily/json_2clim/oisst2.1_nino3.4_sst_day.json",
-      "source_sha256": "74124011a307a3ed449b837409243ce3e62eeb37063dd8b651102a6293376816",
-      "retrieved_at": "2026-11-23T21:36:33.155350+00:00",
+      "source_sha256": "11bb027dfa67ab9eab485256033763bf11063844325e10e4553af0943878e0d0",
+      "retrieved_at": "2026-11-24T18:46:22.580841+00:00",
       "status": "current",
       "preliminary_year": 2026
     },
@@ -10289,41 +10289,6 @@
       "source_page": "https://climatereanalyzer.org/clim/sst_daily/?dm_id=natlan",
       "baseline": "1991–2020; source 5-day smoothed daily climatology",
       "rows": [
-        {
-          "date": "2024-11-17",
-          "sst_c": 22.649,
-          "climatology_c": 21.96,
-          "anomaly_c": 0.689,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-18",
-          "sst_c": 22.611,
-          "climatology_c": 21.919,
-          "anomaly_c": 0.692,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-19",
-          "sst_c": 22.577,
-          "climatology_c": 21.878,
-          "anomaly_c": 0.699,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-20",
-          "sst_c": 22.545,
-          "climatology_c": 21.837,
-          "anomaly_c": 0.708,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-21",
-          "sst_c": 22.537,
-          "climatology_c": 21.797,
-          "anomaly_c": 0.74,
-          "preliminary": false
-        },
         {
           "date": "2024-11-22",
           "sst_c": 22.525,
@@ -15412,11 +15377,46 @@
           "climatology_c": 21.919,
           "anomaly_c": 0.952,
           "preliminary": true
+        },
+        {
+          "date": "2026-11-19",
+          "sst_c": 22.778,
+          "climatology_c": 21.878,
+          "anomaly_c": 0.9,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-20",
+          "sst_c": 22.766,
+          "climatology_c": 21.837,
+          "anomaly_c": 0.929,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-21",
+          "sst_c": 22.724,
+          "climatology_c": 21.797,
+          "anomaly_c": 0.927,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-22",
+          "sst_c": 22.693,
+          "climatology_c": 21.757,
+          "anomaly_c": 0.936,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-23",
+          "sst_c": 22.726,
+          "climatology_c": 21.716,
+          "anomaly_c": 1.01,
+          "preliminary": true
         }
       ],
       "source_url": "https://climatereanalyzer.org/clim/sst_daily/json_2clim/oisst2.1_natlan_sst_day.json",
-      "source_sha256": "d6b2f9aee8745966011562e63e39dba964633bf0ba5a7de1f66c33bd637cdf9b",
-      "retrieved_at": "2026-11-23T21:36:33.155350+00:00",
+      "source_sha256": "9d7f2dc65704750de97f6a8edbc0fe73bda7a45c562fdb97ecbea44b8b84b4d5",
+      "retrieved_at": "2026-11-24T18:46:22.608900+00:00",
       "status": "current",
       "preliminary_year": 2026
     },
@@ -15427,41 +15427,6 @@
       "source_page": "https://climatereanalyzer.org/clim/sst_daily/?dm_id=gomex",
       "baseline": "1991–2020; source 5-day smoothed daily climatology",
       "rows": [
-        {
-          "date": "2024-11-17",
-          "sst_c": 27.204,
-          "climatology_c": 25.781,
-          "anomaly_c": 1.423,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-18",
-          "sst_c": 27.194,
-          "climatology_c": 25.723,
-          "anomaly_c": 1.471,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-19",
-          "sst_c": 27.186,
-          "climatology_c": 25.669,
-          "anomaly_c": 1.517,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-20",
-          "sst_c": 27.133,
-          "climatology_c": 25.616,
-          "anomaly_c": 1.517,
-          "preliminary": false
-        },
-        {
-          "date": "2024-11-21",
-          "sst_c": 27.041,
-          "climatology_c": 25.562,
-          "anomaly_c": 1.479,
-          "preliminary": false
-        },
         {
           "date": "2024-11-22",
           "sst_c": 26.881,
@@ -20550,11 +20515,46 @@
           "climatology_c": 25.723,
           "anomaly_c": 1.049,
           "preliminary": true
+        },
+        {
+          "date": "2026-11-19",
+          "sst_c": 26.79,
+          "climatology_c": 25.669,
+          "anomaly_c": 1.121,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-20",
+          "sst_c": 26.76,
+          "climatology_c": 25.616,
+          "anomaly_c": 1.144,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-21",
+          "sst_c": 26.825,
+          "climatology_c": 25.562,
+          "anomaly_c": 1.263,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-22",
+          "sst_c": 26.792,
+          "climatology_c": 25.505,
+          "anomaly_c": 1.287,
+          "preliminary": true
+        },
+        {
+          "date": "2026-11-23",
+          "sst_c": 26.836,
+          "climatology_c": 25.443,
+          "anomaly_c": 1.393,
+          "preliminary": true
         }
       ],
       "source_url": "https://climatereanalyzer.org/clim/sst_daily/json_2clim/oisst2.1_gomex_sst_day.json",
-      "source_sha256": "34f187c231fb0b8e992585d7386545ca21633e3805e40522d510da3bd0baf5ef",
-      "retrieved_at": "2026-11-23T21:36:33.155350+00:00",
+      "source_sha256": "dc03be3df302ee21e7fce7ef93e0fb00e8655295e4b89a120d5f1c8e0f31d833",
+      "retrieved_at": "2026-11-24T18:46:22.432075+00:00",
       "status": "current",
       "preliminary_year": 2026
     }
