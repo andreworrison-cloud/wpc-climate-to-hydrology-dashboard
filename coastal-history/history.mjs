@@ -1,225 +1,252 @@
-const $ = (id) => document.getElementById(id);
+import {createTrackMap, sizeCanvas} from "./track-map.mjs?v=20261128";
+
+const $ = id => document.getElementById(id);
 const canvas = $("track-map");
-const ctx = canvas.getContext("2d");
+const chart = $("pressure-chart");
 const classControl = $("storm-class");
 const winterControl = $("winter");
 const caseControl = $("case-select");
-const basemap = new Image();
-const classes = {
-  noreaster: { label: "Strict nor’easter", color: "#006966", dash: [], css: "strict" },
-  coastal: { label: "Other coastal storm", color: "#99500e", dash: [6, 4], css: "broad" },
-};
-const dateFormat = new Intl.DateTimeFormat("en-US", {
-  day: "numeric", month: "short", year: "numeric", timeZone: "UTC",
-});
+const classes = {noreaster:"Strict nor’easter",coastal:"Other coastal storm"};
+const days = new Intl.DateTimeFormat("en-US",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"});
+const shortDays = new Intl.DateTimeFormat("en-US",{day:"numeric",month:"short",timeZone:"UTC"});
 let cases = [];
 let shown = [];
 let selected = null;
-let plotted = [];
-let travelWidth = 0;
-let travelHeight = 0;
+let active = 0;
+let overview = false;
+let full = false;
+let trackMap;
+let chartXs = [];
 
-function utcDay(value) {
-  return dateFormat.format(new Date(value));
-}
-function utcTime(value) {
-  const time = new Date(value).toISOString();
-  return `${time.slice(0, 10)} ${time.slice(11, 16)}`;
-}
-function winterLabel(winter) {
-  return `${Number(winter) - 1}–${String(winter).slice(2)}`;
-}
-function coordinates(point) {
-  return `${point.lat}°N, ${Math.abs(point.lon)}°W`;
-}
-function html(tag, content) {
+const winterLabel = year => `${year-1}–${String(year).slice(2)}`;
+const clock = value => new Date(value).toISOString().slice(11,16);
+const shortClock = value => `${shortDays.format(new Date(value))} · ${clock(value)}Z`;
+const csvClock = value => new Date(value).toISOString().slice(0,16).replace("T"," ");
+const coords = point => `${point.lat}°N, ${Math.abs(point.lon)}°W`;
+function elem(tag, text) {
   const node = document.createElement(tag);
-  node.textContent = content;
+  node.textContent = text;
   return node;
 }
-function plotPoint(point) {
-  return [((point.lon + 92) / 37) * travelWidth, ((53 - point.lat) / 30) * travelHeight];
+function link(label, url) {
+  const node = elem("a",label);
+  node.href = url;
+  return node;
 }
-function project(storm) {
-  return storm.track.points.map((point, i, fixes) => ({
-    position: plotPoint(point),
-    joins: i > 0 && Date.parse(point.validUtc) - Date.parse(fixes[i - 1].validUtc) <= 12 * 3600 * 1000,
-  }));
+function minIndex(storm) {
+  const values = storm.track.points.map(point=>point.hpa);
+  return values.indexOf(Math.min(...values));
 }
-function draw(caseItem, points, active, muted) {
-  const style = classes[caseItem.classification];
-  ctx.strokeStyle = ctx.fillStyle = style.color;
-  ctx.lineWidth = active ? 3.8 : 1.7;
-  ctx.globalAlpha = active ? 1 : muted ? .34 : .78;
-  ctx.lineCap = ctx.lineJoin = "round";
-  ctx.setLineDash(style.dash);
-  ctx.beginPath();
-  for (const { position: [x, y], joins } of points) {
-    if (joins) ctx.lineTo(x, y);
-    else ctx.moveTo(x, y);
-  }
-  ctx.stroke();
-  ctx.setLineDash([]);
-  for (const [i, { position: [x, y] }] of points.entries()) {
-    const last = i === points.length - 1;
-    if (!active && !last) continue;
+function drawChart() {
+  chartXs = [];
+  if (!selected || overview) return;
+  const size = sizeCanvas(chart);
+  if (!size) return;
+  const {context:ctx,width,height} = size;
+  ctx.clearRect(0,0,width,height);
+  const fixes = selected.track.points;
+  const pressure = fixes.map(point=>point.hpa);
+  const times = fixes.map(point=>Date.parse(point.validUtc));
+  const low = Math.min(...pressure), high = Math.max(...pressure);
+  const step = high-low<=12 ? 5 : high-low<=32 ? 10 : 20;
+  const upper = Math.ceil((high+2)/step)*step;
+  const lower = Math.floor((low-2)/step)*step;
+  const left = 38, right = width-18, top = 15, bottom = height-25;
+  const y = value=>bottom-(value-lower)/(upper-lower)*(bottom-top);
+  chartXs = times.map(t=>left+(t-times[0])/(times.at(-1)-times[0])*(right-left));
+  ctx.font = "11px system-ui";
+  ctx.fillStyle = "#39576a";
+  ctx.strokeStyle = "#d3e3e8";
+  ctx.lineWidth = 1;
+  ctx.textBaseline = "middle";
+  for (let value=lower;value<=upper;value+=step) {
     ctx.beginPath();
-    ctx.arc(x, y, last ? (active ? 4.7 : 3.2) : 2.3, 0, 2 * Math.PI);
-    if (last) {
-      ctx.fillStyle = "#fff";
-      ctx.fill();
-      ctx.lineWidth = active ? 2.5 : 1.6;
-      ctx.stroke();
-    } else {
-      ctx.fillStyle = style.color;
-      ctx.fill();
-    }
+    ctx.moveTo(left,y(value)); ctx.lineTo(right,y(value)); ctx.stroke();
+    ctx.fillText(String(value),2,y(value));
   }
-  ctx.globalAlpha = 1;
+  ctx.strokeStyle = "#79aebc";
+  ctx.beginPath(); ctx.moveTo(chartXs[active],top); ctx.lineTo(chartXs[active],bottom); ctx.stroke();
+  ctx.strokeStyle = "#187c96";
+  ctx.lineWidth = 2.25;
+  ctx.beginPath();
+  pressure.forEach((p,i)=>i ? ctx.lineTo(chartXs[i],y(p)) : ctx.moveTo(chartXs[i],y(p)));
+  ctx.stroke();
+  pressure.forEach((p,i)=>{
+    ctx.beginPath();
+    ctx.arc(chartXs[i],y(p),i===active ? 5.3 : 3,0,2*Math.PI);
+    ctx.fillStyle = i===active ? "#174c60" : i===minIndex(selected) ? "#cc8214" : "#20849c";
+    ctx.fill();
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+  });
+  const first = shortClock(fixes[0].validUtc), last = shortClock(fixes.at(-1).validUtc);
+  ctx.fillStyle = "#39576a";
+  ctx.fillText(first,left,height-9);
+  ctx.fillText(last,right-ctx.measureText(last).width,height-9);
 }
 function redraw() {
-  if (!ctx) return;
-  const { width, height } = canvas.getBoundingClientRect();
-  if (!width || !height) return;
-  travelWidth = width;
-  travelHeight = height;
-  const dpr = Math.min(2, window.devicePixelRatio || 1);
-  const pixelWidth = Math.round(width * dpr);
-  const pixelHeight = Math.round(height * dpr);
-  if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
-    canvas.width = pixelWidth;
-    canvas.height = pixelHeight;
-  }
-  ctx.setTransform(pixelWidth / width, 0, 0, pixelHeight / height, 0, 0);
-  ctx.fillStyle = "#e9f3f8";
-  ctx.fillRect(0, 0, width, height);
-  if (basemap.complete && basemap.naturalWidth) ctx.drawImage(basemap, 0, 0, width, height);
-  plotted = shown.map((storm) => ({ storm, points: project(storm) }));
-  for (const { storm, points } of plotted) {
-    if (storm !== selected) draw(storm, points, false, Boolean(selected));
-  }
-  const active = plotted.find(({ storm }) => storm === selected);
-  if (active) draw(active.storm, active.points, true, false);
+  trackMap?.draw(shown,selected,active,overview,full);
+  drawChart();
 }
-function pointSegmentDistance(x, y, [ax, ay], [bx, by]) {
-  const dx = bx - ax, dy = by - ay;
-  const span = dx * dx + dy * dy;
-  const t = span ? Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / span)) : 0;
-  return Math.hypot(x - ax - t * dx, y - ay - t * dy);
-}
-function matchTrack(event) {
-  const rectangle = canvas.getBoundingClientRect();
-  const x = event.clientX - rectangle.left, y = event.clientY - rectangle.top;
-  let smallest = event.pointerType === "touch" ? 15 : 10;
-  let match = null;
-  for (const { storm, points } of plotted) {
-    for (const [i, item] of points.entries()) {
-      const distance = pointSegmentDistance(x, y, item.joins ? points[i - 1].position : item.position, item.position);
-      if (distance < smallest) {
-        smallest = distance;
-        match = storm;
-      }
-    }
+function readActive() {
+  const readout = $("map-readout");
+  if (!selected || overview) {
+    readout.hidden = true;
+    redraw();
+    return;
   }
-  return match;
-}
-function selectCase(storm, changeUrl = true) {
-  selected = storm;
-  caseControl.value = storm?.id ?? "";
-  const meta = $("case-meta"), stats = $("track-stats"), fixes = $("fixes");
-  meta.hidden = stats.hidden = fixes.hidden = !storm;
-  $("case-sources").replaceChildren();
-  $("fix-rows").replaceChildren();
-  $("case-heading").textContent = storm?.title ?? "Choose a storm";
-  $("case-impact").textContent = storm?.impact ?? "Select a track on the map or choose a case from the list.";
-  $("case-note").textContent = storm ? [storm.notes, storm.track.method].filter(Boolean).join(" ") : "";
-  if (storm) {
-    const style = classes[storm.classification];
-    const date = storm.start === storm.end ? utcDay(storm.start) : `${utcDay(storm.start)} – ${utcDay(storm.end)}`;
-    meta.className = "case-meta " + style.css;
-    meta.textContent = `${style.label} · ${date}`;
-    const points = storm.track.points;
-    const lowest = Math.min(...points.map((point) => point.hpa));
-    const statsNodes = [[`${lowest} hPa`, "Lowest plotted pressure"], [String(points.length), "Plotted fixes"]];
-    stats.replaceChildren(...statsNodes.map(([value, label]) => {
-      const wrapper = html("div", "");
-      wrapper.append(html("strong", value), html("span", label));
-      return wrapper;
-    }));
-    const sourceRows = storm.sources.map(({ label, url }) => {
-      const item = html("li", "");
-      const link = html("a", label);
-      link.href = url;
-      item.append(link);
-      return item;
-    });
-    $("case-sources").replaceChildren(...sourceRows);
-    $("fix-rows").replaceChildren(...points.map((point) => {
-      const row = html("tr", "");
-      const valid = html("td", "");
-      if (point.sourceUrl) {
-        const link = html("a", utcTime(point.validUtc));
-        link.href = point.sourceUrl;
-        valid.append(link);
-      } else valid.textContent = utcTime(point.validUtc);
-      row.append(valid, html("td", coordinates(point)), html("td", String(point.hpa)));
-      return row;
-    }));
+  const points = selected.track.points;
+  const point = points[active];
+  readout.hidden = false;
+  readout.replaceChildren(elem("strong",`${point.hpa} hPa`),elem("span",`Fix ${active+1} · ${shortClock(point.validUtc)}`));
+  const source = $("active-source");
+  source.hidden = !point.sourceUrl;
+  if (point.sourceUrl) source.href = point.sourceUrl;
+  for (const [i,button] of [...$("fix-buttons").children].entries()) {
+    button.setAttribute("aria-pressed",String(active===i));
   }
-  if (changeUrl) history.replaceState(null, "", storm ? "#case=" + encodeURIComponent(storm.id) : location.pathname + location.search);
+  for (const [i,row] of [...$("fix-rows").children].entries()) {
+    row.classList.toggle("active",active===i);
+  }
   redraw();
 }
-function filter(initialCase) {
-  shown = cases.filter((storm) =>
-    (classControl.value === "all" || storm.classification === classControl.value) &&
-    (winterControl.value === "all" || String(storm.winterEnd) === winterControl.value));
-  const want = shown.find((storm) => storm.id === (initialCase || selected?.id));
-  $("result-count").textContent = `${shown.length} of ${cases.length} mapped cases`;
-  caseControl.replaceChildren(new Option("All matching tracks", ""),
-    ...shown.map((storm) => new Option(`${utcDay(storm.start)} · ${storm.title}`, storm.id)));
-  caseControl.disabled = !shown.length;
+function chooseFix(index, focus = false) {
+  if (!selected || index<0 || index>=selected.track.points.length) return;
+  active = index;
+  readActive();
+  if (focus) $("fix-buttons").children[index].focus();
+}
+function drawCaseDetails() {
+  for (const id of ["case-meta","case-metrics","impact-title","fixes"]) $(id).hidden = !selected;
+  $("case-heading").textContent = selected ? selected.title : "Case evidence";
+  $("case-date").textContent = selected ? `${days.format(new Date(selected.start))} to ${days.format(new Date(selected.end))}` : "";
+  $("case-impact").textContent = selected?.impact ?? (shown.length ? "Select a track or choose a case from the list." : "No cases match the active filters.");
+  $("case-note").textContent = selected ? [selected.notes,selected.track.method].filter(Boolean).join(" ") : "";
+  for (const id of ["case-sources","fix-rows","fix-buttons"]) $(id).replaceChildren();
+  if (!selected) return;
+  $("case-meta").textContent = classes[selected.classification];
+  $("case-meta").classList.toggle("broad",selected.classification==="coastal");
+  const points = selected.track.points;
+  const low = points[minIndex(selected)];
+  const metrics = [[`${low.hpa} hPa`,"Lowest plotted pressure"],[points.length,"Analyzed fixes"]];
+  $("case-metrics").replaceChildren(...metrics.map(([value,label])=>{
+    const card = elem("div","");
+    card.append(elem("strong",value),elem("span",label));
+    return card;
+  }));
+  $("case-sources").replaceChildren(...selected.sources.map(item=>{
+    const li = elem("li","");
+    li.append(link(item.label,item.url));
+    return li;
+  }));
+  for (const [i,point] of points.entries()) {
+    const row = elem("tr","");
+    const valid = elem("td","");
+    if (point.sourceUrl) valid.append(link(csvClock(point.validUtc),point.sourceUrl));
+    else valid.textContent = csvClock(point.validUtc);
+    row.append(valid,elem("td",coords(point)),elem("td",point.hpa));
+    $("fix-rows").append(row);
+    const button = elem("button","");
+    button.type = "button";
+    button.setAttribute("aria-label",`Fix ${i+1}, ${csvClock(point.validUtc)} UTC, ${point.hpa} hPa`);
+    button.append(elem("strong",`${i+1} · ${point.hpa} hPa`),elem("span",`${clock(point.validUtc)}Z`));
+    button.addEventListener("click",()=>chooseFix(i));
+    button.addEventListener("keydown",event=>{
+      if (!["ArrowLeft","ArrowRight"].includes(event.key)) return;
+      event.preventDefault();
+      chooseFix(i+(event.key==="ArrowLeft" ? -1 : 1),true);
+    });
+    $("fix-buttons").append(button);
+  }
+}
+function showMode() {
+  $("single-view").setAttribute("aria-pressed",String(!overview));
+  $("all-view").setAttribute("aria-pressed",String(overview));
+  $("track-title").textContent = overview ? "Storm track overview" : "Analyzed storm track";
+  $("case-legend").hidden = overview;
+  $("overview-legend").hidden = !overview;
+  $("pressure-panel").hidden = overview || !selected;
+  $("extent").hidden = overview || !selected;
+  $("extent").textContent = full ? "Fit to storm" : "Full coast";
+  $("extent").setAttribute("aria-pressed",String(full));
   $("map-message").hidden = Boolean(shown.length);
   $("map-message").textContent = "No mapped cases match these filters.";
-  selectCase(want ?? null, !initialCase || !want);
+  readActive();
+}
+function selectCase(storm, fix = null) {
+  selected = storm;
+  caseControl.value = storm?.id ?? "";
+  full = false;
+  active = storm ? fix ?? minIndex(storm) : 0;
+  const target = storm ? "#case="+encodeURIComponent(storm.id) : location.pathname+location.search;
+  history.replaceState(null,"",target);
+  drawCaseDetails();
+  showMode();
+}
+function filter(id = selected?.id) {
+  shown = cases.filter(storm=>
+    (classControl.value==="all" || storm.classification===classControl.value) &&
+    (winterControl.value==="all" || String(storm.winterEnd)===winterControl.value));
+  $("result-count").textContent = `${shown.length} of ${cases.length} mapped cases`;
+  const options = shown.map(storm=>new Option(`${days.format(new Date(storm.start))} · ${storm.title}`,storm.id));
+  caseControl.replaceChildren(...(options.length ? options : [new Option("No matching cases","")]));
+  caseControl.disabled = !shown.length;
+  selectCase(shown.find(storm=>storm.id===id) ?? shown[0] ?? null);
 }
 function linkedId() {
   return new URLSearchParams(location.hash.slice(1)).get("case");
 }
-
-classControl.addEventListener("change", () => filter());
-winterControl.addEventListener("change", () => filter());
-caseControl.addEventListener("change", () => selectCase(shown.find((storm) => storm.id === caseControl.value) ?? null));
-canvas.addEventListener("pointermove", (event) => {
-  canvas.style.cursor = matchTrack(event) ? "pointer" : "crosshair";
+classControl.addEventListener("change",()=>filter());
+winterControl.addEventListener("change",()=>filter());
+caseControl.addEventListener("change",()=>{
+  overview = false;
+  selectCase(shown.find(storm=>storm.id===caseControl.value) ?? null);
 });
-canvas.addEventListener("pointerup", (event) => {
-  const storm = matchTrack(event);
-  if (storm) selectCase(storm);
+$("single-view").addEventListener("click",()=>{overview=false;showMode();});
+$("all-view").addEventListener("click",()=>{overview=true;showMode();});
+$("extent").addEventListener("click",()=>{full=!full;showMode();});
+canvas.addEventListener("pointermove",event=>{canvas.style.cursor=trackMap?.match(event) ? "pointer" : "default";});
+canvas.addEventListener("pointerup",event=>{
+  const hit = trackMap?.match(event);
+  if (!hit) return;
+  if (overview) {
+    overview=false;
+    selectCase(hit.storm,hit.index);
+  } else chooseFix(hit.index);
 });
-addEventListener("hashchange", () => {
-  classControl.value = winterControl.value = "all";
+chart.addEventListener("pointerup",event=>{
+  if (!chartXs.length) return;
+  const x = event.clientX-chart.getBoundingClientRect().left;
+  const nearest = chartXs.map(px=>Math.abs(px-x));
+  chooseFix(nearest.indexOf(Math.min(...nearest)));
+});
+addEventListener("hashchange",()=>{
+  overview=false;
+  classControl.value=winterControl.value="all";
   filter(linkedId());
 });
-new ResizeObserver(redraw).observe($("map-container"));
-basemap.addEventListener("load", redraw);
-basemap.addEventListener("error", () => { $("map-message").textContent = "Map background unavailable. Case positions are available below."; $("map-message").hidden = false; });
-basemap.src = "./basemap.webp";
+const resize = new ResizeObserver(redraw);
+resize.observe($("map-container"));
+resize.observe(chart);
 
+async function loadJson(path) {
+  const response = await fetch(path);
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
+}
 try {
-  const reply = await fetch("./cases.json");
-  if (!reply.ok) throw new Error(String(reply.status));
-  const data = await reply.json();
-  if (!Array.isArray(data.cases) || !data.cases.length) throw new Error("No mapped cases");
-  cases = data.cases.sort((a, b) => b.start.localeCompare(a.start));
-  const winters = [...new Set(cases.map((storm) => Number(storm.winterEnd)))].sort((a, b) => b - a);
-  winterControl.append(...winters.map((winter) => new Option(winterLabel(winter), winter)));
-  winterControl.disabled = classControl.disabled = false;
-  const span = winters.length > 1 ? `${winterLabel(winters.at(-1))} to ${winterLabel(winters[0])}` : winterLabel(winters[0]);
-  $("coverage").textContent = `Selected cases from ${winters.length} winters (${span}). Coverage varies by winter. The counts describe the cases shown.`;
-  filter(linkedId() ?? cases[0].id);
+  const [data, geography] = await Promise.all([loadJson("./cases.json"),loadJson("./geography.json")]);
+  if (!data.cases?.length || !geography.land?.length) throw new Error("Atlas data empty");
+  trackMap = createTrackMap(canvas,geography);
+  cases = data.cases.sort((a,b)=>b.start.localeCompare(a.start));
+  const winters = [...new Set(cases.map(storm=>storm.winterEnd))].sort((a,b)=>b-a);
+  winterControl.append(...winters.map(year=>new Option(winterLabel(year),year)));
+  for (const control of [winterControl,classControl,$("single-view"),$("all-view")]) control.disabled=false;
+  $("coverage").textContent = `Selected cases across ${winters.length} winters, ${winterLabel(winters.at(-1))} to ${winterLabel(winters[0])}. Coverage varies by winter. Made with Natural Earth.`;
+  filter(linkedId());
 } catch (error) {
-  $("result-count").textContent = "The reviewed case data could not be loaded.";
-  $("case-heading").textContent = "Case details unavailable";
-  $("map-message").textContent = "Reload the page to retry.";
+  $("result-count").textContent = "Track data unavailable";
+  $("map-message").textContent = "Reload to retry or open the case data under Sources.";
   $("map-message").hidden = false;
 }
