@@ -1,0 +1,1203 @@
+{
+  "version": 1,
+  "scope": "Selected East Coast coastal storm cases with individually identified position evidence",
+  "seasons": "October–April winters, indexed by the spring year",
+  "cases": [
+    {
+      "id": "EP_19930312",
+      "winter": "1992–93",
+      "winterEnd": 1993,
+      "start": "1993-03-12",
+      "end": "1993-03-15",
+      "title": "March 1993 Superstorm",
+      "classification": "noreaster",
+      "hazards": [
+        "snow",
+        "coastal flood",
+        "wind"
+      ],
+      "impact": "NOAA documents blizzard conditions, high winds and coastal flooding.",
+      "notes": "The published ERA5 sequence begins March 13 at 18 UTC and shows a later segment of the storm. The event dates include its earlier Gulf and Southeast impacts.",
+      "sources": [
+        {
+          "label": "NWS event review",
+          "url": "https://www.weather.gov/ilm/superstorm93"
+        },
+        {
+          "label": "Figure 3 reproduction notebook",
+          "url": "https://github.com/mann-research/KC-PNAS/blob/c18aa47929a2e76c33304794208103e876d3cef1/scripts/Fig3_notable_noreasters_trajectories.ipynb"
+        },
+        {
+          "label": "Published track release",
+          "url": "https://github.com/mann-research/KC-PNAS/tree/c18aa47929a2e76c33304794208103e876d3cef1"
+        }
+      ],
+      "track": {
+        "method": "Chen et al. (2025), Figure 3 named ERA5 track",
+        "positionResolutionDegrees": 0.25,
+        "sourceUrl": "https://github.com/mann-research/KC-PNAS/tree/c18aa47929a2e76c33304794208103e876d3cef1",
+        "points": [
+          {
+            "validUtc": "1993-03-13T18:00:00Z",
+            "lat": 37.0,
+            "lon": -76.5,
+            "hpa": 964.1,
+            "sourceUrl": "https://github.com/mann-research/KC-PNAS/tree/c18aa47929a2e76c33304794208103e876d3cef1"
+          },
+          {
+            "validUtc": "1993-03-14T00:00:00Z",
+            "lat": 39.0,
+            "lon": -75.75,
+            "hpa": 963.6,
+            "sourceUrl": "https://github.com/mann-research/KC-PNAS/tree/c18aa47929a2e76c33304794208103e876d3cef1"
+          },
+          {
+            "validUtc": "1993-03-14T06:00:00Z",
+            "lat": 40.5,
+            "lon": -74.25,
+            "hpa": 961.6,
+            "sourceUrl": "https://github.com/mann-research/KC-PNAS/tree/c18aa47929a2e76c33304794208103e876d3cef1"
+          },
+          {
+            "validUtc": "1993-03-14T12:00:00Z",
+            "lat": 43.5,
+            "lon": -70.25,
+            "hpa": 965.7,
+            "sourceUrl": "https://github.com/mann-research/KC-PNAS/tree/c18aa47929a2e76c33304794208103e876d3cef1"
+          },
+          {
+            "validUtc": "1993-03-14T18:00:00Z",
+            "lat": 48.5,
+            "lon": -64.75,
+            "hpa": 963.7,
+            "sourceUrl": "https://github.com/mann-research/KC-PNAS/tree/c18aa47929a2e76c33304794208103e876d3cef1"
+          },
+          {
+            "validUtc": "1993-03-15T00:00:00Z",
+            "lat": 50.0,
+            "lon": -61.25,
+            "hpa": 970.2,
+            "sourceUrl": "https://github.com/mann-research/KC-PNAS/tree/c18aa47929a2e76c33304794208103e876d3cef1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ATLAS_20080213",
+      "winter": "2007–08",
+      "winterEnd": 2008,
+      "start": "2008-02-13",
+      "end": "2008-02-14",
+      "title": "February 2008 Mid-Atlantic coastal redevelopment",
+      "classification": "coastal",
+      "hazards": [
+        "rain",
+        "wind",
+        "travel"
+      ],
+      "impact": "The coastal redevelopment brought heavy rain to parts of the Mid-Atlantic and New England. Aviation records document a low-ceiling arrival restriction at Boston.",
+      "notes": "The plotted coastal segment follows the eastern secondary. Observations near the later southern New England wind damage showed southerly gales.",
+      "sources": [
+        {
+          "label": "NWS Mount Holly storm summary",
+          "url": "https://www.weather.gov/phi/02122008wss"
+        },
+        {
+          "label": "FAA Boston advisory 81",
+          "url": "https://www.fly.faa.gov/adv/adv_otherdis?adv_date=02132008&advn=81"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2008-02-13&edate=2008-02-15&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "NOAA HPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2008-02-13&edate=2008-02-15&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2008-02-13T15:00:00Z",
+            "lat": 37.0,
+            "lon": -76.0,
+            "hpa": 996,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2008021315.gif"
+          },
+          {
+            "validUtc": "2008-02-13T18:00:00Z",
+            "lat": 40.0,
+            "lon": -75.0,
+            "hpa": 995,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2008021318.gif"
+          },
+          {
+            "validUtc": "2008-02-13T21:00:00Z",
+            "lat": 41.0,
+            "lon": -72.0,
+            "hpa": 994,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2008021321.gif"
+          },
+          {
+            "validUtc": "2008-02-14T00:00:00Z",
+            "lat": 42.0,
+            "lon": -70.0,
+            "hpa": 994,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2008021400.gif"
+          },
+          {
+            "validUtc": "2008-02-14T06:00:00Z",
+            "lat": 45.0,
+            "lon": -66.0,
+            "hpa": 993,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2008021406.gif"
+          }
+        ]
+      }
+    },
+    {
+      "id": "EP_20100206",
+      "winter": "2009–10",
+      "winterEnd": 2010,
+      "start": "2010-02-05",
+      "end": "2010-02-07",
+      "title": "February 5–6, 2010 Mid-Atlantic nor’easter",
+      "classification": "noreaster",
+      "hazards": [
+        "snow",
+        "wind"
+      ],
+      "impact": "Blizzard warnings covered the Delmarva Peninsula. Wilmington, Delaware recorded 25.8 inches of snow.",
+      "notes": "The map starts with the coastal Carolina low and ends east of the Mid-Atlantic. This was the first of the two February 2010 Mid-Atlantic storms.",
+      "sources": [
+        {
+          "label": "NWS Mount Holly storm summary",
+          "url": "https://www.weather.gov/phi/02052010wss"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2010-02-05&edate=2010-02-08&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "NOAA HPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2010-02-05&edate=2010-02-08&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2010-02-06T00:00:00Z",
+            "lat": 34.0,
+            "lon": -79.0,
+            "hpa": 998,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2010020600.gif"
+          },
+          {
+            "validUtc": "2010-02-06T06:00:00Z",
+            "lat": 36.0,
+            "lon": -76.0,
+            "hpa": 989,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2010020606.gif"
+          },
+          {
+            "validUtc": "2010-02-06T12:00:00Z",
+            "lat": 37.0,
+            "lon": -74.0,
+            "hpa": 988,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2010020612.gif"
+          },
+          {
+            "validUtc": "2010-02-06T18:00:00Z",
+            "lat": 37.0,
+            "lon": -75.0,
+            "hpa": 984,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2010020618.gif"
+          },
+          {
+            "validUtc": "2010-02-07T00:00:00Z",
+            "lat": 37.0,
+            "lon": -71.0,
+            "hpa": 978,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2010020700.gif"
+          },
+          {
+            "validUtc": "2010-02-07T06:00:00Z",
+            "lat": 37.0,
+            "lon": -67.0,
+            "hpa": 976,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2010020706.gif"
+          }
+        ]
+      }
+    },
+    {
+      "id": "EP_LIT_20160123",
+      "winter": "2015–16",
+      "winterEnd": 2016,
+      "start": "2016-01-22",
+      "end": "2016-01-24",
+      "title": "January 2016 Mid-Atlantic blizzard",
+      "classification": "noreaster",
+      "hazards": [
+        "snow",
+        "coastal flood",
+        "wind"
+      ],
+      "impact": "Blizzard conditions affected parts of the Mid-Atlantic and the New York City area. NOAA documented coastal flooding.",
+      "notes": "This track begins where the surface low reformed near the Carolinas and ends where the continuity of the offshore coastal center becomes less clear.",
+      "sources": [
+        {
+          "label": "NWS New York event review",
+          "url": "https://www.weather.gov/okx/Blizzard_Jan2016"
+        },
+        {
+          "label": "NOAA service assessment",
+          "url": "https://www.weather.gov/media/publications/assessments/16Northeast_Blizzard.pdf"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2016-01-22&edate=2016-01-25&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "WPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 0.1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2016-01-22&edate=2016-01-25&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2016-01-23T00:00:00Z",
+            "lat": 33.2,
+            "lon": -78.4,
+            "hpa": 997,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2016012300.gif"
+          },
+          {
+            "validUtc": "2016-01-23T06:00:00Z",
+            "lat": 36.3,
+            "lon": -75.8,
+            "hpa": 990,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2016012306.gif"
+          },
+          {
+            "validUtc": "2016-01-23T12:00:00Z",
+            "lat": 37.1,
+            "lon": -74.7,
+            "hpa": 987,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2016012312.gif"
+          },
+          {
+            "validUtc": "2016-01-23T18:00:00Z",
+            "lat": 37.9,
+            "lon": -74.6,
+            "hpa": 986,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2016012318.gif"
+          },
+          {
+            "validUtc": "2016-01-23T21:00:00Z",
+            "lat": 37.6,
+            "lon": -74.1,
+            "hpa": 983,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2016012321.gif"
+          }
+        ]
+      }
+    },
+    {
+      "id": "EP_20180104_COASTAL",
+      "winter": "2017–18",
+      "winterEnd": 2018,
+      "start": "2018-01-04",
+      "end": "2018-01-05",
+      "title": "January 2018 coastal blizzard",
+      "classification": "noreaster",
+      "hazards": [
+        "snow",
+        "coastal flood",
+        "wind"
+      ],
+      "impact": "Heavy snow and blizzard conditions affected parts of the Northeast, and the storm produced coastal flooding.",
+      "notes": "The map follows the deep offshore center. The weather-analysis sequence has a six-hour interval between January 4 at 21 UTC and January 5 at 03 UTC.",
+      "sources": [
+        {
+          "label": "NWS New York event review",
+          "url": "https://www.weather.gov/okx/Blizzard_Jan42018"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2018-01-03&edate=2018-01-07&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "WPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 0.1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2018-01-03&edate=2018-01-07&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2018-01-04T09:00:00Z",
+            "lat": 35.3,
+            "lon": -73.6,
+            "hpa": 968,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2018010409.gif"
+          },
+          {
+            "validUtc": "2018-01-04T12:00:00Z",
+            "lat": 36.5,
+            "lon": -72.0,
+            "hpa": 957,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2018010412.gif"
+          },
+          {
+            "validUtc": "2018-01-04T15:00:00Z",
+            "lat": 37.6,
+            "lon": -70.7,
+            "hpa": 951,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2018010415.gif"
+          },
+          {
+            "validUtc": "2018-01-04T18:00:00Z",
+            "lat": 39.0,
+            "lon": -69.7,
+            "hpa": 950,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2018010418.gif"
+          },
+          {
+            "validUtc": "2018-01-04T21:00:00Z",
+            "lat": 40.9,
+            "lon": -68.0,
+            "hpa": 950,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2018010421.gif"
+          },
+          {
+            "validUtc": "2018-01-05T03:00:00Z",
+            "lat": 44.1,
+            "lon": -66.8,
+            "hpa": 949,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2018010503.gif"
+          },
+          {
+            "validUtc": "2018-01-05T06:00:00Z",
+            "lat": 45.5,
+            "lon": -65.9,
+            "hpa": 950,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2018010506.gif"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ATLAS_20191030",
+      "winter": "2019–20",
+      "winterEnd": 2020,
+      "start": "2019-10-30",
+      "end": "2019-10-30",
+      "title": "October 2019 Delmarva–New Jersey coastal wave",
+      "classification": "coastal",
+      "hazards": [
+        "travel"
+      ],
+      "impact": "Low ceilings prompted FAA ground-delay programs at Newark and Philadelphia while the weak offshore low was present.",
+      "notes": "NWS linked drizzle and low ceilings to onshore weather during this coastal wave. The qualifying strong and sustained northeast wind criteria were unfulfilled.",
+      "sources": [
+        {
+          "label": "NWS New York area forecast discussion",
+          "url": "https://mesonet.agron.iastate.edu/wx/afos/p.php?e=201910301812&pil=AFDOKX"
+        },
+        {
+          "label": "FAA Newark ground delay",
+          "url": "https://www.fly.faa.gov/adv/adv_otherdis?adv_date=10302019&advn=45"
+        },
+        {
+          "label": "FAA Philadelphia ground delay",
+          "url": "https://www.fly.faa.gov/adv/adv_otherdis?adv_date=10302019&advn=56"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2019-10-30&edate=2019-11-01&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "WPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 0.1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2019-10-30&edate=2019-11-01&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2019-10-30T15:00:00Z",
+            "lat": 38.7,
+            "lon": -73.1,
+            "hpa": 1023,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2019103015.gif"
+          },
+          {
+            "validUtc": "2019-10-30T18:00:00Z",
+            "lat": 39.4,
+            "lon": -73.5,
+            "hpa": 1020,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2019103018.gif"
+          },
+          {
+            "validUtc": "2019-10-30T21:00:00Z",
+            "lat": 39.7,
+            "lon": -73.6,
+            "hpa": 1021,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2019103021.gif"
+          }
+        ]
+      }
+    },
+    {
+      "id": "EC-20240110-0110",
+      "winter": "2023–24",
+      "winterEnd": 2024,
+      "start": "2024-01-09",
+      "end": "2024-01-10",
+      "title": "January 9–10, 2024 coastal redevelopment",
+      "classification": "coastal",
+      "hazards": [
+        "coastal flood",
+        "wind",
+        "rain"
+      ],
+      "impact": "Southeast winds at high tide contributed to major inundation on parts of the New Hampshire seacoast, including Route 1A.",
+      "notes": "Only the eastern redevelopment is plotted. NWS Gray and Rockingham Planning Commission describe the coastal impacts in southeast flow. The contemporaneous deeper Great Lakes primary is a separate track.",
+      "sources": [
+        {
+          "label": "NWS Gray and Rockingham coastal flood review",
+          "url": "https://storymaps.arcgis.com/stories/3f87196a82ad4d928e9b3e2536d382eb"
+        },
+        {
+          "label": "NWS New York warm-front analysis",
+          "url": "https://mesonet.agron.iastate.edu/wx/afos/p.php?e=202401100725&pil=AFDOKX"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2024-01-09&edate=2024-01-14&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "WPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 0.1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2024-01-09&edate=2024-01-14&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2024-01-10T03:00:00Z",
+            "lat": 38.8,
+            "lon": -75.1,
+            "hpa": 988,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024011003.gif"
+          },
+          {
+            "validUtc": "2024-01-10T06:00:00Z",
+            "lat": 41.2,
+            "lon": -76.1,
+            "hpa": 981,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024011006.gif"
+          },
+          {
+            "validUtc": "2024-01-10T09:00:00Z",
+            "lat": 42.5,
+            "lon": -73.4,
+            "hpa": 981,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024011009.gif"
+          },
+          {
+            "validUtc": "2024-01-10T12:00:00Z",
+            "lat": 43.7,
+            "lon": -72.1,
+            "hpa": 979,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024011012.gif"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ATLAS_20240218",
+      "winter": "2023–24",
+      "winterEnd": 2024,
+      "start": "2024-02-18",
+      "end": "2024-02-19",
+      "title": "February 2024 Florida Atlantic coastal redevelopment",
+      "classification": "noreaster",
+      "hazards": [
+        "wind",
+        "travel"
+      ],
+      "impact": "FAA implemented a wind-related ground-delay program at Fort Lauderdale. Buoys farther north recorded sustained northeast winds during the coastal phase.",
+      "notes": "The coastal branch crossed into the Atlantic between 18 and 21 UTC. This review uses the wind-related program during the coastal phase. The earlier thunderstorm notices describe a separate impact mechanism. The strict classification carries moderate confidence in impact attribution.",
+      "sources": [
+        {
+          "label": "NWS Melbourne discussion",
+          "url": "https://mesonet.agron.iastate.edu/wx/afos/p.php?e=202402190304&pil=AFDMLB"
+        },
+        {
+          "label": "FAA Fort Lauderdale ground delay",
+          "url": "https://www.fly.faa.gov/adv/adv_otherdis?adv_date=02182024&advn=73"
+        },
+        {
+          "label": "NOAA buoy 41009",
+          "url": "https://www.ndbc.noaa.gov/data/historical/stdmet/41009h2024.txt.gz"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2024-02-18&edate=2024-02-20&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "WPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 0.1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2024-02-18&edate=2024-02-20&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2024-02-18T18:00:00Z",
+            "lat": 25.2,
+            "lon": -81.6,
+            "hpa": 1007,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024021818.gif"
+          },
+          {
+            "validUtc": "2024-02-18T21:00:00Z",
+            "lat": 26.2,
+            "lon": -80.0,
+            "hpa": 1005,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024021821.gif"
+          },
+          {
+            "validUtc": "2024-02-19T00:00:00Z",
+            "lat": 26.2,
+            "lon": -78.6,
+            "hpa": 1007,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024021900.gif"
+          },
+          {
+            "validUtc": "2024-02-19T03:00:00Z",
+            "lat": 26.2,
+            "lon": -77.4,
+            "hpa": 1008,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024021903.gif"
+          },
+          {
+            "validUtc": "2024-02-19T06:00:00Z",
+            "lat": 27.2,
+            "lon": -77.4,
+            "hpa": 1007,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024021906.gif"
+          }
+        ]
+      }
+    },
+    {
+      "id": "EAST_20241128",
+      "winter": "2024–25",
+      "winterEnd": 2025,
+      "start": "2024-11-28",
+      "end": "2024-11-29",
+      "title": "November 2024 Thanksgiving coastal redevelopment",
+      "classification": "noreaster",
+      "hazards": [
+        "snow",
+        "rain"
+      ],
+      "impact": "Heavy snow affected interior eastern NY and New England. Maine also had winter-storm reports.",
+      "notes": "The coastal secondary formed near Chesapeake Bay and took over near Long Island. The track follows that secondary into the Gulf of Maine.",
+      "sources": [
+        {
+          "label": "Storm evidence",
+          "url": "https://www.weather.gov/aly/Nov28_2024_Thanksgiving_RainSnow"
+        },
+        {
+          "label": "Supporting evidence",
+          "url": "https://www.ncei.noaa.gov/access/storm-events-database/?id=1223036"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2024-11-28&edate=2024-11-30&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "WPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 0.1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2024-11-28&edate=2024-11-30&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2024-11-28T12:00:00Z",
+            "lat": 38.7,
+            "lon": -76.5,
+            "hpa": 1002,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024112812.gif"
+          },
+          {
+            "validUtc": "2024-11-28T15:00:00Z",
+            "lat": 39.7,
+            "lon": -76.1,
+            "hpa": 999,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024112815.gif"
+          },
+          {
+            "validUtc": "2024-11-28T18:00:00Z",
+            "lat": 41.0,
+            "lon": -73.1,
+            "hpa": 996,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024112818.gif"
+          },
+          {
+            "validUtc": "2024-11-28T21:00:00Z",
+            "lat": 42.0,
+            "lon": -70.9,
+            "hpa": 993,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024112821.gif"
+          },
+          {
+            "validUtc": "2024-11-29T00:00:00Z",
+            "lat": 42.6,
+            "lon": -69.6,
+            "hpa": 990,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024112900.gif"
+          },
+          {
+            "validUtc": "2024-11-29T06:00:00Z",
+            "lat": 44.0,
+            "lon": -67.3,
+            "hpa": 986,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024112906.gif"
+          }
+        ]
+      }
+    },
+    {
+      "id": "EAST_20241220",
+      "winter": "2024–25",
+      "winterEnd": 2025,
+      "start": "2024-12-20",
+      "end": "2024-12-21",
+      "title": "December 20–21 secondary coastal low",
+      "classification": "coastal",
+      "hazards": [
+        "snow"
+      ],
+      "impact": "Advisory-level snowfall affected parts of the New York City forecast area, including locally around 3 inches on Long Island.",
+      "notes": "The offshore secondary is plotted. The storm’s broader upper-level and inland dynamics also contributed to coastal snowfall.",
+      "sources": [
+        {
+          "label": "Storm evidence",
+          "url": "https://www.weather.gov/okx/20241220_21"
+        },
+        {
+          "label": "Supporting evidence",
+          "url": "https://www.ncei.noaa.gov/access/storm-events-database/?id=1231253"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2024-12-20&edate=2024-12-22&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "WPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 0.1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2024-12-20&edate=2024-12-22&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2024-12-20T12:00:00Z",
+            "lat": 35.5,
+            "lon": -73.5,
+            "hpa": 1008,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024122012.gif"
+          },
+          {
+            "validUtc": "2024-12-20T18:00:00Z",
+            "lat": 37.1,
+            "lon": -71.7,
+            "hpa": 1002,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024122018.gif"
+          },
+          {
+            "validUtc": "2024-12-21T00:00:00Z",
+            "lat": 39.3,
+            "lon": -68.0,
+            "hpa": 998,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024122100.gif"
+          },
+          {
+            "validUtc": "2024-12-21T06:00:00Z",
+            "lat": 41.9,
+            "lon": -64.5,
+            "hpa": 992,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024122106.gif"
+          },
+          {
+            "validUtc": "2024-12-21T12:00:00Z",
+            "lat": 43.5,
+            "lon": -62.4,
+            "hpa": 988,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2024122112.gif"
+          }
+        ]
+      }
+    },
+    {
+      "id": "EAST_20250119",
+      "winter": "2024–25",
+      "winterEnd": 2025,
+      "start": "2025-01-19",
+      "end": "2025-01-20",
+      "title": "January 19–20 Mid-Atlantic to New England storm",
+      "classification": "noreaster",
+      "hazards": [
+        "snow",
+        "wind"
+      ],
+      "impact": "Significant snow extended from PA toward Maine with blowing and drifting snow in western MD.",
+      "notes": "WPC and NWS identify the distinct coastal low as it progressed northeastward along the Atlantic coast.",
+      "sources": [
+        {
+          "label": "Storm evidence",
+          "url": "https://www.ncei.noaa.gov/access/storm-events-database/?id=1223637"
+        },
+        {
+          "label": "Supporting evidence",
+          "url": "https://www.wpc.ncep.noaa.gov/storm_summaries/2025/storm3/stormsum_1.html"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2025-01-10&edate=2025-01-21&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "WPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 0.1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2025-01-10&edate=2025-01-21&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2025-01-19T18:00:00Z",
+            "lat": 36.1,
+            "lon": -75.9,
+            "hpa": 1003,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025011918.gif"
+          },
+          {
+            "validUtc": "2025-01-20T00:00:00Z",
+            "lat": 39.4,
+            "lon": -71.6,
+            "hpa": 998,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025012000.gif"
+          },
+          {
+            "validUtc": "2025-01-20T06:00:00Z",
+            "lat": 42.3,
+            "lon": -66.3,
+            "hpa": 994,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025012006.gif"
+          },
+          {
+            "validUtc": "2025-01-20T12:00:00Z",
+            "lat": 46.4,
+            "lon": -61.2,
+            "hpa": 984,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025012012.gif"
+          }
+        ]
+      }
+    },
+    {
+      "id": "EAST_20250219",
+      "winter": "2024–25",
+      "winterEnd": 2025,
+      "start": "2025-02-18",
+      "end": "2025-02-20",
+      "title": "February 19–20 Virginia and Carolina coastal snowstorm",
+      "classification": "noreaster",
+      "hazards": [
+        "snow",
+        "ice"
+      ],
+      "impact": "Heavy coastal snow affected southeast VA and northeast NC, with common 1–2 inch per hour rates reported by Wakefield.",
+      "notes": "WPC analyses follow the separate deepening offshore low that produced heavy snow northwest of its center. The mapped times start with the February 19 coastal phase.",
+      "sources": [
+        {
+          "label": "Storm evidence",
+          "url": "https://www.weather.gov/akq/feb_19_20_2025_winterstorm"
+        },
+        {
+          "label": "Supporting evidence",
+          "url": "https://www.weather.gov/mhx/FebruaryWinterStorm2025"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2025-02-19&edate=2025-02-22&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "WPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 0.1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2025-02-19&edate=2025-02-22&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2025-02-19T12:00:00Z",
+            "lat": 31.8,
+            "lon": -79.3,
+            "hpa": 1016,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025021912.gif"
+          },
+          {
+            "validUtc": "2025-02-19T18:00:00Z",
+            "lat": 31.4,
+            "lon": -79.1,
+            "hpa": 1013,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025021918.gif"
+          },
+          {
+            "validUtc": "2025-02-20T00:00:00Z",
+            "lat": 32.3,
+            "lon": -77.1,
+            "hpa": 1009,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025022000.gif"
+          },
+          {
+            "validUtc": "2025-02-20T06:00:00Z",
+            "lat": 33.7,
+            "lon": -73.6,
+            "hpa": 1006,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025022006.gif"
+          },
+          {
+            "validUtc": "2025-02-20T12:00:00Z",
+            "lat": 35.7,
+            "lon": -70.4,
+            "hpa": 1000,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025022012.gif"
+          },
+          {
+            "validUtc": "2025-02-20T18:00:00Z",
+            "lat": 37.4,
+            "lon": -67.1,
+            "hpa": 993,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025022018.gif"
+          }
+        ]
+      }
+    },
+    {
+      "id": "EAST_20251028",
+      "winter": "2025–26",
+      "winterEnd": 2026,
+      "start": "2025-10-27",
+      "end": "2025-10-30",
+      "title": "October 27–30 Outer Banks and Mid-Atlantic coastal flood",
+      "classification": "noreaster",
+      "hazards": [
+        "coastal flood",
+        "wind"
+      ],
+      "impact": "Outer Banks overwash closed NC 12 and five oceanfront homes collapsed. Wakefield documented moderate to locally major tidal flooding.",
+      "notes": "The plotted coastal frontal low was separate from Hurricane Melissa. Persistent northeast onshore flow and high tides contributed to coastal impacts.",
+      "sources": [
+        {
+          "label": "Storm evidence",
+          "url": "https://www.ncei.noaa.gov/access/storm-events-database/?id=1298205"
+        },
+        {
+          "label": "Supporting evidence",
+          "url": "https://www.ncei.noaa.gov/access/storm-events-database/?id=1297417"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2025-10-27&edate=2025-10-31&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "WPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 0.1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2025-10-27&edate=2025-10-31&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2025-10-28T00:00:00Z",
+            "lat": 31.8,
+            "lon": -78.1,
+            "hpa": 1006,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025102800.gif"
+          },
+          {
+            "validUtc": "2025-10-28T06:00:00Z",
+            "lat": 31.8,
+            "lon": -77.2,
+            "hpa": 1004,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025102806.gif"
+          },
+          {
+            "validUtc": "2025-10-28T12:00:00Z",
+            "lat": 33.1,
+            "lon": -75.1,
+            "hpa": 1000,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025102812.gif"
+          },
+          {
+            "validUtc": "2025-10-28T18:00:00Z",
+            "lat": 33.9,
+            "lon": -72.2,
+            "hpa": 1001,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025102818.gif"
+          },
+          {
+            "validUtc": "2025-10-29T00:00:00Z",
+            "lat": 35.8,
+            "lon": -67.8,
+            "hpa": 1002,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025102900.gif"
+          },
+          {
+            "validUtc": "2025-10-29T06:00:00Z",
+            "lat": 36.4,
+            "lon": -67.0,
+            "hpa": 999,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025102906.gif"
+          },
+          {
+            "validUtc": "2025-10-29T12:00:00Z",
+            "lat": 38.4,
+            "lon": -65.0,
+            "hpa": 999,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025102912.gif"
+          }
+        ]
+      }
+    },
+    {
+      "id": "EAST_20251202",
+      "winter": "2025–26",
+      "winterEnd": 2026,
+      "start": "2025-12-02",
+      "end": "2025-12-03",
+      "title": "December 2 Carolina-to-New England coastal snowstorm",
+      "classification": "noreaster",
+      "hazards": [
+        "snow",
+        "ice"
+      ],
+      "impact": "Several inches fell inland, including 5–8 inches in parts of VT. Burlington reported commute impacts.",
+      "notes": "The inland parent transferred to the plotted Carolina coastal low. The mapped segment follows the redevelopment toward New England.",
+      "sources": [
+        {
+          "label": "Storm evidence",
+          "url": "https://www.ncei.noaa.gov/access/storm-events-database/?id=1296119"
+        },
+        {
+          "label": "Supporting evidence",
+          "url": "https://www.ncei.noaa.gov/access/storm-events-database/?id=1302041"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2025-12-02&edate=2025-12-05&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "WPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 0.1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2025-12-02&edate=2025-12-05&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2025-12-02T12:00:00Z",
+            "lat": 34.0,
+            "lon": -77.5,
+            "hpa": 1008,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025120212.gif"
+          },
+          {
+            "validUtc": "2025-12-02T18:00:00Z",
+            "lat": 37.5,
+            "lon": -75.0,
+            "hpa": 1002,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025120218.gif"
+          },
+          {
+            "validUtc": "2025-12-03T00:00:00Z",
+            "lat": 39.4,
+            "lon": -70.9,
+            "hpa": 994,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025120300.gif"
+          },
+          {
+            "validUtc": "2025-12-03T06:00:00Z",
+            "lat": 42.0,
+            "lon": -65.8,
+            "hpa": 986,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025120306.gif"
+          },
+          {
+            "validUtc": "2025-12-03T09:00:00Z",
+            "lat": 42.6,
+            "lon": -64.2,
+            "hpa": 982,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2025120309.gif"
+          }
+        ]
+      }
+    },
+    {
+      "id": "EAST_20260131",
+      "winter": "2025–26",
+      "winterEnd": 2026,
+      "start": "2026-01-30",
+      "end": "2026-02-01",
+      "title": "January 31–February 1 Carolina coastal snowstorm",
+      "classification": "noreaster",
+      "hazards": [
+        "snow",
+        "wind"
+      ],
+      "impact": "Record snow in parts of southeastern NC and northeastern SC. Wakefield reports heavy eastern NC snow associated with rapid coastal deepening.",
+      "notes": "The map follows the analyzed western coastal center as it rapidly deepens offshore. Earlier snow affected some areas during development.",
+      "sources": [
+        {
+          "label": "Storm evidence",
+          "url": "https://www.weather.gov/ilm/WinterStorm_Jan30toFeb1_2026"
+        },
+        {
+          "label": "Supporting evidence",
+          "url": "https://www.weather.gov/akq/Jan312026_SnowSummary"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2026-01-31&edate=2026-02-03&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "WPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 0.1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2026-01-31&edate=2026-02-03&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2026-01-31T18:00:00Z",
+            "lat": 32.1,
+            "lon": -77.5,
+            "hpa": 1004,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2026013118.gif"
+          },
+          {
+            "validUtc": "2026-01-31T21:00:00Z",
+            "lat": 32.3,
+            "lon": -76.9,
+            "hpa": 999,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2026013121.gif"
+          },
+          {
+            "validUtc": "2026-02-01T00:00:00Z",
+            "lat": 33.2,
+            "lon": -74.7,
+            "hpa": 996,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2026020100.gif"
+          },
+          {
+            "validUtc": "2026-02-01T06:00:00Z",
+            "lat": 34.3,
+            "lon": -72.9,
+            "hpa": 987,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2026020106.gif"
+          },
+          {
+            "validUtc": "2026-02-01T12:00:00Z",
+            "lat": 34.4,
+            "lon": -71.7,
+            "hpa": 977,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2026020112.gif"
+          },
+          {
+            "validUtc": "2026-02-01T18:00:00Z",
+            "lat": 36.2,
+            "lon": -68.3,
+            "hpa": 973,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2026020118.gif"
+          }
+        ]
+      }
+    },
+    {
+      "id": "EAST_20260222",
+      "winter": "2025–26",
+      "winterEnd": 2026,
+      "start": "2026-02-22",
+      "end": "2026-02-24",
+      "title": "February 22–23 Mid-Atlantic and Northeast blizzard",
+      "classification": "noreaster",
+      "hazards": [
+        "snow",
+        "coastal flood",
+        "wind"
+      ],
+      "impact": "Verified blizzard conditions in multiple coastal forecast areas and documented coastal flooding in NJ and DE Storm Events.",
+      "notes": "The analyzed coastal low deepened rapidly from the Mid-Atlantic northeastward. WPC coded fixes have a six-hour interval around February 23 at 00 UTC.",
+      "sources": [
+        {
+          "label": "Storm evidence",
+          "url": "https://www.weather.gov/okx/20260222_23"
+        },
+        {
+          "label": "Supporting evidence",
+          "url": "https://www.weather.gov/phi/Feb22_23_2026_summary"
+        },
+        {
+          "label": "Coded surface analyses",
+          "url": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2026-02-22&edate=2026-02-25&fmt=text&limit=400"
+        }
+      ],
+      "track": {
+        "method": "WPC coded surface analyses, archived by Iowa Environmental Mesonet",
+        "positionResolutionDegrees": 0.1,
+        "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CODSUS&sdate=2026-02-22&edate=2026-02-25&fmt=text&limit=400",
+        "points": [
+          {
+            "validUtc": "2026-02-22T18:00:00Z",
+            "lat": 36.1,
+            "lon": -74.5,
+            "hpa": 1000,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2026022218.gif"
+          },
+          {
+            "validUtc": "2026-02-22T21:00:00Z",
+            "lat": 36.5,
+            "lon": -74.0,
+            "hpa": 998,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2026022221.gif"
+          },
+          {
+            "validUtc": "2026-02-23T03:00:00Z",
+            "lat": 37.8,
+            "lon": -73.7,
+            "hpa": 988,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2026022303.gif"
+          },
+          {
+            "validUtc": "2026-02-23T06:00:00Z",
+            "lat": 37.7,
+            "lon": -72.9,
+            "hpa": 972,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2026022306.gif"
+          },
+          {
+            "validUtc": "2026-02-23T12:00:00Z",
+            "lat": 39.1,
+            "lon": -70.3,
+            "hpa": 966,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2026022312.gif"
+          },
+          {
+            "validUtc": "2026-02-23T18:00:00Z",
+            "lat": 40.3,
+            "lon": -68.3,
+            "hpa": 965,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2026022318.gif"
+          },
+          {
+            "validUtc": "2026-02-24T00:00:00Z",
+            "lat": 41.9,
+            "lon": -66.7,
+            "hpa": 969,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2026022400.gif"
+          },
+          {
+            "validUtc": "2026-02-24T06:00:00Z",
+            "lat": 43.5,
+            "lon": -63.4,
+            "hpa": 969,
+            "sourceUrl": "https://ftp-wpc.ncep.noaa.gov/sfc/sfcanl_us_bw_2026022406.gif"
+          }
+        ]
+      }
+    }
+  ]
+}
