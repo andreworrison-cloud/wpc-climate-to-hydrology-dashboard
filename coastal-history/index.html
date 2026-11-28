@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore reviewed East Coast coastal storm and nor’easter tracks with documented impacts and source evidence.">
+  <title>East Coast Storm History | Climate-to-Hydrology Dashboard</title>
+  <link rel="stylesheet" href="./history.css">
+  <script type="module" src="./history.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to storm history</a>
+  <header class="page-header">
+    <div class="wrap">
+      <a class="back-link" href="../#research-view">← Climate-to-Hydrology Dashboard</a>
+      <h1>East Coast storm history</h1>
+      <p>Explore selected coastal storms and nor’easters with reviewed tracks and documented U.S. impacts.</p>
+    </div>
+  </header>
+  <main class="wrap" id="main">
+    <section class="explorer" aria-labelledby="explore-title">
+      <div class="filters">
+        <div class="filter-intro">
+          <h2 id="explore-title">Explore the tracks</h2>
+          <p id="result-count" role="status">Loading reviewed cases…</p>
+        </div>
+        <label>Storm class
+          <select id="storm-class" disabled>
+            <option value="all">All mapped coastal storms</option>
+            <option value="noreaster">Strict nor’easters</option>
+            <option value="coastal">Other coastal storms</option>
+          </select>
+        </label>
+        <label>Winter
+          <select id="winter" disabled><option value="all">All mapped winters</option></select>
+        </label>
+      </div>
+      <div class="layout">
+        <figure class="map-panel">
+          <div class="map-container" id="map-container">
+            <canvas id="track-map" aria-label="Map of storm tracks. Use the Case control to select a track by keyboard."></canvas>
+            <p id="map-message" class="map-message" hidden></p>
+          </div>
+          <figcaption>
+            <span class="legend"><span class="swatch strict" aria-hidden="true"></span>Strict nor’easter</span>
+            <span class="legend"><span class="swatch broad" aria-hidden="true"></span>Other coastal storm</span>
+            <span class="legend"><span class="swatch end" aria-hidden="true"></span>Last plotted fix</span>
+          </figcaption>
+        </figure>
+        <aside class="case-panel" aria-labelledby="case-heading">
+          <label>Case
+            <select id="case-select" disabled><option value="">Loading cases…</option></select>
+          </label>
+          <div id="case-content" aria-live="polite">
+            <div class="case-meta" id="case-meta" hidden></div>
+            <h2 id="case-heading">Storm details</h2>
+            <p id="case-impact"></p>
+            <p id="case-note" class="secondary"></p>
+            <div class="track-stats" id="track-stats" hidden></div>
+            <ul id="case-sources" class="sources" aria-label="Case evidence"></ul>
+          </div>
+          <details id="fixes" hidden>
+            <summary>Exact track positions and pressures</summary>
+            <div class="table-scroll"><table>
+              <thead><tr><th scope="col">Valid UTC</th><th scope="col">Position</th><th scope="col">hPa</th></tr></thead>
+              <tbody id="fix-rows"></tbody>
+            </table></div>
+          </details>
+        </aside>
+      </div>
+      <p id="coverage" class="coverage">This atlas covers selected cases with mapped evidence. Its counts describe the cases shown.</p>
+      <noscript><p>Enable JavaScript to explore the tracks. The reviewed cases are also available in the <a href="./cases.json">case data</a>.</p></noscript>
+    </section>
+    <details class="methods">
+      <summary>Case definitions, coverage, and sources</summary>
+      <p>A mapped coastal storm has an identified extratropical coastal phase and independently documented U.S. effects. Strict nor’easters also meet the research criteria for coastal track, northeasterly flow or authoritative storm identification, and impacts attributed to that coastal phase. The broader class includes cases with insufficient evidence to establish a strict classification.</p>
+      <p>Each point represents a supported pressure-center location at a specific time. Lines connect adjacent fixes with comparable timing, and pressure summaries use the fixes shown. The case detail identifies the track method and links to its weather and impact evidence. The storm date range describes the case, which can extend beyond the plotted fixes.</p>
+      <p>Coverage varies by winter, and unresolved cases and cases without a supported track are outside this map sample. The filters describe the mapped cases. Calculating a historical occurrence rate requires a separate, consistently reviewed set of storm and quiet periods.</p>
+      <ul class="sources">
+        <li><a href="./cases.json" download>Download mapped cases and track fixes</a></li>
+        <li><a href="https://www.wpc.ncep.noaa.gov/archives/web_pages/sfc/sfc_archive.php">WPC surface analysis archive</a></li>
+        <li><a href="https://www.ncei.noaa.gov/stormevents/">NOAA Storm Events database</a></li>
+        <li><a href="https://www.naturalearthdata.com/downloads/50m-physical-vectors/50m-land/">Natural Earth basemap</a></li>
+      </ul>
+    </details>
+  </main>
+</body>
+</html>
